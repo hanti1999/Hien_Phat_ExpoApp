@@ -46,11 +46,11 @@ const RegisterScreen = () => {
       .post('http://192.168.2.14:8000/register', user)
       .then((res) => {
         // console.log(res);
-        Alert.alert('Gửi mã xác minh thành công!', 'Thành công');
+        // Alert.alert('Thành công!', 'Gửi mã xác minh thành công!');
         navigation.navigate('Verify', { phone: phone });
       })
       .catch((err) => {
-        Alert.alert('Lỗi', 'Gửi mã không thành công!');
+        Alert.alert('Lỗi', 'Đăng ký không thành công!');
         console.log(err);
       });
   };

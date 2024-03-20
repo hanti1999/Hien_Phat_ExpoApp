@@ -58,20 +58,48 @@ app.post('/register', async (req, res) => {
 });
 
 // endpoint to verify the phone number
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const verifySid = process.env.TWILIO_VERIFY_SID;
+const twilioNumber = process.env.TWILIO_NUMBER;
+const client = require('twilio')(accountSid, authToken);
+
 app.post('/verify', async (req, res) => {
-  try {
-  } catch (error) {
-    res.status(500).json({ message: 'Xác minh không thành công!' });
-  }
+  const { phone } = req.body;
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const exp = 2 * 60 * 1000;
+  let expires = Date.now();
+  expires += exp;
+  const data = `${phone}.${otp}.${expires}`;
+  const hash = crypto
+    .createHmac('sha256', verifySid)
+    .update(data)
+    .digest('hex');
+  const fullHash = `${hash}.${expires}`;
+
+  client.messages
+    .create({
+      body: `Mã OTP của bạn là: ${otp}`,
+      from: twilioNumber,
+      to: `+84${phone}`,
+    })
+    .then((messages) => {
+      res.status(200).json({ phone: phone, hash: fullHash, otp: otp });
+    })
+    .catch((err) => {
+      console.error('phone: ', err.message);
+      return res.json({ error: err.message });
+    });
 });
 
+// login
 const generateSecretKey = () => {
   const secretKey = crypto.randomBytes(32).toString('hex');
   return secretKey;
 };
 
 const secretKey = generateSecretKey();
-// login
+
 app.post('/login', async (req, res) => {
   try {
     const { phone, password } = req.body;
