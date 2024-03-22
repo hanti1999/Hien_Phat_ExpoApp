@@ -34,22 +34,17 @@ app.listen(port, () => {
 const User = require('./models/user');
 const Order = require('./models/order');
 
-// endpoint to register in the app
+// Đăng ký tài khoản
 app.post('/register', async (req, res) => {
   try {
     const { name, phone, password } = req.body;
-
     const existingUser = await User.findOne({ phone });
     if (existingUser) {
       return res.status(400).json({ message: 'Số điện thoại đã được dùng' });
     }
-
     const newUser = new User({ name, phone, password });
-
     await newUser.save();
-
     console.log('User vừa đăng ký: ', newUser);
-
     res.status(201).json({ message: 'Đăng ký thành công!' });
   } catch (error) {
     console.log(error);
@@ -57,42 +52,43 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// endpoint to verify the phone number
+// Xác minh số điện thoại
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const verifySid = process.env.TWILIO_VERIFY_SID;
+// const verifySid = process.env.TWILIO_VERIFY_SID;
 const twilioNumber = process.env.TWILIO_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 
 app.post('/verify', async (req, res) => {
   const { phone } = req.body;
   const otp = Math.floor(100000 + Math.random() * 900000);
-  const exp = 2 * 60 * 1000;
-  let expires = Date.now();
-  expires += exp;
-  const data = `${phone}.${otp}.${expires}`;
-  const hash = crypto
-    .createHmac('sha256', verifySid)
-    .update(data)
-    .digest('hex');
-  const fullHash = `${hash}.${expires}`;
-
+  // const ttl = 2 * 60 * 1000;
+  // let expires = Date.now();
+  // expires += ttl;
+  // const data = `${phone}.${otp}.${expires}`;
+  // const hash = crypto
+  //   .createHmac('sha256', verifySid)
+  //   .update(data)
+  //   .digest('hex');
+  // const fullHash = `${hash}.${expires}`;
   client.messages
     .create({
       body: `Mã OTP của bạn là: ${otp}`,
       from: twilioNumber,
       to: `+84${phone}`,
     })
-    .then((messages) => {
-      res.status(200).json({ phone: phone, hash: fullHash, otp: otp });
+    .then(() => {
+      res
+        .status(200)
+        .json({ phone: phone, message: 'Gửi OTP thành công!', otp: otp });
     })
     .catch((err) => {
-      console.error('phone: ', err.message);
-      return res.json({ error: err.message });
+      console.error(err.message);
+      return res.status(500).json({ error: err.message });
     });
 });
 
-// login
+// Đăng nhập
 const generateSecretKey = () => {
   const secretKey = crypto.randomBytes(32).toString('hex');
   return secretKey;

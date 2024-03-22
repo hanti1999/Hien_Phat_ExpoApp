@@ -8,42 +8,40 @@ import {
   Pressable,
   Alert,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-const VerifyScreen = ({ route }) => {
+const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
-  const [otp, setOtp] = useState('');
-  const navigation = useNavigation();
-  const { phone } = route.params;
-  const url = 'http://192.168.2.14:8000/verify';
-
-  useEffect(() => {
-    Alert.alert(
-      'Thông báo',
-      'Tính năng này đang phát triển, ấn nút xác minh để đăng nhập'
-    );
-    // Mở lại khi mua Twilio
-    // axios
-    //   .post(url, { phone: phone })
-    //   .then((res) => {
-    //     const result = res.json();
-    //     setOtp(result.otp);
-    //     Alert.alert('Thành công!', 'Gửi mã xác minh thành công');
-    //   })
-    //   .catch((err) => {
-    //     Alert.alert('Lỗi', 'Gửi mã Xác minh không thành công!');
-    //     console.log(err);
-    //   });
-  }, [url]);
+  // const navigation = useNavigation();
+  const { name, phone, password, otp } = route.params;
 
   const handleVerify = () => {
-    if (code === otp) {
-      navigation.navigate('Login');
-    } else if (code != otp) {
-      Alert.alert('Lỗi', 'Mã xác minh không trùng khớp');
+    if (code != otp) {
+      Alert.alert('Lỗi', 'Xác minh không thành công!');
+      return;
     }
+
+    const info = {
+      name: name,
+      phone: phone,
+      password: password,
+    };
+
+    axios
+      .post('http://192.168.2.14:8000/register', info)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          navigation.navigate('Login');
+        } else {
+          Alert.alert('Lỗi', 'Đăng ký không thành công!');
+        }
+      })
+      .catch((e) => {
+        Alert.alert('Lỗi', 'Đăng ký không thành công!');
+        console.log(e);
+      });
   };
   return (
     <SafeAreaView className='bg-white flex-1 items-center'>

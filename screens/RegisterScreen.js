@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
-  StatusBar,
   Alert,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -36,18 +35,16 @@ const RegisterScreen = () => {
       return;
     }
 
-    const user = {
-      name: name,
-      phone: phone,
-      password: password,
-    };
-
     axios
-      .post('http://192.168.2.14:8000/register', user)
-      .then((res) => {
-        // console.log(res);
-        // Alert.alert('Thành công!', 'Gửi mã xác minh thành công!');
-        navigation.navigate('Verify', { phone: phone });
+      .post('http://192.168.2.14:8000/verify', { phone })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          const otp = data.otp;
+          navigation.navigate('Verify', { name, phone, password, otp });
+        } else {
+          Alert.alert('Lỗi', 'Đăng ký không thành công!');
+        }
       })
       .catch((err) => {
         Alert.alert('Lỗi', 'Đăng ký không thành công!');
