@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-// const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
 const app = express();
@@ -55,7 +54,6 @@ app.post('/register', async (req, res) => {
 // Xác minh số điện thoại
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-// const verifySid = process.env.TWILIO_VERIFY_SID;
 const twilioNumber = process.env.TWILIO_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 

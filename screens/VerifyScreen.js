@@ -13,7 +13,6 @@ import axios from 'axios';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
-  // const navigation = useNavigation();
   const { name, phone, password, otp } = route.params;
 
   const handleVerify = () => {

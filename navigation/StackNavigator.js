@@ -1,17 +1,18 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from '../screens/LoginScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import RegisterScreen from '../screens/RegisterScreen';
 import VerifySceen from '../screens/VerifyScreen';
+import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Entypo, Ionicons, AntDesign } from '@expo/vector-icons';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
+  const primaryBlue = '#302671';
 
   function BottomTabs() {
     return (
@@ -22,28 +23,32 @@ const StackNavigator = () => {
           options={{
             tabBarLabel: 'Trang chủ',
             headerShown: false,
-            tabBarLabelStyle: { color: '#302671' },
+            tabBarLabelStyle: { color: primaryBlue },
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Entypo name='home' size={24} color='#302671' />
+                <Ionicons name='home' size={24} color={primaryBlue} />
               ) : (
-                <AntDesign name='home' size={24} color='black' />
+                <Ionicons name='home-outline' size={24} color={primaryBlue} />
               ),
           }}
         />
 
         <Tab.Screen
-          name='Profile'
+          name='Notification'
           component={HomeScreen}
           options={{
-            tabBarLabel: 'Tài khoản',
+            tabBarLabel: 'Thông báo',
             headerShown: false,
-            tabBarLabelStyle: { color: '#302671' },
+            tabBarLabelStyle: { color: primaryBlue },
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name='person' size={24} color='#302671' />
+                <Ionicons name='notifications' size={24} color={primaryBlue} />
               ) : (
-                <Ionicons name='person-outline' size={24} color='black' />
+                <Ionicons
+                  name='notifications-outline'
+                  size={24}
+                  color={primaryBlue}
+                />
               ),
           }}
         />
@@ -54,12 +59,28 @@ const StackNavigator = () => {
           options={{
             tabBarLabel: 'Giỏ hàng',
             headerShown: false,
-            tabBarLabelStyle: { color: '#302671' },
+            tabBarLabelStyle: { color: primaryBlue },
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name='cart' size={24} color='#302671' />
+                <Ionicons name='cart' size={24} color={primaryBlue} />
               ) : (
-                <Ionicons name='cart-outline' size={24} color='black' />
+                <Ionicons name='cart-outline' size={24} color={primaryBlue} />
+              ),
+          }}
+        />
+
+        <Tab.Screen
+          name='Profile'
+          component={HomeScreen}
+          options={{
+            tabBarLabel: 'Tài khoản',
+            headerShown: false,
+            tabBarLabelStyle: { color: primaryBlue },
+            tabBarIcon: ({ focused }) =>
+              focused ? (
+                <Ionicons name='person' size={24} color={primaryBlue} />
+              ) : (
+                <Ionicons name='person-outline' size={24} color={primaryBlue} />
               ),
           }}
         />

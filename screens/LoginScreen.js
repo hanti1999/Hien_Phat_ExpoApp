@@ -6,13 +6,12 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
-  StatusBar,
   Alert,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const LoginScreen = () => {
@@ -20,6 +19,21 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem('authToken');
+
+        if (token) {
+          navigation.replace('Main');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    checkLoginStatus();
+  }, []);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);

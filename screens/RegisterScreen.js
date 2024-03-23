@@ -9,8 +9,8 @@ import {
   Alert,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const RegisterScreen = () => {
