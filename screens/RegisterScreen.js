@@ -63,14 +63,14 @@ const RegisterScreen = () => {
 
       <KeyboardAvoidingView>
         <View className='items-center'>
-          <Text className='text-xl font-bold'>Đăng ký</Text>
+          <Text className='text-2xl font-bold'>Đăng ký</Text>
         </View>
 
         <View className='mt-24'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 rounded-md'>
+          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
             <AntDesign name='user' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-base py-1'
+              className='w-[300px] text-[18px] py-1'
               placeholder='Nhập tên của bạn...'
               value={name}
               onChangeText={(text) => setName(text)}
@@ -79,10 +79,10 @@ const RegisterScreen = () => {
         </View>
 
         <View className='mt-10'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 rounded-md'>
+          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
             <AntDesign name='mobile1' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-base py-1'
+              className='w-[300px] text-[18px] py-1'
               placeholder='Nhập số điện thoại...'
               value={phone}
               keyboardType='numeric'
@@ -95,7 +95,7 @@ const RegisterScreen = () => {
           <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-base py-1'
+              className='w-[300px] text-[18px] py-1'
               placeholder='Nhập mật khẩu...'
               value={password}
               onChangeText={(text) => setPassword(text)}
