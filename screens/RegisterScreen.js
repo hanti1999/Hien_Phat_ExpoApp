@@ -114,7 +114,7 @@ const RegisterScreen = () => {
         <View className='mt-20'>
           <Pressable
             onPress={handleRegister}
-            className='w-[200px] bg-[#302671] rounded-md mx-auto px-4 py-4'
+            className='w-[200px] bg-primary-pink rounded-md mx-auto px-4 py-4'
           >
             <Text className='text-white text-center text-lg font-bold'>
               Đăng ký

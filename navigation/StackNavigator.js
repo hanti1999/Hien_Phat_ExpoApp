@@ -12,7 +12,7 @@ import HomeScreen from '../screens/HomeScreen';
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-  const primaryBlue = '#302671';
+  const primaryPink = '#fb77c5';
 
   function BottomTabs() {
     return (
@@ -23,12 +23,13 @@ const StackNavigator = () => {
           options={{
             tabBarLabel: 'Trang chủ',
             headerShown: false,
-            tabBarLabelStyle: { color: primaryBlue },
+            tabBarActiveTintColor: primaryPink,
+            tabBarInactiveTintColor: '#333',
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name='home' size={24} color={primaryBlue} />
+                <Ionicons name='home' size={24} color={primaryPink} />
               ) : (
-                <Ionicons name='home-outline' size={24} color={primaryBlue} />
+                <Ionicons name='home-outline' size={24} color={'#333'} />
               ),
           }}
         />
@@ -39,15 +40,16 @@ const StackNavigator = () => {
           options={{
             tabBarLabel: 'Thông báo',
             headerShown: false,
-            tabBarLabelStyle: { color: primaryBlue },
+            tabBarActiveTintColor: primaryPink,
+            tabBarInactiveTintColor: '#333',
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name='notifications' size={24} color={primaryBlue} />
+                <Ionicons name='notifications' size={24} color={primaryPink} />
               ) : (
                 <Ionicons
                   name='notifications-outline'
                   size={24}
-                  color={primaryBlue}
+                  color={'#333'}
                 />
               ),
           }}
@@ -59,12 +61,13 @@ const StackNavigator = () => {
           options={{
             tabBarLabel: 'Giỏ hàng',
             headerShown: false,
-            tabBarLabelStyle: { color: primaryBlue },
+            tabBarActiveTintColor: primaryPink,
+            tabBarInactiveTintColor: '#333',
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name='cart' size={24} color={primaryBlue} />
+                <Ionicons name='cart' size={24} color={primaryPink} />
               ) : (
-                <Ionicons name='cart-outline' size={24} color={primaryBlue} />
+                <Ionicons name='cart-outline' size={24} color={'#333'} />
               ),
           }}
         />
@@ -75,12 +78,13 @@ const StackNavigator = () => {
           options={{
             tabBarLabel: 'Tài khoản',
             headerShown: false,
-            tabBarLabelStyle: { color: primaryBlue },
+            tabBarActiveTintColor: primaryPink,
+            tabBarInactiveTintColor: '#333',
             tabBarIcon: ({ focused }) =>
               focused ? (
-                <Ionicons name='person' size={24} color={primaryBlue} />
+                <Ionicons name='person' size={24} color={primaryPink} />
               ) : (
-                <Ionicons name='person-outline' size={24} color={primaryBlue} />
+                <Ionicons name='person-outline' size={24} color={'#333'} />
               ),
           }}
         />

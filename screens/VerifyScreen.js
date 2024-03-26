@@ -64,7 +64,7 @@ const VerifyScreen = ({ navigation, route }) => {
         <View className='mt-8'>
           <Pressable
             onPress={handleVerify}
-            className='w-[200px] bg-[#302671] rounded-md mx-auto px-4 py-4'
+            className='w-[200px] bg-primary-pink rounded-md mx-auto px-4 py-4'
           >
             <Text className='text-white text-center text-lg font-bold'>
               Xác minh
