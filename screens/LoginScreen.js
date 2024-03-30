@@ -13,9 +13,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import validatePhone from '../utils/validatePhone';
+import validateEmail from '../utils/validateEmail';
+import { BASE_URL } from '../config';
 
 const LoginScreen = () => {
-  const [loginInfo, setLoginInfo] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,24 +46,27 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     if (phoneLogin) {
-      const user = {
-        loginInfo: phone,
-        password: password,
-      };
+      if (validatePhone(phone)) {
+        const user = {
+          loginInfo: phone,
+          password: password,
+        };
 
-      const postUser = async () => {
-        try {
-          const res = await axios.post('http://192.168.2.14:8000/login', user);
-          const data = res.data;
-          const token = res.data.token;
-          AsyncStorage.setItem('authToken', token);
-          navigation.replace('Main');
-        } catch (error) {
-          Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
-          console.log(error);
-        }
-      };
-      postUser();
+        const postUser = async () => {
+          try {
+            const res = await axios.post(`${BASE_URL}/login`, user);
+            const token = res.data.token;
+            AsyncStorage.setItem('authToken', token);
+            navigation.replace('Main');
+          } catch (error) {
+            Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
+            console.log(error);
+          }
+        };
+        postUser();
+      } else {
+        Alert.alert('Lỗi!', 'Số điện thoại không hợp lệ!');
+      }
     } else {
       if (validateEmail(email)) {
         const user = {
@@ -71,11 +76,7 @@ const LoginScreen = () => {
 
         const postUser = async () => {
           try {
-            const res = await axios.post(
-              'http://192.168.2.14:8000/login',
-              user
-            );
-            const data = res.data;
+            const res = await axios.post(`${BASE_URL}/login`, user);
             const token = res.data.token;
             AsyncStorage.setItem('authToken', token);
             navigation.replace('Main');
@@ -105,57 +106,40 @@ const LoginScreen = () => {
           <Text className='text-2xl font-bold'>Đăng nhập</Text>
         </View>
 
+        <View className='flex-row justify-between mt-24 mb-4'>
+          <Pressable>
+            <Text className='text-lg font-semibold'>
+              {phoneLogin ? 'Điện thoại' : 'Email'}
+            </Text>
+          </Pressable>
+          <Pressable onPress={() => setPhoneLogin(!phoneLogin)}>
+            <Text className='text-base text-gray-500'>
+              {phoneLogin ? 'Đăng nhập với email' : 'Đăng nhập với điện thoại'}
+            </Text>
+          </Pressable>
+        </View>
+
         {phoneLogin ? (
-          <>
-            <View className='flex-row justify-between mt-24 mb-4'>
-              <Pressable>
-                <Text className='text-lg font-semibold'>Điện thoại</Text>
-              </Pressable>
-              <Pressable onPress={() => setPhoneLogin(!phoneLogin)}>
-                <Text className='text-base text-gray-500'>
-                  Đăng nhập với email
-                </Text>
-              </Pressable>
-            </View>
-
-            <View>
-              <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
-                <AntDesign name='mobile1' size={24} color='gray' />
-                <TextInput
-                  className='w-[300px] text-[18px] py-1'
-                  placeholder='Nhập số điện thoại...'
-                  value={phone}
-                  keyboardType='numeric'
-                  onChangeText={(text) => setPhone(text)}
-                />
-              </View>
-            </View>
-          </>
+          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+            <AntDesign name='mobile1' size={24} color='gray' />
+            <TextInput
+              className='w-[300px] text-[18px] py-1'
+              placeholder='Nhập số điện thoại...'
+              value={phone}
+              keyboardType='numeric'
+              onChangeText={(text) => setPhone(text)}
+            />
+          </View>
         ) : (
-          <>
-            <View className='flex-row justify-between mt-24 mb-4'>
-              <Pressable>
-                <Text className='text-lg font-semibold'>Email</Text>
-              </Pressable>
-              <Pressable onPress={() => setPhoneLogin(!phoneLogin)}>
-                <Text className='text-base text-gray-500'>
-                  Đăng nhập với điện thoại
-                </Text>
-              </Pressable>
-            </View>
-
-            <View>
-              <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
-                <AntDesign name='mail' size={24} color='gray' />
-                <TextInput
-                  className='w-[300px] text-[18px] py-1'
-                  placeholder='Nhập Email...'
-                  value={email}
-                  onChangeText={(text) => setEmail(text)}
-                />
-              </View>
-            </View>
-          </>
+          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+            <AntDesign name='mail' size={24} color='gray' />
+            <TextInput
+              className='w-[300px] text-[18px] py-1'
+              placeholder='Nhập Email...'
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
         )}
 
         <View className='mt-10'>
@@ -172,7 +156,6 @@ const LoginScreen = () => {
               name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color='gray'
-              className='pr-2'
               onPress={toggleShowPassword}
             />
           </View>
@@ -207,12 +190,6 @@ const LoginScreen = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
-  );
-};
-
-const validateEmail = (email) => {
-  return email.match(
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
 

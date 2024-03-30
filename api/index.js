@@ -97,15 +97,6 @@ const client = require('twilio')(accountSid, authToken);
 app.post('/verify', async (req, res) => {
   const { phone } = req.body;
   const otp = Math.floor(100000 + Math.random() * 900000);
-  // const ttl = 2 * 60 * 1000;
-  // let expires = Date.now();
-  // expires += ttl;
-  // const data = `${phone}.${otp}.${expires}`;
-  // const hash = crypto
-  //   .createHmac('sha256', verifySid)
-  //   .update(data)
-  //   .digest('hex');
-  // const fullHash = `${hash}.${expires}`;
   client.messages
     .create({
       body: `Mã OTP của bạn là: ${otp}`,

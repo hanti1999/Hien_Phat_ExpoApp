@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../config';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
@@ -17,7 +18,7 @@ const VerifyScreen = ({ navigation, route }) => {
 
   const handleVerify = () => {
     if (code != otp) {
-      Alert.alert('Lỗi', 'Sai mã không thành công!');
+      Alert.alert('Lỗi', 'Mã xác minh không trùng khớp!');
       return;
     }
 
@@ -29,13 +30,8 @@ const VerifyScreen = ({ navigation, route }) => {
 
     const postRegister = async () => {
       try {
-        const res = await axios.post('http://192.168.2.14:8000/register', info);
-        const data = res.data;
-        if (data != null || data != undefined) {
-          navigation.navigate('Login');
-        } else {
-          Alert.alert('Lỗi', 'Đăng ký không thành công!');
-        }
+        const res = await axios.post(`${BASE_URL}/register`, info);
+        navigation.navigate('Login');
       } catch (error) {
         Alert.alert('Lỗi', 'Đăng ký không thành công!');
         console.log(error);
@@ -72,14 +68,14 @@ const VerifyScreen = ({ navigation, route }) => {
           </Pressable>
         </View>
 
-        {/* <View>
+        <View>
           <Pressable
             onPress={() => navigation.navigate('Login')}
             className='mt-4'
           >
             <Text className='text-center text-gray-500'>Quay về đăng nhập</Text>
           </Pressable>
-        </View> */}
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
