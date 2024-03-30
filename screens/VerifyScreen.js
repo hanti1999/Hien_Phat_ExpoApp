@@ -45,10 +45,16 @@ const VerifyScreen = ({ navigation, route }) => {
         <Text className='text-center text-xl font-bold'>Xác minh OTP</Text>
       </View>
 
+      <View>
+        <Text className='text-center'>
+          Vui lòng kiểm tra mã OTP được gửi đến {loginInfo}
+        </Text>
+      </View>
+
       <KeyboardAvoidingView>
-        <View className='bg-gray-200 rounded-md py-1 flex gap-1 items-center'>
+        <View className='bg-gray-200 rounded-md py-1 flex my-8'>
           <TextInput
-            className='w-[300px] text-base py-1 '
+            className='w-[300px] text-base p-2 '
             keyboardType='numeric'
             placeholder='Nhập mã xác minh ...'
             maxLength={6}
@@ -57,10 +63,10 @@ const VerifyScreen = ({ navigation, route }) => {
           />
         </View>
 
-        <View className='mt-8'>
+        <View>
           <Pressable
             onPress={handleVerify}
-            className='w-[200px] bg-primary-pink rounded-md mx-auto px-4 py-4'
+            className='w-[300px] bg-primary-pink rounded-md py-4'
           >
             <Text className='text-white text-center text-lg font-bold'>
               Xác minh

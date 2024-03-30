@@ -19,6 +19,7 @@ import { BASE_URL } from '../config';
 
 const LoginScreen = () => {
   const [phone, setPhone] = useState('');
+  const [loginInfo, setLoginInfo] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneLogin, setPhoneLogin] = useState(true);
@@ -47,49 +48,36 @@ const LoginScreen = () => {
   const handleLogin = () => {
     if (phoneLogin) {
       if (validatePhone(phone)) {
-        const user = {
-          loginInfo: phone,
-          password: password,
-        };
-
-        const postUser = async () => {
-          try {
-            const res = await axios.post(`${BASE_URL}/login`, user);
-            const token = res.data.token;
-            AsyncStorage.setItem('authToken', token);
-            navigation.replace('Main');
-          } catch (error) {
-            Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
-            console.log(error);
-          }
-        };
-        postUser();
+        setLoginInfo(phone);
       } else {
         Alert.alert('Lỗi!', 'Số điện thoại không hợp lệ!');
+        return;
       }
     } else {
       if (validateEmail(email)) {
-        const user = {
-          loginInfo: email,
-          password: password,
-        };
-
-        const postUser = async () => {
-          try {
-            const res = await axios.post(`${BASE_URL}/login`, user);
-            const token = res.data.token;
-            AsyncStorage.setItem('authToken', token);
-            navigation.replace('Main');
-          } catch (error) {
-            Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
-            console.log(error);
-          }
-        };
-        postUser();
+        setLoginInfo(email);
       } else {
         Alert.alert('Lỗi!', 'Email không hợp lệ!');
+        return;
       }
     }
+
+    const user = {
+      loginInfo: loginInfo,
+      password: password,
+    };
+    const postUser = async () => {
+      try {
+        const res = await axios.post(`${BASE_URL}/login`, user);
+        const token = res.data.token;
+        AsyncStorage.setItem('authToken', token);
+        navigation.replace('Main');
+      } catch (error) {
+        Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
+        console.log(error);
+      }
+    };
+    postUser();
   };
 
   return (
@@ -119,28 +107,30 @@ const LoginScreen = () => {
           </Pressable>
         </View>
 
-        {phoneLogin ? (
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
-            <AntDesign name='mobile1' size={24} color='gray' />
-            <TextInput
-              className='w-[300px] text-[18px] py-1'
-              placeholder='Nhập số điện thoại...'
-              value={phone}
-              keyboardType='numeric'
-              onChangeText={(text) => setPhone(text)}
-            />
-          </View>
-        ) : (
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
-            <AntDesign name='mail' size={24} color='gray' />
-            <TextInput
-              className='w-[300px] text-[18px] py-1'
-              placeholder='Nhập Email...'
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-            />
-          </View>
-        )}
+        <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+          {phoneLogin ? (
+            <>
+              <AntDesign name='mobile1' size={24} color='gray' />
+              <TextInput
+                className='w-[300px] text-[18px] py-1'
+                placeholder='Nhập số điện thoại...'
+                value={phone}
+                keyboardType='numeric'
+                onChangeText={(text) => setPhone(text)}
+              />
+            </>
+          ) : (
+            <>
+              <AntDesign name='mail' size={24} color='gray' />
+              <TextInput
+                className='w-[300px] text-[18px] py-1'
+                placeholder='Nhập Email...'
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+              />
+            </>
+          )}
+        </View>
 
         <View className='mt-10'>
           <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
