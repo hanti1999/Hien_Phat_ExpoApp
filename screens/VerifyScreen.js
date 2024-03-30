@@ -13,34 +13,35 @@ import axios from 'axios';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
-  const { name, phone, password, otp } = route.params;
+  const { name, loginInfo, password, otp } = route.params;
 
   const handleVerify = () => {
     if (code != otp) {
-      Alert.alert('Lỗi', 'Xác minh không thành công!');
+      Alert.alert('Lỗi', 'Sai mã không thành công!');
       return;
     }
 
     const info = {
       name: name,
-      phone: phone,
+      loginInfo: loginInfo,
       password: password,
     };
 
-    axios
-      .post('http://192.168.2.14:8000/register', info)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
+    const postRegister = async () => {
+      try {
+        const res = await axios.post('http://192.168.2.14:8000/register', info);
+        const data = res.data;
+        if (data != null || data != undefined) {
           navigation.navigate('Login');
         } else {
           Alert.alert('Lỗi', 'Đăng ký không thành công!');
         }
-      })
-      .catch((e) => {
+      } catch (error) {
         Alert.alert('Lỗi', 'Đăng ký không thành công!');
-        console.log(e);
-      });
+        console.log(error);
+      }
+    };
+    postRegister();
   };
   return (
     <SafeAreaView className='bg-white flex-1 items-center'>
@@ -57,7 +58,6 @@ const VerifyScreen = ({ navigation, route }) => {
             maxLength={6}
             value={code}
             onChangeText={(text) => setCode(text)}
-            editable={false}
           />
         </View>
 

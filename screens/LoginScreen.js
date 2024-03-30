@@ -15,8 +15,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const LoginScreen = () => {
+  const [loginInfo, setLoginInfo] = useState('');
   const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneLogin, setPhoneLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
@@ -40,28 +43,52 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
-    if (phone === '' || password === '') {
-      Alert.alert('Lỗi!', 'Vui lòng nhập số điện thoại và mật khẩu');
-      return;
+    if (phoneLogin) {
+      const user = {
+        loginInfo: phone,
+        password: password,
+      };
+
+      const postUser = async () => {
+        try {
+          const res = await axios.post('http://192.168.2.14:8000/login', user);
+          const data = res.data;
+          const token = res.data.token;
+          AsyncStorage.setItem('authToken', token);
+          navigation.replace('Main');
+        } catch (error) {
+          Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
+          console.log(error);
+        }
+      };
+      postUser();
+    } else {
+      if (validateEmail(email)) {
+        const user = {
+          loginInfo: email,
+          password: password,
+        };
+
+        const postUser = async () => {
+          try {
+            const res = await axios.post(
+              'http://192.168.2.14:8000/login',
+              user
+            );
+            const data = res.data;
+            const token = res.data.token;
+            AsyncStorage.setItem('authToken', token);
+            navigation.replace('Main');
+          } catch (error) {
+            Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
+            console.log(error);
+          }
+        };
+        postUser();
+      } else {
+        Alert.alert('Lỗi!', 'Email không hợp lệ!');
+      }
     }
-
-    const user = {
-      phone: phone,
-      password: password,
-    };
-
-    axios
-      .post('http://192.168.2.14:8000/login', user)
-      .then((res) => {
-        // console.log(res);
-        const token = res.data.token;
-        AsyncStorage.setItem('authToken', token);
-        navigation.replace('Main');
-      })
-      .catch((error) => {
-        Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
-        console.log(error);
-      });
   };
 
   return (
@@ -78,18 +105,58 @@ const LoginScreen = () => {
           <Text className='text-2xl font-bold'>Đăng nhập</Text>
         </View>
 
-        <View className='mt-24'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
-            <AntDesign name='mobile1' size={24} color='gray' />
-            <TextInput
-              className='w-[300px] text-[18px] py-1'
-              placeholder='Nhập số điện thoại...'
-              value={phone}
-              keyboardType='numeric'
-              onChangeText={(text) => setPhone(text)}
-            />
-          </View>
-        </View>
+        {phoneLogin ? (
+          <>
+            <View className='flex-row justify-between mt-24 mb-4'>
+              <Pressable>
+                <Text className='text-lg font-semibold'>Điện thoại</Text>
+              </Pressable>
+              <Pressable onPress={() => setPhoneLogin(!phoneLogin)}>
+                <Text className='text-base text-gray-500'>
+                  Đăng nhập với email
+                </Text>
+              </Pressable>
+            </View>
+
+            <View>
+              <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+                <AntDesign name='mobile1' size={24} color='gray' />
+                <TextInput
+                  className='w-[300px] text-[18px] py-1'
+                  placeholder='Nhập số điện thoại...'
+                  value={phone}
+                  keyboardType='numeric'
+                  onChangeText={(text) => setPhone(text)}
+                />
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            <View className='flex-row justify-between mt-24 mb-4'>
+              <Pressable>
+                <Text className='text-lg font-semibold'>Email</Text>
+              </Pressable>
+              <Pressable onPress={() => setPhoneLogin(!phoneLogin)}>
+                <Text className='text-base text-gray-500'>
+                  Đăng nhập với điện thoại
+                </Text>
+              </Pressable>
+            </View>
+
+            <View>
+              <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+                <AntDesign name='mail' size={24} color='gray' />
+                <TextInput
+                  className='w-[300px] text-[18px] py-1'
+                  placeholder='Nhập Email...'
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                />
+              </View>
+            </View>
+          </>
+        )}
 
         <View className='mt-10'>
           <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
@@ -122,7 +189,7 @@ const LoginScreen = () => {
         <View className='mt-20'>
           <Pressable
             onPress={handleLogin}
-            className='w-[200px] bg-primary-pink rounded-md mx-auto px-4 py-4'
+            className='bg-primary-pink rounded-md mx-auto px-4 py-4 w-[200px]'
           >
             <Text className='text-white text-center text-lg font-bold'>
               Đăng nhập
@@ -140,6 +207,12 @@ const LoginScreen = () => {
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
+  );
+};
+
+const validateEmail = (email) => {
+  return email.match(
+    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
 };
 
