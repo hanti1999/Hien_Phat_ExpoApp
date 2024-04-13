@@ -110,10 +110,10 @@ const sale = [
 const HomeScreen = () => {
   return (
     <SafeAreaView
-      className='bg-white flex-1'
+      className=' flex-1'
       style={{ paddingTop: Platform.OS == 'android' ? 40 : 0 }}
     >
-      <ScrollView stickyHeaderIndices={[0]}>
+      <ScrollView stickyHeaderIndices={[0]} className='bg-white'>
         <SearchBar />
 
         <Category />
@@ -139,13 +139,42 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <View className='flex-row flex-wrap items-start justify-evenly'>
+        <View className='flex-row flex-wrap items-start pl-2'>
           {sale.map((item, index) => (
             <ProductCard item={item} key={index} />
           ))}
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const ProductCard = ({ item }) => {
+  return (
+    <Pressable className='w-1/2 pr-2 mb-2'>
+      <View className='border border-primary-pink rounded-md overflow-hidden'>
+        <Image
+          resizeMode='contain'
+          className='w-full h-[200px]'
+          source={item?.image}
+        />
+        <View className='mx-2 mb-2'>
+          <Text className='max-w-[200px]'>{item?.title}</Text>
+          <Text className='line-through'>
+            {item?.oldPrice.toLocaleString()}
+          </Text>
+          <Text className='font-semibold text-red-500 text-lg'>
+            {item?.price.toLocaleString()}đ
+          </Text>
+        </View>
+
+        <View className='flex justify-items-end'>
+          <Pressable className=' bg-primary-pink'>
+            <Text className='text-center py-2 text-white text-lg'>MUA</Text>
+          </Pressable>
+        </View>
+      </View>
+    </Pressable>
   );
 };
 
@@ -179,31 +208,6 @@ const Category = () => {
         </Pressable>
       ))}
     </ScrollView>
-  );
-};
-
-const ProductCard = ({ item }) => {
-  return (
-    <Pressable className='border mb-3 border-gray-300 rounded-md'>
-      <Image
-        resizeMode='contain'
-        className='w-[180px] h-[180px]'
-        source={item?.image}
-      />
-      <View className='mx-2 mb-2'>
-        <Text className='max-w-[160px]'>{item?.title}</Text>
-        <Text className='line-through'>{item?.oldPrice.toLocaleString()}</Text>
-        <Text className='font-semibold text-red-500 text-lg'>
-          {item?.price.toLocaleString()}đ
-        </Text>
-      </View>
-
-      <View className='flex justify-items-end'>
-        <Pressable className=' bg-primary-pink'>
-          <Text className='text-center py-2 text-white text-lg'>MUA</Text>
-        </Pressable>
-      </View>
-    </Pressable>
   );
 };
 
