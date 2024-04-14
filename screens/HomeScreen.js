@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   Image,
   View,
@@ -8,6 +7,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  Alert,
 } from 'react-native';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import { SliderBox } from 'react-native-image-slider-box';
@@ -107,13 +107,68 @@ const sale = [
   },
 ];
 
+const gasStove = [
+  {
+    id: 0,
+    title: 'Bếp gas mini NaMilux inox',
+    oldPrice: 300000,
+    price: 280000,
+    image: require('../assets/products/Namilux-mini-inox.jpg'),
+    carouselImages: [
+      require('../assets/products/Namilux-mini-inox.jpg'),
+      require('../assets/products/Namilux-mini-inox.jpg'),
+      require('../assets/products/Namilux-mini-inox.jpg'),
+      require('../assets/products/Namilux-mini-inox.jpg'),
+    ],
+  },
+  {
+    id: 1,
+    title: 'Bếp gas đơn Nasonal NA250D',
+    oldPrice: 380000,
+    price: 360000,
+    image: require('../assets/products/nasonal-na250d.jpg'),
+    carouselImages: [
+      require('../assets/products/nasonal-na250d.jpg'),
+      require('../assets/products/nasonal-na250d.jpg'),
+      require('../assets/products/nasonal-na250d.jpg'),
+      require('../assets/products/nasonal-na250d.jpg'),
+    ],
+  },
+  {
+    id: 2,
+    title: 'Bếp gas đôi Hudo 7Slim',
+    oldPrice: '',
+    price: 580000,
+    image: require('../assets/products/hudo-7slim.jpg'),
+    carouselImages: [
+      require('../assets/products/hudo-7slim.jpg'),
+      require('../assets/products/hudo-7slim.jpg'),
+      require('../assets/products/hudo-7slim.jpg'),
+      require('../assets/products/hudo-7slim.jpg'),
+    ],
+  },
+  {
+    id: 3,
+    title: 'Bếp gas đôi Akia 7SI/7Slim',
+    oldPrice: 1790000,
+    price: 1690000,
+    image: require('../assets/products/Akia-7.jpg'),
+    carouselImages: [
+      require('../assets/products/Akia-7.jpg'),
+      require('../assets/products/Akia-7.jpg'),
+      require('../assets/products/Akia-7.jpg'),
+      require('../assets/products/Akia-7.jpg'),
+    ],
+  },
+];
+
 const HomeScreen = () => {
   return (
     <SafeAreaView
       className=' flex-1'
       style={{ paddingTop: Platform.OS == 'android' ? 40 : 0 }}
     >
-      <ScrollView stickyHeaderIndices={[0]} className='bg-white'>
+      <ScrollView stickyHeaderIndices={[0]} className='bg-gray-50'>
         <SearchBar />
 
         <Category />
@@ -127,11 +182,11 @@ const HomeScreen = () => {
           ImageComponentStyle={{ width: '100%' }}
         />
 
-        <View className='flex-row items-center justify-between'>
+        <View className='flex-row items-center justify-between bg-white'>
           <Text className='font-bold text-2xl p-2.5 text-primary-blue'>
             Khuyến Mãi Hot
           </Text>
-          <Pressable className='flex-row items-center '>
+          <Pressable className='flex-row items-center'>
             <Text className='text-blue-400 font-medium'>
               Xem thêm khuyến mãi
             </Text>
@@ -139,10 +194,33 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <View className='flex-row flex-wrap items-start pl-2'>
+        <View className='flex-row flex-wrap items-start pl-2 mb-5 bg-white'>
           {sale.map((item, index) => (
             <ProductCard item={item} key={index} />
           ))}
+        </View>
+
+        <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
+          <Pressable>
+            <View
+              className='absolute -top-5 left-1/2 z-1 w-[200px]'
+              style={{ transform: [{ translateX: -100 }] }}
+            >
+              <View className='absolute border-x-[12px] border-b-[20px] border-x-transparent border-b-pink-500 -right-3 top-0' />
+              <View className='absolute border-x-[12px] border-b-[20px] border-x-transparent border-b-pink-500 -left-3 top-0' />
+              <View className='bg-primary-pink relative flex w-full items-center justify-center rounded-b-lg py-1'>
+                <Text className='font-semibold text-xl text-white uppercase'>
+                  Bếp Gas
+                </Text>
+              </View>
+            </View>
+          </Pressable>
+
+          <View className='flex-row flex-wrap items-start pl-2 mt-10'>
+            {gasStove.map((item, index) => (
+              <ProductCard item={item} key={index} />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -152,7 +230,7 @@ const HomeScreen = () => {
 const ProductCard = ({ item }) => {
   return (
     <Pressable className='w-1/2 pr-2 mb-2'>
-      <View className='border border-primary-pink rounded-md overflow-hidden'>
+      <View className='border border-gray-200 rounded-md overflow-hidden'>
         <Image
           resizeMode='contain'
           className='w-full h-[200px]'
