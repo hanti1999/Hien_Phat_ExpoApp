@@ -168,7 +168,7 @@ const HomeScreen = () => {
       className=' flex-1'
       style={{ paddingTop: Platform.OS == 'android' ? 40 : 0 }}
     >
-      <ScrollView stickyHeaderIndices={[0]} className='bg-gray-50'>
+      <ScrollView stickyHeaderIndices={[0]} className='bg-gray-100'>
         <SearchBar />
 
         <Category />
@@ -183,7 +183,7 @@ const HomeScreen = () => {
         />
 
         <View className='flex-row items-center justify-between bg-white'>
-          <Text className='font-bold text-2xl p-2.5 text-primary-blue'>
+          <Text className='font-bold text-2xl p-2.5 text-red-500'>
             Khuyến Mãi Hot
           </Text>
           <Pressable className='flex-row items-center'>
@@ -194,11 +194,17 @@ const HomeScreen = () => {
           </Pressable>
         </View>
 
-        <View className='flex-row flex-wrap items-start pl-2 mb-5 bg-white'>
+        <ScrollView horizontal className='bg-white pl-2'>
           {sale.map((item, index) => (
             <ProductCard item={item} key={index} />
           ))}
-        </View>
+          <Pressable className='h-[320px] w-[180px]'>
+            <View className='flex-row w-full h-full justify-center items-center border border-gray-200 rounded-md'>
+              <Text className='text-blue-400'>Xem Thêm</Text>
+              <Entypo name='chevron-right' size={24} color='#60a5fa' />
+            </View>
+          </Pressable>
+        </ScrollView>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <Pressable>
@@ -216,11 +222,17 @@ const HomeScreen = () => {
             </View>
           </Pressable>
 
-          <View className='flex-row flex-wrap items-start pl-2 mt-10'>
+          <ScrollView horizontal className='px-2 mt-10'>
             {gasStove.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))}
-          </View>
+            <Pressable className='h-[320px] w-[180px]'>
+              <View className='flex-row w-full h-full justify-center items-center border border-gray-200 rounded-md'>
+                <Text className='text-blue-400'>Xem Thêm</Text>
+                <Entypo name='chevron-right' size={24} color='#60a5fa' />
+              </View>
+            </Pressable>
+          </ScrollView>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -229,21 +241,23 @@ const HomeScreen = () => {
 
 const ProductCard = ({ item }) => {
   return (
-    <Pressable className='w-1/2 pr-2 mb-2'>
-      <View className='border border-gray-200 rounded-md overflow-hidden'>
-        <Image
-          resizeMode='contain'
-          className='w-full h-[200px]'
-          source={item?.image}
-        />
-        <View className='mx-2 mb-2'>
-          <Text className='max-w-[200px]'>{item?.title}</Text>
-          <Text className='line-through'>
-            {item?.oldPrice.toLocaleString()}
-          </Text>
-          <Text className='font-semibold text-red-500 text-lg'>
-            {item?.price.toLocaleString()}đ
-          </Text>
+    <Pressable className='w-[180px] max-h-[320px] pr-2 mb-2'>
+      <View className='border h-full flex justify-between border-gray-200 rounded-md overflow-hidden'>
+        <View>
+          <Image
+            resizeMode='contain'
+            className='w-full h-[180px]'
+            source={item?.image}
+          />
+          <View className='mx-2'>
+            <Text className='max-w-full'>{item?.title}</Text>
+            <Text className='line-through'>
+              {item?.oldPrice.toLocaleString()}
+            </Text>
+            <Text className='font-semibold text-red-500 text-lg'>
+              {item?.price.toLocaleString()}đ
+            </Text>
+          </View>
         </View>
 
         <View className='flex justify-items-end'>
