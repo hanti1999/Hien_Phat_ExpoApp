@@ -6,46 +6,17 @@ import {
   Platform,
   ScrollView,
   Pressable,
-  TextInput,
   Alert,
-  Dimensions,
 } from 'react-native';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { SliderBox } from 'react-native-image-slider-box';
-import React from 'react';
-
-const list = [
-  {
-    id: 0,
-    image: require('../assets/category-icon/bepGas.png'),
-    name: 'Bếp gas',
-  },
-  {
-    id: 1,
-    image: require('../assets/category-icon/bepDien.png'),
-    name: 'Bếp điện',
-  },
-  {
-    id: 2,
-    image: require('../assets/category-icon/giaDung.png'),
-    name: 'Gia dụng',
-  },
-  {
-    id: 3,
-    image: require('../assets/category-icon/gao.png'),
-    name: 'Gạo',
-  },
-  {
-    id: 4,
-    image: require('../assets/category-icon/phuKien.png'),
-    name: 'Phụ kiện',
-  },
-  {
-    id: 5,
-    image: require('../assets/category-icon/nuoc.png'),
-    name: 'Nước',
-  },
-];
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import ProductCard from '../components/ProductCard';
+import SeeMoreCard from '../components/SeeMoreCard';
+import SearchBar from '../components/SearchBar';
+import HorizontalCategory from '../components/HorizontalCategory';
+import ProductTitle from '../components/ProductTitle';
 
 const slider = [
   require('../assets/slider-img/slider1.png'),
@@ -95,7 +66,7 @@ const sale = [
   },
   {
     id: 3,
-    title: 'Bếp gas âm Rinnai 2i',
+    title: 'Bếp gas âm Rinnai RVB 2i(AB)',
     oldPrice: 5200000,
     price: 4950000,
     image: require('../assets/products/rinnai-rvb-2iab.jpg'),
@@ -108,7 +79,7 @@ const sale = [
   },
 ];
 
-const gasStove = [
+const bepGas = [
   {
     id: 0,
     title: 'Bếp gas mini NaMilux inox',
@@ -163,7 +134,7 @@ const gasStove = [
   },
 ];
 
-const electriceStore = [
+const bepDien = [
   {
     id: 0,
     title: 'Bếp điện đơn Sakura SE3150B',
@@ -218,7 +189,7 @@ const electriceStore = [
   },
 ];
 
-const waterPuri = [
+const mayLocNuoc = [
   {
     id: 0,
     title: 'Máy lọc nước để gầm Mutosi MP370U',
@@ -260,7 +231,53 @@ const waterPuri = [
   },
 ];
 
+const mayHutMui = [
+  {
+    id: 0,
+    title: 'Máy hút mùi âm tủ/nổi Faster SYP 6003/7003',
+    oldPrice: '',
+    price: 4650000,
+    image: require('../assets/products/Faster-syp-7003.jpg'),
+    carouselImages: [
+      require('../assets/products/Faster-syp-7003.jpg'),
+      require('../assets/products/Faster-syp-7003.jpg'),
+      require('../assets/products/Faster-syp-7003.jpg'),
+      require('../assets/products/Faster-syp-7003.jpg'),
+    ],
+  },
+  {
+    id: 1,
+    title: 'Máy hút mùi Fancy FA70S',
+    oldPrice: '',
+    price: 2700000,
+    image: require('../assets/products/Fancy-fa70ss.jpg'),
+    carouselImages: [
+      require('../assets/products/Fancy-fa70ss.jpg'),
+      require('../assets/products/Fancy-fa70ss.jpg'),
+      require('../assets/products/Fancy-fa70ss.jpg'),
+      require('../assets/products/Fancy-fa70ss.jpg'),
+    ],
+  },
+];
+
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get('https://fakestoreapi.com/products');
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    // fetchData();
+  }, []);
+
+  // console.log(products);
+
   return (
     <SafeAreaView
       className=' flex-1 bg-primary-pink'
@@ -269,7 +286,7 @@ const HomeScreen = () => {
       <ScrollView stickyHeaderIndices={[0]} className='bg-gray-100'>
         <SearchBar />
 
-        <Category />
+        <HorizontalCategory />
 
         <SliderBox
           images={slider}
@@ -303,10 +320,10 @@ const HomeScreen = () => {
         </ScrollView>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
-          <Badge text={'Bếp gas'} />
+          <ProductTitle text={'Bếp gas'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {gasStove.map((item, index) => (
+            {bepGas.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))}
             <SeeMoreCard />
@@ -323,10 +340,10 @@ const HomeScreen = () => {
         </View>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
-          <Badge text={'Bếp điện'} />
+          <ProductTitle text={'Bếp điện'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {electriceStore.map((item, index) => (
+            {bepDien.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))}
             <SeeMoreCard />
@@ -343,10 +360,21 @@ const HomeScreen = () => {
         </View>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
-          <Badge text={'Máy lọc nước'} />
+          <ProductTitle text={'Máy lọc nước'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {waterPuri.map((item, index) => (
+            {mayLocNuoc.map((item, index) => (
+              <ProductCard item={item} key={index} />
+            ))}
+            <SeeMoreCard />
+          </ScrollView>
+        </View>
+
+        <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
+          <ProductTitle text={'Máy hút mùi'} />
+
+          <ScrollView horizontal className='px-2 mt-10'>
+            {mayHutMui.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))}
             <SeeMoreCard />
@@ -354,118 +382,6 @@ const HomeScreen = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
-
-const ProductCard = ({ item }) => {
-  return (
-    <Pressable
-      onPress={() => Alert.alert('Thông báo', 'Clicked')}
-      className='w-[180px] max-h-[320px] pr-2 mb-2'
-    >
-      <View className='border h-full flex justify-between border-gray-200 rounded-md overflow-hidden'>
-        <View>
-          <Image
-            resizeMode='contain'
-            className='w-full h-[180px]'
-            source={item?.image}
-          />
-          <View className='mx-2'>
-            <Text numberOfLines={2}>{item?.title}</Text>
-            <Text className='line-through'>
-              {item?.oldPrice.toLocaleString()}
-            </Text>
-            <Text className='font-semibold text-red-500 text-lg'>
-              {item?.price.toLocaleString()}đ
-            </Text>
-          </View>
-        </View>
-
-        <View className='flex justify-items-end'>
-          <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Clicked')}
-            className=' bg-primary-pink'
-          >
-            <Text className='text-center py-2 text-white text-lg'>MUA</Text>
-          </Pressable>
-        </View>
-      </View>
-    </Pressable>
-  );
-};
-
-const SeeMoreCard = () => {
-  return (
-    <Pressable
-      onPress={() => Alert.alert('Thông báo', 'Clicked')}
-      className='h-[320px] w-[180px]'
-    >
-      <View className='w-full h-full justify-center items-center'>
-        <Text className='text-blue-400'>Xem Thêm</Text>
-        <View className=' bg-gray-100 w-10 h-10 rounded-full justify-center mt-2 items-center'>
-          <Entypo name='chevron-right' size={24} color='#60a5fa' />
-        </View>
-      </View>
-    </Pressable>
-  );
-};
-
-const Badge = ({ text }) => {
-  return (
-    <Pressable onPress={() => Alert.alert('Thông báo', 'Clicked')}>
-      <View
-        className='absolute -top-5 left-1/2 z-1 w-[200px]'
-        style={{ transform: [{ translateX: -100 }] }}
-      >
-        <View className='absolute border-x-[12px] border-b-[20px] border-x-transparent border-b-pink-500 -right-3 top-0' />
-        <View className='absolute border-x-[12px] border-b-[20px] border-x-transparent border-b-pink-500 -left-3 top-0' />
-        <View className='bg-primary-pink relative flex w-full items-center justify-center rounded-b-lg py-1'>
-          <Text className='font-semibold text-xl text-white uppercase'>
-            {text}
-          </Text>
-        </View>
-      </View>
-    </Pressable>
-  );
-};
-
-const SearchBar = () => {
-  return (
-    <View className='bg-primary-pink'>
-      <Pressable
-        onPress={() => Alert.alert('Thông báo', 'Clicked')}
-        className='flex-row items-center bg-white h-10 rounded-md mx-4 my-2.5'
-      >
-        <Ionicons
-          style={{ paddingHorizontal: 10 }}
-          name='search'
-          size={24}
-          color='gray'
-        />
-        <TextInput className='text-base flex-1' placeholder='Bạn cần tìm gì?' />
-      </Pressable>
-    </View>
-  );
-};
-
-const Category = () => {
-  return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {list.map((item, index) => (
-        <Pressable
-          onPress={() => Alert.alert('Thông báo', 'Clicked')}
-          key={index}
-          className='m-1'
-        >
-          <Image
-            resizeMode='contain'
-            className='w-20 h-20'
-            source={item?.image}
-          />
-          <Text className='text-center font-medium'>{item?.name}</Text>
-        </Pressable>
-      ))}
-    </ScrollView>
   );
 };
 
