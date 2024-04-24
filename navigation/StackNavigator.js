@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,6 +7,7 @@ import RegisterScreen from '../screens/RegisterScreen';
 import VerifySceen from '../screens/VerifyScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
+import ProductInfoScreen from '../screens/ProductInfoScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -98,6 +98,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name='Main'
           component={BottomTabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Info'
+          component={ProductInfoScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

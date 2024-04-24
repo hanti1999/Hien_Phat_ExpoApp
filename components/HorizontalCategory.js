@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView, Pressable, Image } from 'react-native';
+import { Text, ScrollView, Pressable, Image, Alert } from 'react-native';
 import React from 'react';
 
 const list = [
@@ -56,5 +56,3 @@ const HorizontalCategory = () => {
 };
 
 export default HorizontalCategory;
-
-const styles = StyleSheet.create({});

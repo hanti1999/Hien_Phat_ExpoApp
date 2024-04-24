@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View, Pressable } from 'react-native';
+import { TextInput, View, Pressable, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 
@@ -22,5 +22,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-
-const styles = StyleSheet.create({});

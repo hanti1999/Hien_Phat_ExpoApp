@@ -1,10 +1,22 @@
-import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { Text, View, Pressable, Image, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 
 const ProductCard = ({ item }) => {
+  const navigation = useNavigation();
+
   return (
     <Pressable
-      onPress={() => Alert.alert('Thông báo', 'Clicked')}
+      onPress={() =>
+        navigation.navigate('Info', {
+          id: item?.id,
+          title: item?.title,
+          oldPrice: item?.oldPrice,
+          price: item?.price,
+          carouselImages: item?.carouselImages,
+          item: item,
+        })
+      }
       className='w-[180px] max-h-[320px] pr-2 mb-2'
     >
       <View className='border h-full flex justify-between border-gray-200 rounded-md overflow-hidden'>
@@ -41,5 +53,3 @@ const ProductCard = ({ item }) => {
 };
 
 export default ProductCard;
-
-const styles = StyleSheet.create({});

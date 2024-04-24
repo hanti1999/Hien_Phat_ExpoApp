@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, Alert } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import React from 'react';
 
@@ -19,5 +19,3 @@ const SeeMoreCard = () => {
 };
 
 export default SeeMoreCard;
-
-const styles = StyleSheet.create({});

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable, Alert } from 'react-native';
 import React from 'react';
 
 const ProductTitle = ({ text }) => {
@@ -21,5 +21,3 @@ const ProductTitle = ({ text }) => {
 };
 
 export default ProductTitle;
-
-const styles = StyleSheet.create({});
