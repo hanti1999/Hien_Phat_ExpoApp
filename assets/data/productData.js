@@ -121,6 +121,13 @@ export const sale = [
       require('../products/ogawa-og-207b.jpg'),
       require('../products/ogawa-og-207b.jpg'),
     ],
+    features: [
+      'Mặt kính cường lực, chịu nhiệt, dễ vệ sinh',
+      '2 cùng nấu linh hoạt',
+      'Có thể lắp nổi hoặc âm (630x330mm)',
+      'Đánh lửa IC dùng pin nhanh, nhạy, dễ sử dụng',
+    ],
+    details: [],
   },
   {
     id: 1,

@@ -14,6 +14,7 @@ const ProductCard = ({ item }) => {
           oldPrice: item?.oldPrice,
           price: item?.price,
           carouselImages: item?.carouselImages,
+          features: item?.features,
           item: item,
         })
       }

@@ -10,7 +10,6 @@ import {
   Dimensions,
   StatusBar,
   Alert,
-  StyleSheet,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Entypo, AntDesign } from '@expo/vector-icons';
@@ -18,33 +17,26 @@ import React from 'react';
 
 const ProductInfoScreen = () => {
   const route = useRoute();
-  const navigation = useNavigation();
   const width = Dimensions.get('window').width;
   return (
-    <SafeAreaView style={{ paddingTop: Platform.OS == 'android' ? 20 : 0 }}>
-      <StatusBar />
-      <ScrollView stickyHeaderIndices={[0]} className='bg-gray-100'>
-        <View className=' flex-row justify-between items-center bg-gray-100'>
-          <Pressable onPress={() => navigation.goBack()}>
-            <Entypo name='chevron-left' size={30} style={{ padding: 10 }} />
-          </Pressable>
-          <Pressable>
-            <AntDesign name='shoppingcart' size={30} style={{ padding: 10 }} />
-          </Pressable>
-        </View>
+    <SafeAreaView
+      className='flex-1 bg-white'
+      style={{ paddingTop: Platform.OS == 'android' ? 20 : 0 }}
+    >
+      <ScrollView stickyHeaderIndices={[1]} className='bg-gray-100'>
+        <StatusBar />
+        <Navigation />
 
-        <View>
-          <FlatList
-            data={route?.params?.carouselImages}
-            horizontal
-            renderItem={renderImage}
-            decelerationRate={0.8}
-            snapToInterval={width}
-          />
-        </View>
+        <FlatList
+          data={route?.params?.carouselImages}
+          horizontal
+          renderItem={renderImage}
+          decelerationRate={0.8}
+          snapToInterval={width}
+        />
 
-        <View className='p-2.5'>
-          <Text numberOfLines={2} className='font-semibold text-base'>
+        <View className='p-2.5 bg-pink-100'>
+          <Text numberOfLines={2} className='font-semibold text-lg'>
             {route?.params?.title}
           </Text>
           <View className='flex-row items-center py-3'>
@@ -65,14 +57,25 @@ const ProductInfoScreen = () => {
             {route?.params?.price.toLocaleString()}đ
           </Text>
         </View>
+
+        <View className='p-2.5 mt-2.5 bg-purple-100'>
+          <Text className='text-base font-semibold mb-2'>Đặc điểm nổi bật</Text>
+          <View>
+            {route?.params?.features?.map((item, index) => (
+              <Text className='pt-0.5' key={index}>
+                o {item}
+              </Text>
+            ))}
+          </View>
+        </View>
       </ScrollView>
 
-      <View className='flex-row justify-evenly bg-white py-4 shadow'>
+      <View className='flex-row justify-evenly bg-white py-4'>
         <Pressable
           onPress={() => Alert.alert('clicked')}
           className='border-primary-blue border rounded-lg flex-1 mx-2 py-4 items-center'
         >
-          <Text className='text-primary-blue text-lg '>Tư vấn ngay</Text>
+          <Text className='text-primary-blue text-lg '>Tư vấn Zalo</Text>
         </Pressable>
         <Pressable
           onPress={() => Alert.alert('clicked')}
@@ -82,6 +85,20 @@ const ProductInfoScreen = () => {
         </Pressable>
       </View>
     </SafeAreaView>
+  );
+};
+
+const Navigation = () => {
+  const navigation = useNavigation();
+  return (
+    <View className=' flex-row justify-between items-center bg-white'>
+      <Pressable onPress={() => navigation.goBack()}>
+        <Entypo name='chevron-left' size={32} style={{ padding: 10 }} />
+      </Pressable>
+      <Pressable>
+        <AntDesign name='shoppingcart' size={32} style={{ padding: 10 }} />
+      </Pressable>
+    </View>
   );
 };
 
@@ -95,23 +112,10 @@ const renderImage = ({ item }) => {
       <Image
         source={item}
         style={{ resizeMode: 'contain' }}
-        className='w-full h-full'
+        className='w-full h-full '
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  shadowBox: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-});
 
 export default ProductInfoScreen;
