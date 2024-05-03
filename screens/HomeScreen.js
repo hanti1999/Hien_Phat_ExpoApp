@@ -47,7 +47,7 @@ const HomeScreen = () => {
   return (
     <SafeAreaView
       className=' flex-1 bg-primary-pink'
-      style={{ paddingTop: Platform.OS == 'android' ? 20 : 0 }}
+      style={{ paddingTop: Platform.OS == 'android' ? 0 : 0 }}
     >
       <ScrollView stickyHeaderIndices={[0]} className='bg-gray-100'>
         <SearchBar />

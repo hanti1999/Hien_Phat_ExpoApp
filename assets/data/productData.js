@@ -113,7 +113,7 @@ export const sale = [
     id: 0,
     title: 'Bếp gas âm Ogawa OG-207B',
     oldPrice: 1990000,
-    price: 1750000,
+    price: 1790000,
     image: require('../products/ogawa-og-207b.jpg'),
     carouselImages: [
       require('../products/ogawa-og-207b.jpg'),
@@ -123,7 +123,7 @@ export const sale = [
     ],
     features: [
       'Mặt kính cường lực, chịu nhiệt, dễ vệ sinh',
-      '2 cùng nấu linh hoạt',
+      'Hai vùng nấu linh hoạt',
       'Có thể lắp nổi hoặc âm (630x330mm)',
       'Đánh lửa IC dùng pin nhanh, nhạy, dễ sử dụng',
     ],

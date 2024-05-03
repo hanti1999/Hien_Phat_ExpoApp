@@ -10,25 +10,36 @@ import {
   Dimensions,
   StatusBar,
   Alert,
+  Linking,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Entypo, AntDesign } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
+import { addToCart } from '../redux/slices/CartReducer';
 
 const ProductInfoScreen = () => {
   const route = useRoute();
+  const { price, oldPrice, carouselImages, title, features, item } =
+    route?.params;
   const width = Dimensions.get('window').width;
+  const dispatch = useDispatch();
+
+  const addItemToCart = (item) => {
+    dispatch(addToCart(item));
+  };
+  const cart = useSelector((state) => state.cart.cart);
   return (
     <SafeAreaView
       className='flex-1 bg-white'
-      style={{ paddingTop: Platform.OS == 'android' ? 20 : 0 }}
+      style={{ paddingTop: Platform.OS == 'android' ? 0 : 0 }}
     >
       <ScrollView stickyHeaderIndices={[1]} className='bg-gray-100'>
         <StatusBar />
         <Navigation />
 
         <FlatList
-          data={route?.params?.carouselImages}
+          data={carouselImages}
           horizontal
           renderItem={renderImage}
           decelerationRate={0.8}
@@ -37,31 +48,25 @@ const ProductInfoScreen = () => {
 
         <View className='p-2.5 bg-pink-100'>
           <Text numberOfLines={2} className='font-semibold text-lg'>
-            {route?.params?.title}
+            {title}
           </Text>
           <View className='flex-row items-center py-3'>
             <View className='p-0.5 rounded bg-red-500 mr-1'>
               <Text className='text-white '>
-                -
-                {Math.round(
-                  (route?.params?.price * 100) / route?.params?.oldPrice
-                )}
-                %
+                -{100 - Math.round((price * 100) / oldPrice)}%
               </Text>
             </View>
             <Text className='line-through text-base'>
-              {route?.params?.oldPrice.toLocaleString()}đ
+              {oldPrice.toLocaleString()}đ
             </Text>
           </View>
-          <Text className='text-2xl font-bold'>
-            {route?.params?.price.toLocaleString()}đ
-          </Text>
+          <Text className='text-2xl font-bold'>{price.toLocaleString()}đ</Text>
         </View>
 
         <View className='p-2.5 mt-2.5 bg-purple-100'>
           <Text className='text-base font-semibold mb-2'>Đặc điểm nổi bật</Text>
           <View>
-            {route?.params?.features?.map((item, index) => (
+            {features?.map((item, index) => (
               <Text className='pt-0.5' key={index}>
                 o {item}
               </Text>
@@ -71,14 +76,14 @@ const ProductInfoScreen = () => {
       </ScrollView>
 
       <View className='flex-row justify-evenly bg-white py-4'>
+        <OpenURLButton url='https://zalo.me/0986359498'>
+          <Text className='text-[#0068ff] text-lg '>
+            Tư vấn
+            <Text className='font-bold'> Zalo</Text>
+          </Text>
+        </OpenURLButton>
         <Pressable
-          onPress={() => Alert.alert('clicked')}
-          className='border-primary-blue border rounded-lg flex-1 mx-2 py-4 items-center'
-        >
-          <Text className='text-primary-blue text-lg '>Tư vấn Zalo</Text>
-        </Pressable>
-        <Pressable
-          onPress={() => Alert.alert('clicked')}
+          onPress={() => addItemToCart(item)}
           className='bg-primary-blue rounded-lg flex-1 mx-2 py-4 items-center'
         >
           <Text className='text-white text-lg '>Mua ngay</Text>
@@ -115,6 +120,27 @@ const renderImage = ({ item }) => {
         className='w-full h-full '
       />
     </View>
+  );
+};
+
+const OpenURLButton = ({ url, children }) => {
+  const handlePress = async () => {
+    const canOpenURL = await Linking.canOpenURL(url);
+
+    if (canOpenURL) {
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Không thể mở URL: ${url}`);
+    }
+  };
+
+  return (
+    <Pressable
+      className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 py-4 items-center'
+      onPress={() => handlePress()}
+    >
+      {children}
+    </Pressable>
   );
 };
 
