@@ -3,16 +3,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import NotificationScreen from '../screens/NotificationScreen';
+import ProductInfoScreen from '../screens/ProductInfoScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import VerifySceen from '../screens/VerifyScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
-import ProductInfoScreen from '../screens/ProductInfoScreen';
+import CartScreen from '../screens/CartScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   const primaryPink = '#fb77c5';
+  const cartItem = useSelector((state) => state.cart.cart);
+  const quantity = cartItem.length;
 
   function BottomTabs() {
     return (
@@ -36,7 +42,7 @@ const StackNavigator = () => {
 
         <Tab.Screen
           name='Notification'
-          component={HomeScreen}
+          component={NotificationScreen}
           options={{
             tabBarLabel: 'Thông báo',
             headerShown: false,
@@ -57,9 +63,11 @@ const StackNavigator = () => {
 
         <Tab.Screen
           name='Cart'
-          component={HomeScreen}
+          component={CartScreen}
           options={{
             tabBarLabel: 'Giỏ hàng',
+            tabBarBadge: quantity,
+            tabBarBadgeStyle: { backgroundColor: '#fb77c5', color: '#fff' },
             headerShown: false,
             tabBarActiveTintColor: primaryPink,
             tabBarInactiveTintColor: '#333',
@@ -74,7 +82,7 @@ const StackNavigator = () => {
 
         <Tab.Screen
           name='Profile'
-          component={HomeScreen}
+          component={ProfileScreen}
           options={{
             tabBarLabel: 'Tài khoản',
             headerShown: false,

@@ -1,10 +1,22 @@
-import { Text, View, Pressable, Image, Alert } from 'react-native';
+import { Text, View, Pressable, Image, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { addToCart, clearCart } from '../redux/slices/CartReducer';
 
 const ProductCard = ({ item }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
 
+  const addItemToCart = (item) => {
+    dispatch(addToCart(item));
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+  // const cart = useSelector((state) => state.cart.cart);
   return (
     <Pressable
       onPress={() =>
@@ -19,6 +31,7 @@ const ProductCard = ({ item }) => {
         })
       }
       className='w-[180px] max-h-[320px] pr-2 mb-2'
+      disabled={isLoading}
     >
       <View className='border h-full flex justify-between border-gray-200 rounded-md overflow-hidden'>
         <View>
@@ -40,12 +53,16 @@ const ProductCard = ({ item }) => {
 
         <View>
           <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Clicked')}
-            className=' bg-primary-pink'
+            onPress={() => addItemToCart(item)}
+            className=' bg-primary-pink h-12 flex items-center justify-center'
           >
-            <Text className='text-center py-2 text-white text-lg uppercase'>
-              mua
-            </Text>
+            {isLoading ? (
+              <ActivityIndicator color='#fff' />
+            ) : (
+              <Text className=' text-white text-lg font-medium uppercase'>
+                mua
+              </Text>
+            )}
           </Pressable>
         </View>
       </View>

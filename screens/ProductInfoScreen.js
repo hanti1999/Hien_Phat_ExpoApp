@@ -11,24 +11,27 @@ import {
   StatusBar,
   Alert,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import { Entypo, AntDesign } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
 
-const ProductInfoScreen = () => {
-  const route = useRoute();
+const ProductInfoScreen = ({ route, navigation }) => {
   const { price, oldPrice, carouselImages, title, features, item } =
     route?.params;
   const width = Dimensions.get('window').width;
   const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
 
   const addItemToCart = (item) => {
     dispatch(addToCart(item));
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   };
-  const cart = useSelector((state) => state.cart.cart);
   return (
     <SafeAreaView
       className='flex-1 bg-white'
@@ -36,7 +39,7 @@ const ProductInfoScreen = () => {
     >
       <ScrollView stickyHeaderIndices={[1]} className='bg-gray-100'>
         <StatusBar />
-        <Navigation />
+        <Navigation navigation={navigation} />
 
         <FlatList
           data={carouselImages}
@@ -77,30 +80,34 @@ const ProductInfoScreen = () => {
 
       <View className='flex-row justify-evenly bg-white py-4'>
         <OpenURLButton url='https://zalo.me/0986359498'>
-          <Text className='text-[#0068ff] text-lg '>
+          <Text className='text-[#0068ff] text-lg'>
             Tư vấn
             <Text className='font-bold'> Zalo</Text>
           </Text>
         </OpenURLButton>
         <Pressable
           onPress={() => addItemToCart(item)}
-          className='bg-primary-blue rounded-lg flex-1 mx-2 py-4 items-center'
+          className='bg-primary-blue rounded-lg flex-1 mx-2 items-center h-16 justify-center'
+          disabled={isLoading}
         >
-          <Text className='text-white text-lg '>Mua ngay</Text>
+          {isLoading ? (
+            <ActivityIndicator color={'#fff'} />
+          ) : (
+            <Text className='text-white text-lg '>Mua ngay</Text>
+          )}
         </Pressable>
       </View>
     </SafeAreaView>
   );
 };
 
-const Navigation = () => {
-  const navigation = useNavigation();
+const Navigation = ({ navigation }) => {
   return (
     <View className=' flex-row justify-between items-center bg-white'>
       <Pressable onPress={() => navigation.goBack()}>
         <Entypo name='chevron-left' size={32} style={{ padding: 10 }} />
       </Pressable>
-      <Pressable>
+      <Pressable onPress={() => Alert.alert('nav to Cart')}>
         <AntDesign name='shoppingcart' size={32} style={{ padding: 10 }} />
       </Pressable>
     </View>
@@ -136,7 +143,7 @@ const OpenURLButton = ({ url, children }) => {
 
   return (
     <Pressable
-      className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 py-4 items-center'
+      className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-16 items-center justify-center'
       onPress={() => handlePress()}
     >
       {children}
