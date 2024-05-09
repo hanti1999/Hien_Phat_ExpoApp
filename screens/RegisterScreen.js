@@ -19,8 +19,8 @@ const RegisterScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPass, setConfirmPass] = useState('');
+  const [password, setPassword] = useState('88888888');
+  const [confirmPass, setConfirmPass] = useState('88888888');
   const [phoneRegister, setPhoneRegister] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -83,10 +83,7 @@ const RegisterScreen = ({ navigation }) => {
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
       <View className='my-8'>
-        <Image
-          className='w-20 h-20'
-          source={require('../assets/favicon.png')}
-        />
+        <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
       </View>
 
       <KeyboardAvoidingView>
@@ -180,6 +177,12 @@ const RegisterScreen = ({ navigation }) => {
               onPress={toggleShowPassword}
             />
           </View>
+        </View>
+
+        <View className='mt-2'>
+          <Text className='text-gray-500'>
+            (Đã điền sẵn mật khẩu mặc định là: 88888888)
+          </Text>
         </View>
 
         <View className='mt-10'>

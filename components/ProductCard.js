@@ -1,6 +1,6 @@
 import { Text, View, Pressable, Image, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart, clearCart } from '../redux/slices/CartReducer';
 
@@ -10,13 +10,21 @@ const ProductCard = ({ item }) => {
   const [isLoading, setLoading] = useState(false);
 
   const addItemToCart = (item) => {
-    dispatch(addToCart(item));
+    dispatch(
+      addToCart({
+        id: item?.id,
+        title: item?.title,
+        productImg: item?.image,
+        price: item?.price,
+      })
+      // clearCart()
+    );
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   };
-  // const cart = useSelector((state) => state.cart.cart);
+
   return (
     <Pressable
       onPress={() =>

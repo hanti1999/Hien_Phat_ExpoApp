@@ -17,8 +17,6 @@ const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
   const primaryPink = '#fb77c5';
-  const cartItem = useSelector((state) => state.cart.cart);
-  const quantity = cartItem.length;
 
   function BottomTabs() {
     return (
@@ -66,8 +64,6 @@ const StackNavigator = () => {
           component={CartScreen}
           options={{
             tabBarLabel: 'Giỏ hàng',
-            tabBarBadge: quantity,
-            tabBarBadgeStyle: { backgroundColor: '#fb77c5', color: '#fff' },
             headerShown: false,
             tabBarActiveTintColor: primaryPink,
             tabBarInactiveTintColor: '#333',

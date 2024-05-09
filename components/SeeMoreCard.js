@@ -5,7 +5,7 @@ import React from 'react';
 const SeeMoreCard = () => {
   return (
     <Pressable
-      onPress={() => Alert.alert('Thông báo', 'Clicked')}
+      onPress={() => Alert.alert('loading...')}
       className='h-[320px] w-[180px]'
     >
       <View className='w-full h-full justify-center items-center'>

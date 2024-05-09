@@ -13,8 +13,8 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import { Entypo, AntDesign } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { Entypo, Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
 
@@ -26,11 +26,18 @@ const ProductInfoScreen = ({ route, navigation }) => {
   const [isLoading, setLoading] = useState(false);
 
   const addItemToCart = (item) => {
-    dispatch(addToCart(item));
+    dispatch(
+      addToCart({
+        id: item?.id,
+        title: item?.title,
+        productImg: item?.image,
+        price: item?.price,
+      })
+    );
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   };
   return (
     <SafeAreaView
@@ -66,7 +73,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
           <Text className='text-2xl font-bold'>{price.toLocaleString()}đ</Text>
         </View>
 
-        <View className='p-2.5 mt-2.5 bg-purple-100'>
+        <View className='p-2.5 mt-2.5 bg-pink-200'>
           <Text className='text-base font-semibold mb-2'>Đặc điểm nổi bật</Text>
           <View>
             {features?.map((item, index) => (
@@ -87,7 +94,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
         </OpenURLButton>
         <Pressable
           onPress={() => addItemToCart(item)}
-          className='bg-primary-blue rounded-lg flex-1 mx-2 items-center h-16 justify-center'
+          className='bg-primary-pink rounded-lg flex-1 mx-2 items-center h-16 justify-center'
           disabled={isLoading}
         >
           {isLoading ? (
@@ -102,13 +109,23 @@ const ProductInfoScreen = ({ route, navigation }) => {
 };
 
 const Navigation = ({ navigation }) => {
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
+
   return (
     <View className=' flex-row justify-between items-center bg-white'>
       <Pressable onPress={() => navigation.goBack()}>
-        <Entypo name='chevron-left' size={32} style={{ padding: 10 }} />
+        <Entypo name='chevron-thin-left' size={24} style={{ padding: 10 }} />
       </Pressable>
-      <Pressable onPress={() => Alert.alert('nav to Cart')}>
-        <AntDesign name='shoppingcart' size={32} style={{ padding: 10 }} />
+      <Pressable
+        className='relative'
+        onPress={() => navigation.navigate('Cart')}
+      >
+        <Ionicons name='cart-outline' size={32} style={{ padding: 10 }} />
+        <View className='absolute w-5 h-5 bg-primary-pink rounded-full right-1 top-1'>
+          <Text className='text-center text-white h-full leading-5'>
+            {cartQuantity}
+          </Text>
+        </View>
       </Pressable>
     </View>
   );

@@ -83,10 +83,7 @@ const LoginScreen = () => {
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
       <View className='my-8'>
-        <Image
-          className='w-20 h-20'
-          source={require('../assets/favicon.png')}
-        />
+        <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
       </View>
 
       <KeyboardAvoidingView>

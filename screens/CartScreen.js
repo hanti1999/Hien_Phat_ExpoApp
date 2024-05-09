@@ -12,16 +12,18 @@ import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 const CartScreen = () => {
-  const cartItem = useSelector((state) => state.cart.cart);
+  const cartItem = useSelector((state) => state.cart.cartItems);
+  const cartAmount = useSelector((state) => state.cart.totalAmount);
+  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const navigation = useNavigation();
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <Navigation />
-      {cartItem.length === 0 ? (
+      <Navigation navigation={navigation} />
+      {cartQuantity === 0 ? (
         <NoItemInCart navigation={navigation} />
       ) : (
         <ScrollView>
-          <Text>CartScreen</Text>
+          <Text>{cartAmount}</Text>
         </ScrollView>
       )}
     </SafeAreaView>
@@ -54,12 +56,11 @@ const NoItemInCart = ({ navigation }) => {
   );
 };
 
-const Navigation = () => {
-  const navigation = useNavigation();
+const Navigation = ({ navigation }) => {
   return (
     <View className='flex flex-row items-center'>
       <Pressable onPress={() => navigation.goBack()}>
-        <Entypo name='chevron-left' size={32} style={{ padding: 10 }} />
+        <Entypo name='chevron-thin-left' size={24} style={{ padding: 10 }} />
       </Pressable>
       <Text className='font-bold text-lg'>Giỏ hàng</Text>
     </View>

@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  cart: [],
+  cartItems: [],
+  totalAmount: 0,
+  totalQuantity: 0,
 };
 
 export const CartSlice = createSlice({
@@ -9,53 +11,54 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const itemPresent = state.cart.find(
-        (item) => item.id === action.payload.id
+      const newItem = action.payload;
+      const existingItem = state.cartItems.find(
+        (item) => item.id === newItem.id
       );
-      if (itemPresent) {
-        itemPresent.quantity++;
+      state.totalQuantity++;
+
+      if (!existingItem) {
+        state.cartItems.push({
+          id: newItem.id,
+          title: newItem.title,
+          productImg: newItem.productImg,
+          price: newItem.price,
+          quantity: 1,
+          totalPrice: newItem.price,
+        });
       } else {
-        state.cart.push({ ...action.payload, quantity: 1 });
+        existingItem.quantity++;
+        existingItem.totalPrice =
+          Number(existingItem.totalPrice) + Number(newItem.price);
       }
+
+      state.totalAmount = state.cartItems.reduce(
+        (total, item) => total + Number(item.price) * Number(item.quantity),
+        0
+      );
     },
     removeFromCart: (state, action) => {
-      const removeItem = state.cart.filter(
-        (item) => item.id !== action.payload.id
-      );
-      state.cart = removeItem;
-    },
-    incrementQuantity: (state, action) => {
-      const itemPresent = state.cart.find(
-        (item) => item.id === action.payload.id
-      );
-      itemPresent.quantity++;
-    },
-    decrementQuantity: (state, action) => {
-      const itemPresent = state.cart.find(
-        (item) => item.id === action.payload.id
-      );
-      if (itemPresent.quantity === 1) {
-        itemPresent.quantity = 0;
-        const removeItem = state.cart.filter(
-          (item) => item.id !== action.payload.id
-        );
-        state.cart = removeItem;
-      } else {
-        itemPresent.quantity--;
+      const id = action.payload;
+      const existingItem = state.cartItems.find((item) => item.id === id);
+
+      if (existingItem) {
+        state.cartItems = state.cartItems.filter((item) => item.id != id);
+        state.totalQuantity = state.totalQuantity - existingItem.quantity;
       }
+
+      state.totalAmount = state.cartItems.reduce(
+        (total, item) => total + Number(item.price) * Number(item.quantity),
+        0
+      );
     },
     clearCart: (state) => {
-      state.cart = [];
+      state.cartItems = [];
+      state.totalQuantity = 0;
+      state.totalAmount = 0;
     },
   },
 });
 
-export const {
-  addToCart,
-  removeFromCart,
-  incrementQuantity,
-  decrementQuantity,
-  clearCart,
-} = CartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = CartSlice.actions;
 
 export default CartSlice.reducer;
