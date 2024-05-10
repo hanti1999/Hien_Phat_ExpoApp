@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
 import NotificationScreen from '../screens/NotificationScreen';
 import ProductInfoScreen from '../screens/ProductInfoScreen';
 import RegisterScreen from '../screens/RegisterScreen';

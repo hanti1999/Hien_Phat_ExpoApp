@@ -41,8 +41,11 @@ const ProductInfoScreen = ({ route, navigation }) => {
   };
   return (
     <SafeAreaView
-      className='flex-1 bg-white'
-      style={{ paddingTop: Platform.OS == 'android' ? 0 : 0 }}
+      style={{
+        paddingTop: Platform.OS == 'android' ? 0 : 0,
+        flex: 1,
+        backgroundColor: '#fff',
+      }}
     >
       <ScrollView stickyHeaderIndices={[1]} className='bg-gray-100'>
         <StatusBar />

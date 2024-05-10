@@ -7,6 +7,7 @@ import {
   ScrollView,
   Pressable,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import React, { useEffect, useState } from 'react';
@@ -49,6 +50,7 @@ const HomeScreen = () => {
       className=' flex-1 bg-primary-pink'
       style={{ paddingTop: Platform.OS == 'android' ? 0 : 0 }}
     >
+      <StatusBar />
       <ScrollView stickyHeaderIndices={[0]} className='bg-gray-100'>
         <SearchBar />
 

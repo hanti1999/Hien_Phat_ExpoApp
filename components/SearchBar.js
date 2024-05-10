@@ -1,5 +1,5 @@
 import { TextInput, View, Pressable, Alert, Text } from 'react-native';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import React from 'react';
