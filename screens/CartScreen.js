@@ -7,11 +7,15 @@ import {
   Image,
   Platform,
   StatusBar,
+  TextInput,
+  Alert,
 } from 'react-native';
+import BouncyCheckboxGroup from 'react-native-bouncy-checkbox-group';
+import { Entypo, Ionicons, FontAwesome6 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Entypo, Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useState } from 'react';
+import { verticalStaticData } from '../assets/data/paymentMethod';
 import { removeFromCart } from '../redux/slices/CartReducer';
 
 const CartScreen = () => {
@@ -30,7 +34,7 @@ const CartScreen = () => {
       {cartQuantity === 0 ? (
         <NoItemInCart navigation={navigation} />
       ) : (
-        <ItemInCart />
+        <ItemInCart navigation={navigation} />
       )}
     </SafeAreaView>
   );
@@ -54,7 +58,7 @@ const NoItemInCart = ({ navigation }) => {
         onPress={() => navigation.navigate('Home')}
         className='py-3 w-full bg-primary-pink rounded-lg'
       >
-        <Text className='text-white text-lg text-center font-semibold'>
+        <Text className='text-white text-lg text-center'>
           Tiếp tục mua hàng
         </Text>
       </Pressable>
@@ -62,10 +66,11 @@ const NoItemInCart = ({ navigation }) => {
   );
 };
 
-const ItemInCart = () => {
+const ItemInCart = ({ navigation }) => {
   const cartItem = useSelector((state) => state.cart.cartItems);
   const cartAmount = useSelector((state) => state.cart.totalAmount);
   const dispatch = useDispatch();
+  const [paymentMethod, setPaymentMethod] = useState('cash');
 
   return (
     <ScrollView className='px-2.5'>
@@ -74,16 +79,47 @@ const ItemInCart = () => {
         {cartItem.map((item, index) => (
           <RenderItemToCart item={item} key={index} dispatch={dispatch} />
         ))}
-        <Text>
+        <Text className='mt-2'>
           Tổng:{' '}
-          <Text className='text-primary-pink font-bold'>
+          <Text className='text-primary-pink font-bold text-lg'>
             {cartAmount.toLocaleString()}đ
           </Text>
         </Text>
       </View>
 
-      <View>
+      <View className='mt-2.5'>
         <Text className='uppercase font-bold text-xl'>Thông tin giao hàng</Text>
+        <DeliveryInfo />
+      </View>
+
+      <View className='mt-2.5'>
+        <Text className='uppercase font-bold text-xl mb-2.5'>
+          Phương thức thanh toán
+        </Text>
+        <BouncyCheckboxGroup
+          data={verticalStaticData}
+          style={{ flexDirection: 'column' }}
+          onChange={(selectedItem) => setPaymentMethod(selectedItem.value)}
+        />
+      </View>
+
+      <View className='my-2.5'>
+        <Pressable
+          onPress={() => Alert.alert('Thông báo', 'clicked')}
+          className='py-3 w-full bg-primary-pink rounded-lg '
+        >
+          <Text className='text-white text-lg text-center'>
+            Đặt hàng nào{' '}
+            <FontAwesome6 name='smile-wink' size={20} color='white' />
+          </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={() => navigation.navigate('Home')}
+          className='py-3 w-full border-primary-pink border rounded-lg mt-2.5'
+        >
+          <Text className=' text-lg text-center'>Tiếp tục mua sắm</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -100,7 +136,9 @@ const RenderItemToCart = ({ item, dispatch }) => {
         <Image className='h-32 w-full' source={item?.productImg} />
       </View>
       <View className='w-1/2'>
-        <Text numberOfLines={2}>{item?.title}</Text>
+        <Text className='font-semibold text-base' numberOfLines={3}>
+          {item?.title}
+        </Text>
         <Text className='my-2'>
           Số lượng: <Text className='font-bold'>{item?.quantity}</Text> x{' '}
           {item?.price.toLocaleString()}đ
@@ -127,6 +165,47 @@ const Navigation = ({ navigation }) => {
         <Entypo name='chevron-thin-left' size={24} style={{ padding: 10 }} />
       </Pressable>
       <Text className='font-bold text-lg'>Giỏ hàng</Text>
+    </View>
+  );
+};
+
+const DeliveryInfo = () => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [name, setName] = useState('');
+  const [note, setNote] = useState('');
+  return (
+    <View>
+      <Text className='italic text-red-500'>*Vui lòng điền đủ thông tin</Text>
+      <Text className='my-2'>Tên người nhận</Text>
+      <TextInput
+        className='px-1 border rounded-lg border-gray-200'
+        value={name}
+        onChangeText={setName}
+      />
+      <Text className='my-2'>Số điện thoại người nhận</Text>
+      <TextInput
+        value={phoneNumber}
+        keyboardType='numeric'
+        onChangeText={setPhoneNumber}
+        className='px-1 border rounded-lg border-gray-200'
+      />
+      <Text className='my-2'>Địa chỉ nhận hàng</Text>
+      <TextInput
+        value={address}
+        onChangeText={setAddress}
+        multiline
+        numberOfLines={3}
+        className='px-1 border rounded-lg border-gray-200'
+      />
+      <Text className='my-2'>Ghi chú</Text>
+      <TextInput
+        className='px-1 border rounded-lg border-gray-200'
+        value={note}
+        multiline
+        numberOfLines={3}
+        onChangeText={setNote}
+      />
     </View>
   );
 };

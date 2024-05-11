@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import React, { useEffect, useState } from 'react';
-import { Entypo } from '@expo/vector-icons';
 import axios from 'axios';
 import HorizontalCategory from '../components/HorizontalCategory';
 import ProductTitle from '../components/ProductTitle';
@@ -65,19 +64,18 @@ const HomeScreen = () => {
           ImageComponentStyle={{ width: '100%' }}
         />
 
-        <View className='flex-row items-center justify-between bg-white'>
-          <Text className='font-bold text-2xl p-2.5 text-red-500'>
-            Khuyến Mãi Hot
+        <View className='flex-row items-center justify-between bg-white py-1'>
+          <Image
+            className='w-12 h-12'
+            source={require('../assets/daisy.png')}
+          />
+          <Text className='font-bold text-2xl text-red-500 '>
+            Ưu đãi quá trời!
           </Text>
-          <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Clicked')}
-            className='flex-row items-center'
-          >
-            <Text className='text-blue-400 font-medium'>
-              Xem thêm khuyến mãi
-            </Text>
-            <Entypo name='chevron-right' size={24} color='#60a5fa' />
-          </Pressable>
+          <Image
+            className='w-12 h-12'
+            source={require('../assets/daisy.png')}
+          />
         </View>
 
         <ScrollView horizontal className='bg-white pl-2'>

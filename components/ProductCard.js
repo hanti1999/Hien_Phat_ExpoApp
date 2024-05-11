@@ -2,7 +2,7 @@ import { Text, View, Pressable, Image, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
-import { addToCart, clearCart } from '../redux/slices/CartReducer';
+import { addToCart } from '../redux/slices/CartReducer';
 
 const ProductCard = ({ item }) => {
   const navigation = useNavigation();
@@ -17,7 +17,6 @@ const ProductCard = ({ item }) => {
         productImg: item?.image,
         price: item?.price,
       })
-      // clearCart()
     );
     setLoading(true);
     setTimeout(() => {
@@ -41,14 +40,10 @@ const ProductCard = ({ item }) => {
       className='w-[180px] max-h-[320px] pr-2 mb-2'
       disabled={isLoading}
     >
-      <View className='border h-full flex justify-between border-gray-200 rounded-md overflow-hidden'>
+      <View className='border h-full flex justify-between border-gray-200 bg-pink-100 rounded-md overflow-hidden'>
         <View>
-          <Image
-            resizeMode='contain'
-            className='w-full h-[180px]'
-            source={item?.image}
-          />
-          <View className='mx-2'>
+          <Image className='w-full h-[180px]' source={item?.image} />
+          <View className='px-2 '>
             <Text numberOfLines={2}>{item?.title}</Text>
             <Text className='line-through'>
               {item?.oldPrice.toLocaleString()}
@@ -67,8 +62,8 @@ const ProductCard = ({ item }) => {
             {isLoading ? (
               <ActivityIndicator color='#fff' />
             ) : (
-              <Text className=' text-white text-lg font-medium uppercase'>
-                mua
+              <Text className=' text-white text-base font-medium uppercase'>
+                sắm ngay nào!
               </Text>
             )}
           </Pressable>

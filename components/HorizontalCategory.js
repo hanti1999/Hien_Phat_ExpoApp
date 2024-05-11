@@ -19,7 +19,7 @@ const list = [
   },
   {
     id: 3,
-    image: require('../assets/category-icon/gao.png'),
+    image: require('../assets/category-icon/gaost.png'),
     name: 'Gạo',
   },
   {

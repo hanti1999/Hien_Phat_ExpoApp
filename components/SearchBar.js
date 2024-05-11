@@ -1,4 +1,4 @@
-import { TextInput, View, Pressable, Alert, Text } from 'react-native';
+import { TextInput, View, Pressable, Alert, Text, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -15,7 +15,11 @@ const SearchBar = () => {
         className='flex-row flex-1 items-center bg-white h-10 rounded-md ml-4 my-2.5'
       >
         <Ionicons style={{ paddingHorizontal: 10 }} name='search' size={24} />
-        <TextInput className='text-base flex-1' placeholder='Bạn cần tìm gì?' />
+        <TextInput
+          className='text-base flex-1'
+          placeholder='Khách iu tìm gì nè? '
+        />
+        <Image className='w-10 h-10' source={require('../assets/tulip.png')} />
       </Pressable>
       <Pressable
         className='relative px-2.5'
