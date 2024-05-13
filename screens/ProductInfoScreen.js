@@ -13,8 +13,8 @@ import {
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
 

@@ -42,7 +42,7 @@ const CartScreen = () => {
 
 const NoItemInCart = ({ navigation }) => {
   return (
-    <View className='flex items-center h-full bg-gray-100 px-2.5'>
+    <View className='flex items-center h-full bg-gray-100 px-2'>
       <Image
         style={{ maxWidth: 400, maxHeight: 400 }}
         source={require('../assets/cart.png')}
@@ -73,7 +73,7 @@ const ItemInCart = ({ navigation }) => {
   const [paymentMethod, setPaymentMethod] = useState('cash');
 
   return (
-    <ScrollView className='px-2.5'>
+    <ScrollView className='px-2'>
       <View>
         <Text className='uppercase font-bold text-xl'>Chi tiết đơn hàng</Text>
         {cartItem.map((item, index) => (
@@ -88,12 +88,12 @@ const ItemInCart = ({ navigation }) => {
       </View>
 
       <View className='mt-2.5'>
-        <Text className='uppercase font-bold text-xl'>Thông tin giao hàng</Text>
+        <Text className='uppercase font-bold text-xl border-b border-gray-200'>Thông tin giao hàng</Text>
         <DeliveryInfo />
       </View>
 
       <View className='mt-2.5'>
-        <Text className='uppercase font-bold text-xl mb-2.5'>
+        <Text className='uppercase font-bold text-xl mb-2.5 border-b border-gray-200'>
           Phương thức thanh toán
         </Text>
         <BouncyCheckboxGroup

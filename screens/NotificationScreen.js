@@ -5,6 +5,7 @@ import {
   Platform,
   StatusBar,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
@@ -22,6 +23,18 @@ const NotificationScreen = () => {
     >
       <StatusBar />
       <Navigation navigation={navigation} />
+      <ScrollView className='bg-gray-100 flex h-full px-2'>
+        <View className='my-2 border-b border-gray-200'>
+          <Text numberOfLines={2} className='font-semibold uppercase text-base'>
+            Chào mừng bạn đến với mobile app của Gas Hiền Phát
+          </Text>
+          <Text> Mở app đón ưu đãi</Text>
+          <Text> Gọi gas nhanh chóng</Text>
+          <View className='my-4'>
+            <Text className='text-gray-500 text-sm'>01/01/2025 00:00</Text>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
