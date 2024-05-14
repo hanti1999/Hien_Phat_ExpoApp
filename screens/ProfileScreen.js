@@ -1,5 +1,6 @@
 import { Text, View, SafeAreaView, Platform, StatusBar } from 'react-native';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const ProfileScreen = () => {
   return (

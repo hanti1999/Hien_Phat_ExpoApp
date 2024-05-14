@@ -11,6 +11,7 @@ import VerifySceen from '../screens/VerifyScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
+import OrderScreen from '../screens/OrderScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -121,6 +122,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name='Verify'
           component={VerifySceen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Order'
+          component={OrderScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
