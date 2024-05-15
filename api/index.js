@@ -37,12 +37,12 @@ const Order = require('./models/order');
 // Đăng ký tài khoản
 app.post('/register', async (req, res) => {
   try {
-    const { name, loginInfo, password } = req.body;
+    const { name, loginInfo, password, address } = req.body;
     const existingUser = await User.findOne({ loginInfo });
     if (existingUser) {
       return res.status(400).json({ message: 'Tài khoản này đã được dùng' });
     }
-    const newUser = new User({ name, loginInfo, password });
+    const newUser = new User({ name, loginInfo, password, address });
     await newUser.save();
     console.log('User vừa đăng ký: ', newUser);
     res.status(201).json({ message: 'Đăng ký thành công!' });
@@ -135,7 +135,10 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Mật khẩu sai!' });
     }
 
-    const token = jwt.sign({ userId: user._id }, secretKey);
+    const token = jwt.sign(
+      { userId: user._id, address: user.address, name: user.name },
+      secretKey
+    );
 
     res.status(200).json({ token });
   } catch (error) {

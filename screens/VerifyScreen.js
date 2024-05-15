@@ -14,7 +14,7 @@ import { BASE_URL } from '../config';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
-  const { name, loginInfo, password, otp } = route.params;
+  const { name, loginInfo, password, address, otp } = route.params;
 
   const handleVerify = () => {
     if (code != otp) {
@@ -26,6 +26,7 @@ const VerifyScreen = ({ navigation, route }) => {
       name: name,
       loginInfo: loginInfo,
       password: password,
+      address: address,
     };
 
     const postRegister = async () => {

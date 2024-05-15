@@ -100,16 +100,6 @@ const StackNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name='Main'
-          component={BottomTabs}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='Info'
-          component={ProductInfoScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
           name='Login'
           component={LoginScreen}
           options={{ headerShown: false }}
@@ -122,6 +112,16 @@ const StackNavigator = () => {
         <Stack.Screen
           name='Verify'
           component={VerifySceen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Main'
+          component={BottomTabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Info'
+          component={ProductInfoScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

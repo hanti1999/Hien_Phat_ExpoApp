@@ -13,9 +13,12 @@ import {
 import { Entypo, Ionicons, FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
 import { BASE_URL, P_PINK } from '../config';
+import { UserType } from '../userContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { jwtDecode } from 'jwt-decode';
 
 const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
@@ -73,6 +76,22 @@ const ItemInCart = ({ navigation }) => {
   const [name, setName] = useState('');
   const [note, setNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cash');
+  const { userId, setUserId } = useContext(UserType);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      const decodeToken = jwtDecode(token);
+      const userId = decodeToken.userId;
+      const userAddress = decodeToken?.address;
+      const userName = decodeToken?.name;
+      setUserId(userId);
+      setAddress(userAddress);
+      setName(userName);
+    };
+
+    fetchUser();
+  }, []);
 
   const handlePlaceOrder = async () => {
     try {

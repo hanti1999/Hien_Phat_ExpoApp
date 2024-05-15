@@ -1,19 +1,22 @@
 import { View, Pressable, Linking, StyleSheet } from 'react-native';
-import StackNavigator from './navigation/StackNavigator';
 import { AntDesign } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
+import StackNavigator from './navigation/StackNavigator';
+import { UserContext } from './userContext';
 import { store } from './redux/store';
 
 export default function App() {
   return (
     <>
       <Provider store={store}>
-        <StackNavigator />
-        <View style={styles.floatButtonContainer}>
-          <OpenURLButton phoneNumber='0975841582'>
-            <AntDesign name='phone' size={30} color='white' />
-          </OpenURLButton>
-        </View>
+        <UserContext>
+          <StackNavigator />
+          <View style={styles.floatButtonContainer}>
+            <OpenURLButton phoneNumber='0975841582'>
+              <AntDesign name='phone' size={30} color='white' />
+            </OpenURLButton>
+          </View>
+        </UserContext>
       </Provider>
     </>
   );

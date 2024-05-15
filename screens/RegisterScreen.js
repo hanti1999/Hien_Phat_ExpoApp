@@ -7,8 +7,13 @@ import {
   TextInput,
   Pressable,
   Alert,
+  ScrollView,
 } from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  Ionicons,
+} from '@expo/vector-icons';
 import React, { useState } from 'react';
 import axios from 'axios';
 import validateEmail from '../utils/validateEmail';
@@ -19,6 +24,7 @@ const RegisterScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
   const [password, setPassword] = useState('88888888');
   const [confirmPass, setConfirmPass] = useState('88888888');
   const [phoneRegister, setPhoneRegister] = useState(true);
@@ -41,9 +47,10 @@ const RegisterScreen = ({ navigation }) => {
             const res = await axios.post(`${BASE_URL}/verify`, { phone });
             const otp = res.data.otp;
             navigation.navigate('Verify', {
-              name,
+              name: name,
               loginInfo: phone,
-              password,
+              password: password,
+              address: address,
               otp,
             });
           } catch (error) {
@@ -66,6 +73,7 @@ const RegisterScreen = ({ navigation }) => {
               name: name,
               loginInfo: email,
               password: password,
+              address: address,
               otp: otp,
             });
           } catch (error) {
@@ -82,16 +90,15 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
-      <View className='my-8'>
-        <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
+      <View className='mt-8 mb-4 flex-row items-center' style={{ gap: 20 }}>
+        <Image className='w-24 h-24' source={require('../assets/logoHp.png')} />
+        <Text className='text-2xl font-bold'>Đăng ký</Text>
       </View>
 
       <KeyboardAvoidingView>
-        <View className='items-center'>
-          <Text className='text-2xl font-bold'>Đăng ký</Text>
-        </View>
+        <View className='items-center'></View>
 
-        <View className='flex-row justify-between mt-10 mb-4'>
+        <View className='flex-row justify-between mt-4 mb-2'>
           <Pressable>
             <Text className='text-lg font-semibold'>
               {phoneRegister ? 'Điện thoại' : 'Email'}
@@ -129,7 +136,7 @@ const RegisterScreen = ({ navigation }) => {
           )}
         </View>
 
-        <View className='mt-10'>
+        <View className='mt-5'>
           <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
             <AntDesign name='user' size={24} color='gray' />
             <TextInput
@@ -141,7 +148,21 @@ const RegisterScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <View className='mt-10'>
+        <View className='mt-5'>
+          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+            <Ionicons name='location-outline' size={24} color='gray' />
+            <TextInput
+              className='w-[300px] text-[18px] py-1'
+              placeholder='Nhập địa chỉ bạn...'
+              numberOfLines={3}
+              multiline
+              value={address}
+              onChangeText={(text) => setAddress(text)}
+            />
+          </View>
+        </View>
+
+        <View className='mt-5'>
           <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput
@@ -160,7 +181,7 @@ const RegisterScreen = ({ navigation }) => {
           </View>
         </View>
 
-        <View className='mt-10'>
+        <View className='mt-5'>
           <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput

@@ -14,17 +14,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  addresses: [
-    {
-      name: String,
-      houseNo: String,
-      street: String,
-      village: String,
-      district: String,
-      province: String,
-      city: String,
-    },
-  ],
+  address: String,
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
