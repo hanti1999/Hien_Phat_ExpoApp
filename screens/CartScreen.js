@@ -14,11 +14,12 @@ import { Entypo, Ionicons, FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useContext, useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
 import { BASE_URL, P_PINK } from '../config';
 import { UserType } from '../userContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { jwtDecode } from 'jwt-decode';
 
 const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
@@ -68,7 +69,7 @@ const NoItemInCart = ({ navigation }) => {
 };
 
 const ItemInCart = ({ navigation }) => {
-  const cartItem = useSelector((state) => state.cart.cartItems);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   const cartAmount = useSelector((state) => state.cart.totalAmount);
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -94,13 +95,17 @@ const ItemInCart = ({ navigation }) => {
   }, []);
 
   const handlePlaceOrder = async () => {
+    if (phoneNumber === '') {
+      Alert.alert('Thông báo', 'Vui lòng điền số điện thoại!');
+      return;
+    }
     try {
       const orderData = {
         userId: userId,
         name: name,
         phoneNumber: phoneNumber,
         note: note,
-        cartItem: cartItem,
+        cartItems: cartItems,
         totalPrice: cartAmount,
         shippingAddress: address,
         paymentMethod: paymentMethod,
@@ -110,9 +115,9 @@ const ItemInCart = ({ navigation }) => {
       if (response.status === 200) {
         navigation.navigate('Order');
         dispatch(clearCart());
-        console.log('order created successfully', response.data);
+        console.log('Tạo đơn hàng thành công');
       } else {
-        console.log('error creating order', response.data);
+        console.log('Tạo đơn hàng không thành công');
       }
     } catch (error) {
       console.log(error);
@@ -123,7 +128,7 @@ const ItemInCart = ({ navigation }) => {
     <ScrollView>
       <View className='bg-white p-2'>
         <Text className='uppercase font-bold text-xl'>Chi tiết đơn hàng</Text>
-        {cartItem.map((item, index) => (
+        {cartItems.map((item, index) => (
           <RenderItemToCart item={item} key={index} dispatch={dispatch} />
         ))}
         <Text className='mt-2'>
@@ -167,8 +172,6 @@ const ItemInCart = ({ navigation }) => {
           <TextInput
             className='px-1 border rounded-lg border-gray-200'
             value={note}
-            multiline
-            numberOfLines={3}
             onChangeText={setNote}
           />
         </View>

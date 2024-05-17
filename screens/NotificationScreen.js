@@ -8,8 +8,9 @@ import {
   ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import React from 'react';
+import { notification } from '../assets/data/notification';
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
@@ -24,16 +25,22 @@ const NotificationScreen = () => {
       <StatusBar />
       <Navigation navigation={navigation} />
       <ScrollView className='bg-gray-100 flex h-full px-2'>
-        <View className='my-2 border-b border-gray-200'>
-          <Text numberOfLines={2} className='font-semibold uppercase text-base'>
-            Chào mừng bạn đến với mobile app của Gas Hiền Phát
-          </Text>
-          <Text> Mở app đón ưu đãi</Text>
-          <Text> Gọi gas nhanh chóng</Text>
-          <View className='my-4'>
-            <Text className='text-gray-500 text-sm'>01/01/2025 00:00</Text>
+        {notification.map((item, index) => (
+          <View key={index} className='my-2 border-b border-gray-200'>
+            <Text className='font-semibold uppercase text-base'>
+              {item.title}
+            </Text>
+            {item.content.map((i, index) => (
+              <View className='flex-row gap-1 items-center'>
+                <AntDesign name='check' size={14} color='black' />
+                <Text key={index}>{i}</Text>
+              </View>
+            ))}
+            <View className='my-4'>
+              <Text className='text-gray-500 text-sm'>{item.time}</Text>
+            </View>
           </View>
-        </View>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

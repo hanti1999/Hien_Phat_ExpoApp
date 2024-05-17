@@ -150,11 +150,11 @@ app.post('/orders', async (req, res) => {
   try {
     const {
       userId,
-      cartItems,
-      totalPrice,
       name,
       phoneNumber,
       note,
+      cartItems,
+      totalPrice,
       shippingAddress,
       paymentMethod,
     } = req.body;
@@ -169,7 +169,6 @@ app.post('/orders', async (req, res) => {
       name: item?.title,
       quantity: item.quantity,
       price: item.price,
-      image: item?.image,
     }));
 
     //create a new Order
