@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -82,6 +83,7 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
+      <StatusBar />
       <View className='my-8'>
         <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
       </View>

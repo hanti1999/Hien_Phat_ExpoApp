@@ -31,9 +31,9 @@ const NotificationScreen = () => {
               {item.title}
             </Text>
             {item.content.map((i, index) => (
-              <View className='flex-row gap-1 items-center'>
+              <View className='flex-row gap-1 items-center' key={index}>
                 <AntDesign name='check' size={14} color='black' />
-                <Text key={index}>{i}</Text>
+                <Text>{i}</Text>
               </View>
             ))}
             <View className='my-4'>

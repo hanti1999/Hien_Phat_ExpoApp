@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
 
 const ProductCard = ({ item }) => {
+  const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(false);
 
   const addItemToCart = (item) => {
     dispatch(

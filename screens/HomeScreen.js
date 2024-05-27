@@ -42,8 +42,6 @@ const HomeScreen = () => {
     // fetchData();
   }, []);
 
-  // console.log(products);
-
   return (
     <SafeAreaView
       className=' flex-1 bg-primary-pink'

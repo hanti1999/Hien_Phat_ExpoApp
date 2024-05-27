@@ -7,7 +7,7 @@ import {
   TextInput,
   Pressable,
   Alert,
-  ScrollView,
+  StatusBar,
 } from 'react-native';
 import {
   AntDesign,
@@ -90,6 +90,7 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
+      <StatusBar />
       <View className='mt-8 mb-4 flex-row items-center' style={{ gap: 20 }}>
         <Image className='w-24 h-24' source={require('../assets/logoHp.png')} />
         <Text className='text-2xl font-bold'>Đăng ký</Text>
