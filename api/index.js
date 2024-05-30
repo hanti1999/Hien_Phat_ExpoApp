@@ -88,30 +88,37 @@ app.post('/verify-email', async (req, res) => {
   }
 });
 
-// Xác minh số điện thoại
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const twilioNumber = process.env.TWILIO_NUMBER;
-const client = require('twilio')(accountSid, authToken);
+// Xác minh số điện thoại với twilio
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+// const twilioNumber = process.env.TWILIO_NUMBER;
+// const client = require('twilio')(accountSid, authToken);
 
 app.post('/verify', async (req, res) => {
-  const { phone } = req.body;
-  const otp = Math.floor(100000 + Math.random() * 900000);
-  client.messages
-    .create({
-      body: `Mã OTP của bạn là: ${otp}`,
-      from: twilioNumber,
-      to: `+84${phone}`,
-    })
-    .then(() => {
-      res
-        .status(200)
-        .json({ phone: phone, message: 'Gửi OTP thành công!', otp: otp });
-    })
-    .catch((err) => {
-      console.error(err.message);
-      return res.status(500).json({ error: err.message });
-    });
+  // const { phone } = req.body;
+  // const otp = Math.floor(100000 + Math.random() * 900000);
+  // client.messages
+  //   .create({
+  //     body: `Mã OTP của bạn là: ${otp}`,
+  //     from: twilioNumber,
+  //     to: `+84${phone}`,
+  //   })
+  //   .then(() => {
+  //     res
+  //       .status(200)
+  //       .json({ phone: phone, message: 'Gửi OTP thành công!', otp: otp });
+  //   })
+  //   .catch((err) => {
+  //     console.error(err.message);
+  //     return res.status(500).json({ error: err.message });
+  //   });
+  try {
+    const { phone } = req.body;
+    const otp = 888888;
+    return res.status(200).json({ otp: otp });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // Đăng nhập

@@ -8,23 +8,25 @@ import {
   Pressable,
   Alert,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import validatePhone from '../utils/validatePhone';
-import validateEmail from '../utils/validateEmail';
+// import validatePhone from '../utils/validatePhone';
+// import validateEmail from '../utils/validateEmail';
 import { BASE_URL } from '../config';
 
 const LoginScreen = () => {
-  const [phone, setPhone] = useState('');
+  // const [phone, setPhone] = useState('');
+  // const [email, setEmail] = useState('');
   const [loginInfo, setLoginInfo] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneLogin, setPhoneLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoaing] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -47,31 +49,33 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
-    if (phoneLogin) {
-      if (validatePhone(phone)) {
-        setLoginInfo(phone);
-      } else {
-        Alert.alert('Lỗi!', 'Số điện thoại không hợp lệ!');
-        return;
-      }
-    } else {
-      if (validateEmail(email)) {
-        setLoginInfo(email);
-      } else {
-        Alert.alert('Lỗi!', 'Email không hợp lệ!');
-        return;
-      }
-    }
+    // if (phoneLogin) {
+    //   if (validatePhone(phone)) {
+    //     setLoginInfo(phone);
+    //   } else {
+    //     Alert.alert('Lỗi!', 'Số điện thoại không hợp lệ!');
+    //     return;
+    //   }
+    // } else {
+    //   if (validateEmail(email)) {
+    //     setLoginInfo(email);
+    //   } else {
+    //     Alert.alert('Lỗi!', 'Email không hợp lệ!');
+    //     return;
+    //   }
+    // }
 
     const user = {
       loginInfo: loginInfo,
       password: password,
     };
     const postUser = async () => {
+      setLoaing(true);
       try {
         const res = await axios.post(`${BASE_URL}/login`, user);
         const token = res.data.token;
         AsyncStorage.setItem('authToken', token);
+        setLoaing(false);
         navigation.replace('Main');
       } catch (error) {
         Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
@@ -111,21 +115,23 @@ const LoginScreen = () => {
             <>
               <AntDesign name='mobile1' size={24} color='gray' />
               <TextInput
+                autoCapitalize='none'
                 className='w-[300px] text-[18px] py-1'
                 placeholder='Nhập số điện thoại...'
-                value={phone}
+                value={loginInfo}
                 keyboardType='numeric'
-                onChangeText={(text) => setPhone(text)}
+                onChangeText={(text) => setLoginInfo(text)}
               />
             </>
           ) : (
             <>
               <AntDesign name='mail' size={24} color='gray' />
               <TextInput
+                autoCapitalize='none'
                 className='w-[300px] text-[18px] py-1'
                 placeholder='Nhập Email...'
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                value={loginInfo}
+                onChangeText={(text) => setLoginInfo(text)}
               />
             </>
           )}
@@ -160,12 +166,16 @@ const LoginScreen = () => {
 
         <View className='mt-20'>
           <Pressable
-            onPress={handleLogin}
+            onPress={() => handleLogin()}
             className='bg-primary-pink rounded-md mx-auto px-4 py-4 w-[200px]'
           >
-            <Text className='text-white text-center text-lg font-bold'>
-              Đăng nhập
-            </Text>
+            {loading ? (
+              <ActivityIndicator color={'#fff'} />
+            ) : (
+              <Text className='text-white text-center text-[18px] font-bold'>
+                Đăng nhập
+              </Text>
+            )}
           </Pressable>
 
           <Pressable

@@ -46,6 +46,7 @@ const RegisterScreen = ({ navigation }) => {
           try {
             const res = await axios.post(`${BASE_URL}/verify`, { phone });
             const otp = res.data.otp;
+            console.log(otp);
             navigation.navigate('Verify', {
               name: name,
               loginInfo: phone,

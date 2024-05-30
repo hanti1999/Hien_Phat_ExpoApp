@@ -1,4 +1,4 @@
-import { View, Pressable, Linking, StyleSheet } from 'react-native';
+import { View, Pressable, Linking, StyleSheet, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
 import StackNavigator from './navigation/StackNavigator';
@@ -36,11 +36,11 @@ const OpenURLButton = ({ phoneNumber, children }) => {
 const styles = StyleSheet.create({
   floatButtonContainer: {
     position: 'absolute',
-    bottom: 56,
+    bottom: Platform.OS == 'android' ? 82 : 100,
     right: 8,
     width: 56,
     height: 56,
     borderRadius: 9999,
-    backgroundColor: 'rgba( 251, 119, 197, 0.8)',
+    backgroundColor: 'rgba( 255, 0, 0, 0.6)',
   },
 });

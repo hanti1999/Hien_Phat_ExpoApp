@@ -13,11 +13,12 @@ import {
 import { Entypo, Ionicons, FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
+import ScreenHeader from '../components/ScreenHeader';
 import { BASE_URL, P_PINK } from '../config';
 import { UserType } from '../userContext';
 
@@ -32,7 +33,7 @@ const CartScreen = () => {
       }}
     >
       <StatusBar />
-      <Navigation navigation={navigation} />
+      <ScreenHeader text={'Giỏ hàng'} />
       {cartQuantity === 0 ? (
         <NoItemInCart navigation={navigation} />
       ) : (
@@ -78,6 +79,7 @@ const ItemInCart = ({ navigation }) => {
   const [note, setNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const { userId, setUserId } = useContext(UserType);
+  const phoneRef = useRef(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -97,6 +99,7 @@ const ItemInCart = ({ navigation }) => {
   const handlePlaceOrder = async () => {
     if (phoneNumber === '') {
       Alert.alert('Thông báo', 'Vui lòng điền số điện thoại!');
+      phoneRef.current.focus();
       return;
     }
     try {
@@ -149,16 +152,18 @@ const ItemInCart = ({ navigation }) => {
           </Text>
           <Text className='my-2'>Tên người nhận</Text>
           <TextInput
-            className='px-1 border rounded-lg border-gray-200'
+            className='p-1 border rounded-lg border-gray-200'
             value={name}
             onChangeText={setName}
           />
           <Text className='my-2'>Số điện thoại người nhận</Text>
           <TextInput
             value={phoneNumber}
+            ref={phoneRef}
             keyboardType='numeric'
+            placeholder='Vui lòng điền'
             onChangeText={setPhoneNumber}
-            className='px-1 border rounded-lg border-gray-200'
+            className='p-1 border rounded-lg border-gray-200'
           />
           <Text className='my-2'>Địa chỉ nhận hàng</Text>
           <TextInput
@@ -166,12 +171,13 @@ const ItemInCart = ({ navigation }) => {
             onChangeText={setAddress}
             multiline
             numberOfLines={3}
-            className='px-1 border rounded-lg border-gray-200'
+            className='p-1 border rounded-lg border-gray-200'
           />
           <Text className='my-2'>Ghi chú</Text>
           <TextInput
-            className='px-1 border rounded-lg border-gray-200'
+            className='p-1 border rounded-lg border-gray-200'
             value={note}
+            placeholder='(Không bắt buộc)'
             onChangeText={setNote}
           />
         </View>
@@ -238,7 +244,7 @@ const RenderItemToCart = ({ item, dispatch }) => {
   return (
     <View className='flex-row border-b border-gray-200 py-2.5'>
       <View className='w-1/2'>
-        <Image className='h-32 w-full' source={item?.productImg} />
+        <Image className='h-[120px] w-full' source={item?.productImg} />
       </View>
       <View className='w-1/2'>
         <Text className='font-semibold text-base' numberOfLines={3}>
@@ -259,17 +265,6 @@ const RenderItemToCart = ({ item, dispatch }) => {
           <Text className='text-primary-pink'>Xoá sản phẩm</Text>
         </Pressable>
       </View>
-    </View>
-  );
-};
-
-const Navigation = ({ navigation }) => {
-  return (
-    <View className='flex flex-row items-center bg-white'>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Entypo name='chevron-thin-left' size={24} style={{ padding: 10 }} />
-      </Pressable>
-      <Text className='font-bold text-lg'>Giỏ hàng</Text>
     </View>
   );
 };

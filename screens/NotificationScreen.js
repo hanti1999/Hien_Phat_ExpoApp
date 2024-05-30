@@ -8,9 +8,10 @@ import {
   ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Entypo, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
 import { notification } from '../assets/data/notification';
+import ScreenHeader from '../components/ScreenHeader';
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
@@ -23,7 +24,7 @@ const NotificationScreen = () => {
       }}
     >
       <StatusBar />
-      <Navigation navigation={navigation} />
+      <ScreenHeader text={'Thông báo'} />
       <ScrollView className='bg-gray-100 flex h-full px-2'>
         {notification.map((item, index) => (
           <View key={index} className='my-2 border-b border-gray-200'>
@@ -43,17 +44,6 @@ const NotificationScreen = () => {
         ))}
       </ScrollView>
     </SafeAreaView>
-  );
-};
-
-const Navigation = ({ navigation }) => {
-  return (
-    <View className='flex flex-row items-center'>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Entypo name='chevron-thin-left' size={24} style={{ padding: 10 }} />
-      </Pressable>
-      <Text className='font-bold text-lg'>Thông báo</Text>
-    </View>
   );
 };
 
