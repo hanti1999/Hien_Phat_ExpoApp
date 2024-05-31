@@ -142,7 +142,7 @@ const ItemInCart = ({ navigation }) => {
         </Text>
       </View>
 
-      <View className='mt-2.5 p-2 bg-white'>
+      <View className='mt-2 p-2 bg-white'>
         <Text className='uppercase font-bold text-xl '>
           Thông tin giao hàng
         </Text>
@@ -152,7 +152,7 @@ const ItemInCart = ({ navigation }) => {
           </Text>
           <Text className='my-2'>Tên người nhận</Text>
           <TextInput
-            className='p-1 border rounded-lg border-gray-200'
+            className='py-1 px-2 border rounded-lg border-gray-200'
             value={name}
             onChangeText={setName}
           />
@@ -161,9 +161,9 @@ const ItemInCart = ({ navigation }) => {
             value={phoneNumber}
             ref={phoneRef}
             keyboardType='numeric'
-            placeholder='Vui lòng điền'
+            placeholder='Vui lòng điền số điện thoại'
             onChangeText={setPhoneNumber}
-            className='p-1 border rounded-lg border-gray-200'
+            className='p-1 px-2 border rounded-lg border-gray-200'
           />
           <Text className='my-2'>Địa chỉ nhận hàng</Text>
           <TextInput
@@ -171,11 +171,11 @@ const ItemInCart = ({ navigation }) => {
             onChangeText={setAddress}
             multiline
             numberOfLines={3}
-            className='p-1 border rounded-lg border-gray-200'
+            className='p-1 px-2 border rounded-lg border-gray-200'
           />
           <Text className='my-2'>Ghi chú</Text>
           <TextInput
-            className='p-1 border rounded-lg border-gray-200'
+            className='p-1 px-2 border rounded-lg border-gray-200'
             value={note}
             placeholder='(Không bắt buộc)'
             onChangeText={setNote}
@@ -183,13 +183,14 @@ const ItemInCart = ({ navigation }) => {
         </View>
       </View>
 
-      <View className='mt-2.5 p-2 bg-white'>
+      <View className='mt-2 p-2 bg-white'>
         <Text className='uppercase font-bold text-xl'>
           Phương thức thanh toán
         </Text>
         <View>
           <Pressable
             onPress={() => setPaymentMethod('cash')}
+            style={{ gap: 8 }}
             className='flex-row border border-gray-200 rounded-lg p-2 items-center mt-2'
           >
             {paymentMethod === 'cash' ? (
@@ -197,11 +198,12 @@ const ItemInCart = ({ navigation }) => {
             ) : (
               <Entypo name='circle' size={20} color={P_PINK} />
             )}
-            <Text className='ml-2'>Thanh toán tiền mặt khi nhận hàng</Text>
+            <Text>Thanh toán tiền mặt khi nhận hàng</Text>
           </Pressable>
 
           <Pressable
             onPress={() => setPaymentMethod('card')}
+            style={{ gap: 8 }}
             className='flex-row border border-gray-200 rounded-lg p-2 items-center mt-2'
           >
             {paymentMethod === 'card' ? (
@@ -209,25 +211,24 @@ const ItemInCart = ({ navigation }) => {
             ) : (
               <Entypo name='circle' size={20} color={P_PINK} />
             )}
-            <Text className='ml-2'>Thanh toán chuyển khoản</Text>
+            <Text>Thanh toán chuyển khoản</Text>
           </Pressable>
         </View>
       </View>
 
-      <View className='mt-2.5 p-2 bg-white'>
+      <View className='mt-2 p-2 bg-white'>
         <Pressable
           onPress={handlePlaceOrder}
-          className='py-3 w-full bg-primary-pink rounded-lg '
+          style={{ gap: 8 }}
+          className='py-3 w-full bg-primary-pink flex-row items-center justify-center rounded-lg '
         >
-          <Text className='text-white text-lg text-center'>
-            Đặt hàng nào{' '}
-            <FontAwesome6 name='smile-wink' size={20} color='white' />
-          </Text>
+          <Text className='text-white text-lg text-center'>Đặt hàng nào</Text>
+          <FontAwesome6 name='smile-wink' size={20} color='white' />
         </Pressable>
 
         <Pressable
           onPress={() => navigation.navigate('Home')}
-          className='py-3 w-full border-primary-pink border rounded-lg mt-2.5'
+          className='py-3 w-full border-primary-pink border rounded-lg mt-2'
         >
           <Text className=' text-lg text-center'>Tiếp tục mua sắm</Text>
         </Pressable>

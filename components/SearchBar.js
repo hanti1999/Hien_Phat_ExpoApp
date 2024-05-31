@@ -10,17 +10,17 @@ const SearchBar = () => {
 
   return (
     <View className='bg-primary-pink flex-row items-center'>
-      <Pressable
-        onPress={() => Alert.alert('Thông báo', 'Clicked')}
-        className='flex-row flex-1 items-center bg-white h-10 rounded-md ml-4 my-2.5'
+      <View
+        style={{ gap: 10 }}
+        className='px-2.5 flex-row flex-1 items-center bg-white h-10 rounded-md ml-4 my-2.5'
       >
-        <Ionicons style={{ paddingHorizontal: 10 }} name='search' size={24} />
+        <Ionicons name='search' size={24} />
         <TextInput
           className='text-base flex-1'
           placeholder='Khách iu tìm gì nè? '
         />
         <Image className='w-10 h-10' source={require('../assets/tulip.png')} />
-      </Pressable>
+      </View>
       <Pressable
         className='relative px-2.5'
         onPress={() => navigation.navigate('Cart')}

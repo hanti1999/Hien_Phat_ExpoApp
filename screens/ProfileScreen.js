@@ -39,7 +39,6 @@ const ProfileScreen = () => {
       const decodeToken = jwtDecode(token);
       const uId = decodeToken.userId;
       setUserId(uId);
-      setLoading(false);
     };
 
     fetchUser();
@@ -64,9 +63,8 @@ const ProfileScreen = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/orders/${userId}`);
-        const orders = response.data.orders;
+        const orders = response.data?.orders;
         setOrders(orders);
-        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -88,20 +86,19 @@ const ProfileScreen = () => {
 
   if (loading) {
     return (
-      <View
-        style={{ gap: 6 }}
+      <SafeAreaView
+        style={{ gap: 10 }}
         className='bg-white py-2 flex-row justify-center items-center'
       >
         <Text>Đang tải</Text>
         <ActivityIndicator color={'#fff'} />
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView>
       <StatusBar />
-
       <View>
         <ScreenHeader text={'Tài khoản'} />
         <View
@@ -119,12 +116,23 @@ const ProfileScreen = () => {
 
         <View className='p-2 mt-2 bg-white'>
           <Pressable
-            onPress={() => Alert.alert('clicked')}
+            onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 6 }} className='flex-row items-center'>
+            <View style={{ gap: 10 }} className='flex-row items-center'>
               <AntDesign name='user' size={24} color='black' />
               <Text className='text-base'>Thông tin cá nhân</Text>
+            </View>
+            <AntDesign name='right' size={16} color='black' />
+          </Pressable>
+
+          <Pressable
+            onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
+            className='flex-row items-center justify-between py-3'
+          >
+            <View style={{ gap: 10 }} className='flex-row items-center'>
+              <FontAwesome name='list-alt' size={24} color='black' />
+              <Text className='text-base'>Đơn hàng của bạn</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
           </Pressable>
@@ -135,7 +143,7 @@ const ProfileScreen = () => {
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 6 }} className='flex-row items-center'>
+            <View style={{ gap: 10 }} className='flex-row items-center'>
               <FontAwesome name='building-o' size={24} color='black' />
               <Text className='text-base'>Thông tin công ty</Text>
             </View>
@@ -146,7 +154,7 @@ const ProfileScreen = () => {
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 6 }} className='flex-row items-center'>
+            <View style={{ gap: 10 }} className='flex-row items-center'>
               <FontAwesome name='file-text-o' size={24} color='black' />
               <Text className='text-base'>Điều khoản và chính sách</Text>
             </View>
@@ -154,7 +162,7 @@ const ProfileScreen = () => {
           </Pressable>
 
           <OpenURLButton url='https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'>
-            <View style={{ gap: 6 }} className='flex-row items-center'>
+            <View style={{ gap: 10 }} className='flex-row items-center'>
               <Foundation name='map' size={24} color='black' />
               <Text className='text-base'>Tìm cửa hàng</Text>
             </View>
@@ -166,7 +174,7 @@ const ProfileScreen = () => {
           <Pressable onPress={() => handleLogout()}>
             <View
               className='flex-row items-center justify-center py-3'
-              style={{ gap: 6 }}
+              style={{ gap: 10 }}
             >
               <Ionicons name='log-out-outline' size={26} color='red' />
               <Text className='text-red-500 font-semibold text-lg'>
@@ -178,7 +186,7 @@ const ProfileScreen = () => {
 
         <View className='px-2 py-4'>
           <Text className='text-center text-gray-500'>
-            Gas Hiền Phát - v{'1.0'}
+            Gas Hiền Phát - v{'1.0.0'}
           </Text>
         </View>
       </View>

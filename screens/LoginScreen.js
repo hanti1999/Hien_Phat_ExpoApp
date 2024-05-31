@@ -76,6 +76,8 @@ const LoginScreen = () => {
         const token = res.data.token;
         AsyncStorage.setItem('authToken', token);
         setLoaing(false);
+        setLoginInfo('');
+        setPassword('');
         navigation.replace('Main');
       } catch (error) {
         Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
