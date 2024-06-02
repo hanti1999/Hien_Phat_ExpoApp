@@ -227,6 +227,23 @@ app.get('/orders/:userId', async (req, res) => {
 
     res.status(200).json({ orders });
   } catch (error) {
-    res.status(500).json({ message: 'Error' });
+    res.status(500).json({ message: error });
+  }
+});
+
+// tích điểm
+app.put('/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+
+    await User.findByIdAndUpdate(userId, {
+      points: (points += req.body.points),
+    });
+
+    res.status(200).json({ user });
+    console.log(user.points);
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
 });

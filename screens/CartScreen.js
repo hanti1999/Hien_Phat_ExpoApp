@@ -29,6 +29,7 @@ const CartScreen = () => {
     <SafeAreaView
       style={{
         paddingTop: Platform.OS == 'android' ? 0 : 0,
+        backgroundColor: '#fff',
         flex: 1,
       }}
     >

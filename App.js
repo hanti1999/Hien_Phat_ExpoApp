@@ -13,7 +13,7 @@ export default function App() {
           <StackNavigator />
           <View style={styles.floatButtonContainer}>
             <OpenURLButton phoneNumber='0975841582'>
-              <AntDesign name='phone' size={30} color='white' />
+              <AntDesign name='phone' size={26} color='white' />
             </OpenURLButton>
           </View>
         </UserContext>
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: Platform.OS == 'android' ? 82 : 100,
     right: 8,
-    width: 56,
-    height: 56,
+    width: 50,
+    height: 50,
     borderRadius: 9999,
     backgroundColor: 'rgba( 255, 0, 0, 0.6)',
   },

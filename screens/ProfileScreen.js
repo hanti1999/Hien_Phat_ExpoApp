@@ -6,6 +6,7 @@ import {
   Pressable,
   Alert,
   Linking,
+  Modal,
   ActivityIndicator,
 } from 'react-native';
 import {
@@ -28,8 +29,9 @@ import { clearCart } from '../redux/slices/CartReducer';
 const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [currentUser, setCurrentUser] = useState();
-  const [orders, setOrders] = useState([]);
+  // const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -59,19 +61,19 @@ const ProfileScreen = () => {
     fetchUserProfile();
   }, []);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/orders/${userId}`);
-        const orders = response.data?.orders;
-        setOrders(orders);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchOrders = async () => {
+  //     try {
+  //       const response = await axios.get(`${BASE_URL}/orders/${userId}`);
+  //       const orders = response.data?.orders;
+  //       setOrders(orders);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    fetchOrders();
-  }, []);
+  //   fetchOrders();
+  // }, []);
 
   const handleLogout = () => {
     clearAuthToken();
@@ -88,18 +90,23 @@ const ProfileScreen = () => {
     return (
       <SafeAreaView
         style={{ gap: 10 }}
-        className='bg-white py-2 flex-row justify-center items-center'
+        className='bg-white py-2 h-full flex-row justify-center items-center'
       >
-        <Text>Đang tải</Text>
-        <ActivityIndicator color={'#fff'} />
+        <Text>Đang tải...</Text>
+        <ActivityIndicator color={'#000'} />
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        backgroundColor: '#fff',
+        flex: 1,
+      }}
+    >
       <StatusBar />
-      <View>
+      <View className='bg-gray-100 flex-1'>
         <ScreenHeader text={'Tài khoản'} />
         <View
           style={{ gap: 12 }}
@@ -171,7 +178,38 @@ const ProfileScreen = () => {
         </View>
 
         <View className='p-2 bg-white mt-2'>
-          <Pressable onPress={() => handleLogout()}>
+          <Modal
+            animationType='fade'
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View
+              style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
+              className='flex-1 items-center justify-center'
+            >
+              <View className=' p-2 rounded-lg bg-white shadow-lg'>
+                <Text className='text-center my-4'>Bạn muốn đăng xuất?</Text>
+                <View style={{ gap: 4 }} className='flex-row items-center'>
+                  <Pressable
+                    className='rounded w-32 h-10 justify-center border-primary-pink border'
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <Text className='text-center'>Hủy</Text>
+                  </Pressable>
+                  <Pressable
+                    className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
+                    onPress={() => handleLogout()}
+                  >
+                    <Text className='text-center text-white'>Đồng ý</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Pressable onPress={() => setModalVisible(!modalVisible)}>
             <View
               className='flex-row items-center justify-center py-3'
               style={{ gap: 10 }}
