@@ -1,57 +1,91 @@
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
-import React, { useEffect } from 'react';
+import {
+  Text,
+  SafeAreaView,
+  View,
+  Pressable,
+  Image,
+  ScrollView,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import axios from 'axios';
+import ScreenHeader from '../components/ScreenHeader';
+import { BASE_URL } from '../config';
+import Loading from '../components/Loading';
 
-const OrderScreen = () => {
-  const navigation = useNavigation();
+const OrderScreen = ({ route, navigation }) => {
+  const { userId } = route?.params;
+  const [loading, setLoading] = useState(true);
+  const [orders, setOrders] = useState([]);
+
   useEffect(() => {
-    setTimeout(() => {
-      navigation.replace('Main');
-    }, 3000);
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/orders/${userId}`);
+        const orders = response.data?.orders;
+        setOrders(orders);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
+    };
+
+    fetchOrders();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (orders.length === 0) {
+    return (
+      <SafeAreaView className='bg-white h-full'>
+        <ScreenHeader text='Lịch sử đơn hàng' />
+        <View className='flex items-center h-full bg-gray-100 px-2'>
+          <Image
+            style={{ maxWidth: 400, maxHeight: 400 }}
+            source={require('../assets/cart.png')}
+          />
+          <Text className='text-[#ff725e] text-xs'>
+            Image by storyset on Freepik
+          </Text>
+
+          <Text className='font-semibold text-lg my-10'>Bạn chưa đặt gì!</Text>
+          <Pressable
+            onPress={() => navigation.navigate('Home')}
+            className='py-3 w-full bg-primary-pink rounded-lg'
+          >
+            <Text className='text-white text-lg text-center'>
+              Tiếp tục mua hàng
+            </Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
-      <LottieView
-        source={require('../assets/thumbs.json')}
-        style={{
-          height: 260,
-          width: 300,
-          alignSelf: 'center',
-          marginTop: 40,
-          justifyContent: 'center',
-        }}
-        autoPlay
-        loop={false}
-        speed={0.7}
-      />
-      <Text
-        style={{
-          marginTop: 20,
-          fontSize: 19,
-          fontWeight: '600',
-          textAlign: 'center',
-        }}
-      >
-        Cảm ơn bạn đã đặt hàng!
-      </Text>
-      <LottieView
-        source={require('../assets/sparkle.json')}
-        style={{
-          height: 300,
-          position: 'absolute',
-          top: 100,
-          width: 300,
-          alignSelf: 'center',
-        }}
-        autoPlay
-        loop={false}
-        speed={0.7}
-      />
+      <ScreenHeader text='Lịch sử đơn hàng' />
+      <ScrollView className='bg-gray-100'>
+        {orders.map((o, i) => (
+          <View key={i} className='p-2 bg-white'>
+            <Text>Mã đơn hàng: {o._id}</Text>
+            <Text>Sản phẩm:</Text>
+            {o.products.map((p, index) => (
+              <Text style={{ marginLeft: 8 }} key={index}>
+                - {p.name}
+              </Text>
+            ))}
+            <Text>
+              Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm:ss')}
+            </Text>
+          </View>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default OrderScreen;
-
-const styles = StyleSheet.create({});

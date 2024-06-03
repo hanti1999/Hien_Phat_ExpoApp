@@ -117,7 +117,7 @@ const ItemInCart = ({ navigation }) => {
 
       const response = await axios.post(`${BASE_URL}/orders`, orderData);
       if (response.status === 200) {
-        navigation.navigate('Order');
+        navigation.navigate('Thanks');
         dispatch(clearCart());
         console.log('Tạo đơn hàng thành công');
       } else {

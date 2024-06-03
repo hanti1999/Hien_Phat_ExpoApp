@@ -21,15 +21,15 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import { clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 import { BASE_URL, P_PINK } from '../config';
+import Loading from '../components/Loading';
 import { UserType } from '../userContext';
-import { clearCart } from '../redux/slices/CartReducer';
 
 const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [currentUser, setCurrentUser] = useState();
-  // const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -44,7 +44,7 @@ const ProfileScreen = () => {
     };
 
     fetchUser();
-  });
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -54,26 +54,13 @@ const ProfileScreen = () => {
         setCurrentUser(user);
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     };
 
     fetchUserProfile();
   }, []);
-
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       const response = await axios.get(`${BASE_URL}/orders/${userId}`);
-  //       const orders = response.data?.orders;
-  //       setOrders(orders);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   fetchOrders();
-  // }, []);
 
   const handleLogout = () => {
     clearAuthToken();
@@ -87,15 +74,7 @@ const ProfileScreen = () => {
   };
 
   if (loading) {
-    return (
-      <SafeAreaView
-        style={{ gap: 10 }}
-        className='bg-white py-2 h-full flex-row justify-center items-center'
-      >
-        <Text>Đang tải...</Text>
-        <ActivityIndicator color={'#000'} />
-      </SafeAreaView>
-    );
+    return <Loading />;
   }
 
   return (
@@ -134,7 +113,11 @@ const ProfileScreen = () => {
           </Pressable>
 
           <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
+            onPress={() =>
+              navigation.navigate('Order', {
+                userId: userId,
+              })
+            }
             className='flex-row items-center justify-between py-3'
           >
             <View style={{ gap: 10 }} className='flex-row items-center'>
@@ -146,7 +129,7 @@ const ProfileScreen = () => {
         </View>
 
         <View className='p-2 mt-2 bg-white'>
-          <Pressable
+          {/* <Pressable
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
@@ -166,7 +149,7 @@ const ProfileScreen = () => {
               <Text className='text-base'>Điều khoản và chính sách</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
-          </Pressable>
+          </Pressable> */}
 
           <OpenURLButton url='https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'>
             <View style={{ gap: 10 }} className='flex-row items-center'>

@@ -12,6 +12,7 @@ import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderScreen from '../screens/OrderScreen';
+import ThanksScreen from '../screens/ThanksScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -127,6 +128,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name='Order'
           component={OrderScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Thanks'
+          component={ThanksScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
