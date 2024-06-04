@@ -164,6 +164,7 @@ app.post('/orders', async (req, res) => {
       totalPrice,
       shippingAddress,
       paymentMethod,
+      cartPoints,
     } = req.body;
 
     const user = await User.findById(userId);
@@ -171,14 +172,17 @@ app.post('/orders', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    //create an array of product objects from the cart Items
+    // tích điểm
+    user.points += cartPoints;
+
+    // Tạo mảng chứ object sản phẩm
     const products = cartItems.map((item) => ({
       name: item?.title,
       quantity: item.quantity,
       price: item.price,
     }));
 
-    //create a new Order
+    // Tạo một Order mới
     const order = new Order({
       user: userId,
       name: name,
@@ -191,6 +195,7 @@ app.post('/orders', async (req, res) => {
     });
 
     await order.save();
+    await user.save();
 
     res.status(200).json({ message: 'Order created successfully!' });
   } catch (error) {
@@ -232,18 +237,18 @@ app.get('/orders/:userId', async (req, res) => {
 });
 
 // tích điểm
-app.put('/user/:userId', async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const user = await User.findById(userId);
+// app.put('/user/:userId', async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
+//     const user = await User.findById(userId);
 
-    await User.findByIdAndUpdate(userId, {
-      points: (points += req.body.points),
-    });
+//     await User.findByIdAndUpdate(userId, {
+//       $set: { points: req.body.points },
+//     });
 
-    res.status(200).json({ user });
-    console.log(user.points);
-  } catch (error) {
-    res.status(500).json({ message: error });
-  }
-});
+//     res.status(200).json({ user });
+//     console.log(user.points);
+//   } catch (error) {
+//     res.status(500).json({ message: error });
+//   }
+// });

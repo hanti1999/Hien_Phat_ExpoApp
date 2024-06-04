@@ -55,7 +55,7 @@ const ProfileScreen = () => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.log(error);
+        console.log('Lỗi: ', error);
       }
     };
 
@@ -96,12 +96,15 @@ const ProfileScreen = () => {
           </View>
           <View>
             <Text className='text-xl font-semibold'>{currentUser?.name}</Text>
+            <Text className='font-semibold'>
+              {currentUser?.points.toLocaleString()} điểm
+            </Text>
             <Text className='text-gray-500'>{currentUser?.loginInfo}</Text>
           </View>
         </View>
 
         <View className='p-2 mt-2 bg-white'>
-          <Pressable
+          {/* <Pressable
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
@@ -110,7 +113,7 @@ const ProfileScreen = () => {
               <Text className='text-base'>Thông tin cá nhân</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
-          </Pressable>
+          </Pressable> */}
 
           <Pressable
             onPress={() =>

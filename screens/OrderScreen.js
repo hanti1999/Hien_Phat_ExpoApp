@@ -5,6 +5,7 @@ import {
   Pressable,
   Image,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -70,17 +71,37 @@ const OrderScreen = ({ route, navigation }) => {
       <ScreenHeader text='Lịch sử đơn hàng' />
       <ScrollView className='bg-gray-100'>
         {orders.map((o, i) => (
-          <View key={i} className='p-2 bg-white'>
+          <View key={i} className='p-2 mb-2 bg-white'>
             <Text>Mã đơn hàng: {o._id}</Text>
-            <Text>Sản phẩm:</Text>
+            <Text>Sản phẩm ({o.products.length}):</Text>
             {o.products.map((p, index) => (
-              <Text style={{ marginLeft: 8 }} key={index}>
-                - {p.name}
+              <Text style={{ marginLeft: 10 }} key={index}>
+                {p.quantity} x {p.name}
               </Text>
             ))}
             <Text>
-              Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm:ss')}
+              Trạng thái:{' '}
+              <Text className='font-bold text-blue-500'>{o?.status}</Text>
             </Text>
+            <Text>
+              Tổng:{' '}
+              <Text className='font-bold text-blue-500'>
+                {o?.totalPrice.toLocaleString()}
+              </Text>
+            </Text>
+            <Text>
+              Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
+            </Text>
+            <Pressable
+              className='border border-red-500 rounded-lg py-1 mt-1 w-32'
+              onPress={() =>
+                Alert.alert('Thông báo', 'Tính năng đang phát triển')
+              }
+            >
+              <Text className='text-red-500 font-semibold text-center'>
+                Hủy đơn hàng
+              </Text>
+            </Pressable>
           </View>
         ))}
       </ScrollView>

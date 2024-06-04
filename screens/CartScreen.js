@@ -81,6 +81,7 @@ const ItemInCart = ({ navigation }) => {
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const { userId, setUserId } = useContext(UserType);
   const phoneRef = useRef(null);
+  let cartPoints = (cartAmount * 1) / 100;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -113,6 +114,7 @@ const ItemInCart = ({ navigation }) => {
         totalPrice: cartAmount,
         shippingAddress: address,
         paymentMethod: paymentMethod,
+        cartPoints: cartPoints,
       };
 
       const response = await axios.post(`${BASE_URL}/orders`, orderData);
