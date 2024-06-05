@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   Alert,
+  Modal,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -16,6 +17,7 @@ import Loading from '../components/Loading';
 
 const OrderScreen = ({ route, navigation }) => {
   const { userId } = route?.params;
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
 
@@ -28,12 +30,23 @@ const OrderScreen = ({ route, navigation }) => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        console.log(error);
+        console.log('Đơn hàng trống!', error);
       }
     };
 
     fetchOrders();
   }, []);
+
+  // const handleDeleteOrder = async (id) => {
+  //   try {
+  //     const res = await axios.delete(`${BASE_URL}/orders/${id}`);
+  //     const result = res.data.message;
+  //     console.log(result);
+  //     setModalVisible(!modalVisible);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   if (loading) {
     return <Loading />;
@@ -92,20 +105,70 @@ const OrderScreen = ({ route, navigation }) => {
             <Text>
               Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
             </Text>
-            <Pressable
-              className='border border-red-500 rounded-lg py-1 mt-1 w-32'
-              onPress={() =>
-                Alert.alert('Thông báo', 'Tính năng đang phát triển')
-              }
-            >
-              <Text className='text-red-500 font-semibold text-center'>
-                Hủy đơn hàng
-              </Text>
-            </Pressable>
+            <DeleteOrder id={o._id} />
           </View>
         ))}
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const DeleteOrder = ({ id }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleDeleteOrder = async () => {
+    try {
+      const res = await axios.delete(`${BASE_URL}/orders/${id}`);
+      const result = res.data.message;
+      console.log(result);
+      setModalVisible(!modalVisible);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (
+    <>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
+          className='flex-1 items-center justify-center'
+        >
+          <View className=' p-2 rounded-lg bg-white shadow-lg'>
+            <Text className='text-center my-4'>Bạn muốn hủy đơn?</Text>
+            <View style={{ gap: 4 }} className='flex-row items-center'>
+              <Pressable
+                className='rounded w-32 h-10 justify-center border-primary-pink border'
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text className='text-center'>Không</Text>
+              </Pressable>
+              <Pressable
+                className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
+                onPress={() => handleDeleteOrder()}
+              >
+                <Text className='text-center text-white'>Đồng ý</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Pressable
+        className='border border-red-500 rounded-lg py-1 mt-1 w-32'
+        onPress={() => setModalVisible(!modalVisible)}
+      >
+        <Text className='text-red-500 font-semibold text-center'>
+          Hủy đơn hàng
+        </Text>
+      </Pressable>
+    </>
   );
 };
 

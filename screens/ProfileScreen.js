@@ -31,7 +31,7 @@ const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -53,25 +53,15 @@ const ProfileScreen = () => {
         const user = res.data.user;
         setCurrentUser(user);
         setLoading(false);
+        setIsError(false);
       } catch (error) {
-        setLoading(false);
+        setIsError(true);
         console.log('Lỗi: ', error);
       }
     };
 
     fetchUserProfile();
-  }, []);
-
-  const handleLogout = () => {
-    clearAuthToken();
-    dispatch(clearCart());
-  };
-
-  const clearAuthToken = async () => {
-    await AsyncStorage.removeItem('authToken');
-    console.log('auth token cleared');
-    navigation.replace('Login');
-  };
+  }, [isError === true]);
 
   if (loading) {
     return <Loading />;
@@ -97,7 +87,7 @@ const ProfileScreen = () => {
           <View>
             <Text className='text-xl font-semibold'>{currentUser?.name}</Text>
             <Text className='font-semibold'>
-              {currentUser?.points.toLocaleString()} điểm
+              {currentUser?.points?.toLocaleString()} điểm
             </Text>
             <Text className='text-gray-500'>{currentUser?.loginInfo}</Text>
           </View>
@@ -164,48 +154,7 @@ const ProfileScreen = () => {
         </View>
 
         <View className='p-2 bg-white mt-2'>
-          <Modal
-            animationType='fade'
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View
-              style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
-              className='flex-1 items-center justify-center'
-            >
-              <View className=' p-2 rounded-lg bg-white shadow-lg'>
-                <Text className='text-center my-4'>Bạn muốn đăng xuất?</Text>
-                <View style={{ gap: 4 }} className='flex-row items-center'>
-                  <Pressable
-                    className='rounded w-32 h-10 justify-center border-primary-pink border'
-                    onPress={() => setModalVisible(!modalVisible)}
-                  >
-                    <Text className='text-center'>Hủy</Text>
-                  </Pressable>
-                  <Pressable
-                    className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
-                    onPress={() => handleLogout()}
-                  >
-                    <Text className='text-center text-white'>Đồng ý</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <View
-              className='flex-row items-center justify-center py-3'
-              style={{ gap: 10 }}
-            >
-              <Ionicons name='log-out-outline' size={26} color='red' />
-              <Text className='text-red-500 font-semibold text-lg'>
-                Đăng xuất
-              </Text>
-            </View>
-          </Pressable>
+          <LogoutButton />
         </View>
 
         <View className='px-2 py-4'>
@@ -235,6 +184,68 @@ const OpenURLButton = ({ url, children }) => {
     >
       {children}
     </Pressable>
+  );
+};
+
+const LogoutButton = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleLogout = () => {
+    clearAuthToken();
+    dispatch(clearCart());
+  };
+
+  const clearAuthToken = async () => {
+    await AsyncStorage.removeItem('authToken');
+    console.log('auth token cleared');
+    navigation.replace('Login');
+  };
+
+  return (
+    <>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
+          className='flex-1 items-center justify-center'
+        >
+          <View className=' p-2 rounded-lg bg-white shadow-lg'>
+            <Text className='text-center my-4'>Bạn muốn đăng xuất?</Text>
+            <View style={{ gap: 4 }} className='flex-row items-center'>
+              <Pressable
+                className='rounded w-32 h-10 justify-center border-primary-pink border'
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text className='text-center'>Hủy</Text>
+              </Pressable>
+              <Pressable
+                className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
+                onPress={() => handleLogout()}
+              >
+                <Text className='text-center text-white'>Đồng ý</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Pressable onPress={() => setModalVisible(!modalVisible)}>
+        <View
+          className='flex-row items-center justify-center py-3'
+          style={{ gap: 10 }}
+        >
+          <Ionicons name='log-out-outline' size={26} color='red' />
+          <Text className='text-red-500 font-semibold text-lg'>Đăng xuất</Text>
+        </View>
+      </Pressable>
+    </>
   );
 };
 

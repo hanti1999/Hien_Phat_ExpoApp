@@ -236,7 +236,20 @@ app.get('/orders/:userId', async (req, res) => {
   }
 });
 
-// tích điểm
+app.delete('/orders/:orderId', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+
+    await Order.findByIdAndDelete(orderId);
+
+    console.log('Xóa thành công');
+    res.status(200).json({ message: 'Xóa thành công' });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+// tích điểm (đã tích hợp cùng nút đặt hàng)
 // app.put('/user/:userId', async (req, res) => {
 //   try {
 //     const userId = req.params.userId;
