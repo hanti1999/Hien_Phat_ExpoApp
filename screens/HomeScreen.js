@@ -27,20 +27,20 @@ import {
 } from '../assets/data/productData';
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get('https://fakestoreapi.com/products');
-        setProducts(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get('https://fakestoreapi.com/products');
+  //       setProducts(res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    // fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <SafeAreaView

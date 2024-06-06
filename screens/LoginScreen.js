@@ -81,7 +81,7 @@ const LoginScreen = () => {
         navigation.replace('Main');
       } catch (error) {
         Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
-        console.log(error);
+        console.log('Lỗi! (LoginScreen): ', error);
       }
     };
     postUser();

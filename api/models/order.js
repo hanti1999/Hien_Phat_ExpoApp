@@ -43,9 +43,13 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  points: {
+    type: Number,
+    default: 0,
+  },
   status: {
     type: String,
-    default: 'active',
+    default: 'Chờ xác nhận',
   },
   createAt: {
     type: Date,

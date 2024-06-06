@@ -192,6 +192,7 @@ app.post('/orders', async (req, res) => {
       totalPrice: totalPrice,
       shippingAddress: shippingAddress,
       paymentMethod: paymentMethod,
+      points: cartPoints,
     });
 
     await order.save();
@@ -236,14 +237,21 @@ app.get('/orders/:userId', async (req, res) => {
   }
 });
 
-app.delete('/orders/:orderId', async (req, res) => {
+// Hủy đơn hàng
+app.post('/orders/:orderId', async (req, res) => {
   try {
     const orderId = req.params.orderId;
+    const { newStatus, userId } = req.body;
 
-    await Order.findByIdAndDelete(orderId);
+    // cập nhật trạng thái đơn hàng
+    const order = await Order.findById(orderId);
+    order.status = newStatus;
+    await order.save();
+    const user = await User.findById(userId);
+    user.points -= order.points;
+    await user.save();
 
-    console.log('Xóa thành công');
-    res.status(200).json({ message: 'Xóa thành công' });
+    res.status(200).json({ message: 'Hủy thành công' });
   } catch (error) {
     res.status(500).json({ message: error });
   }

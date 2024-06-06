@@ -33,14 +33,17 @@ const ProfileScreen = () => {
   const [loading, setLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = await AsyncStorage.getItem('authToken');
-      const decodeToken = jwtDecode(token);
-      const uId = decodeToken.userId;
-      setUserId(uId);
+      try {
+        const token = await AsyncStorage.getItem('authToken');
+        const decodeToken = jwtDecode(token);
+        const uId = decodeToken.userId;
+        setUserId(uId);
+      } catch (error) {
+        console.log('Lỗi (catch ProfileScreen): ', error);
+      }
     };
 
     fetchUser();
@@ -56,12 +59,12 @@ const ProfileScreen = () => {
         setIsError(false);
       } catch (error) {
         setIsError(true);
-        console.log('Lỗi: ', error);
+        console.log('Lỗi (catch ProfileScreen): ', error);
       }
     };
 
     fetchUserProfile();
-  }, [isError === true]);
+  }, [currentUser || isError]);
 
   if (loading) {
     return <Loading />;
@@ -94,7 +97,7 @@ const ProfileScreen = () => {
         </View>
 
         <View className='p-2 mt-2 bg-white'>
-          {/* <Pressable
+          <Pressable
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
@@ -103,7 +106,7 @@ const ProfileScreen = () => {
               <Text className='text-base'>Thông tin cá nhân</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
-          </Pressable> */}
+          </Pressable>
 
           <Pressable
             onPress={() =>
@@ -122,7 +125,7 @@ const ProfileScreen = () => {
         </View>
 
         <View className='p-2 mt-2 bg-white'>
-          {/* <Pressable
+          <Pressable
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
@@ -142,7 +145,7 @@ const ProfileScreen = () => {
               <Text className='text-base'>Điều khoản và chính sách</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
-          </Pressable> */}
+          </Pressable>
 
           <OpenURLButton url='https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'>
             <View style={{ gap: 10 }} className='flex-row items-center'>

@@ -4,17 +4,14 @@ import {
   View,
   Platform,
   StatusBar,
-  Pressable,
   ScrollView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import React from 'react';
 import { notification } from '../assets/data/notification';
 import ScreenHeader from '../components/ScreenHeader';
 
 const NotificationScreen = () => {
-  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{

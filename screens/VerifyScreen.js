@@ -35,7 +35,7 @@ const VerifyScreen = ({ navigation, route }) => {
         navigation.navigate('Login');
       } catch (error) {
         Alert.alert('Lỗi', 'Đăng ký không thành công!');
-        console.log(error);
+        console.log('Lỗi (VerifyScreen): ', error);
       }
     };
     postRegister();

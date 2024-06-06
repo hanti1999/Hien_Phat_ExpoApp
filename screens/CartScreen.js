@@ -126,7 +126,7 @@ const ItemInCart = ({ navigation }) => {
         console.log('Tạo đơn hàng không thành công');
       }
     } catch (error) {
-      console.log(error);
+      console.log('Lỗi (CartScreen): ', error);
     }
   };
 

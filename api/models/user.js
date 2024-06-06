@@ -21,7 +21,10 @@ const userSchema = new mongoose.Schema({
       ref: 'Order',
     },
   ],
-  points: Number,
+  points: {
+    type: Number,
+    default: 0,
+  },
   createAt: {
     type: Date,
     default: Date.now,

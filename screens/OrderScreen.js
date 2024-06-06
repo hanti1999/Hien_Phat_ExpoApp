@@ -17,7 +17,6 @@ import Loading from '../components/Loading';
 
 const OrderScreen = ({ route, navigation }) => {
   const { userId } = route?.params;
-  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
 
@@ -35,18 +34,7 @@ const OrderScreen = ({ route, navigation }) => {
     };
 
     fetchOrders();
-  }, []);
-
-  // const handleDeleteOrder = async (id) => {
-  //   try {
-  //     const res = await axios.delete(`${BASE_URL}/orders/${id}`);
-  //     const result = res.data.message;
-  //     console.log(result);
-  //     setModalVisible(!modalVisible);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  }, [orders]);
 
   if (loading) {
     return <Loading />;
@@ -94,7 +82,14 @@ const OrderScreen = ({ route, navigation }) => {
             ))}
             <Text>
               Trạng thái:{' '}
-              <Text className='font-bold text-blue-500'>{o?.status}</Text>
+              <Text
+                style={{
+                  color: o?.status != 'Đã hủy' ? '#3b82f6' : '#fc0303',
+                  fontWeight: 700,
+                }}
+              >
+                {o?.status}
+              </Text>
             </Text>
             <Text>
               Tổng:{' '}
@@ -103,9 +98,19 @@ const OrderScreen = ({ route, navigation }) => {
               </Text>
             </Text>
             <Text>
+              Điểm tích được:{' '}
+              <Text className='font-bold text-blue-500'>
+                {o?.points.toLocaleString()}
+              </Text>
+            </Text>
+            <Text>
               Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
             </Text>
-            <DeleteOrder id={o._id} />
+            {o.status != 'Đã hủy' ? (
+              <UpdateOrderButton id={o._id} userId={userId} />
+            ) : (
+              ''
+            )}
           </View>
         ))}
       </ScrollView>
@@ -113,17 +118,20 @@ const OrderScreen = ({ route, navigation }) => {
   );
 };
 
-const DeleteOrder = ({ id }) => {
+const UpdateOrderButton = ({ id, userId }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const handleDeleteOrder = async () => {
+  const handleUpdateOrder = async () => {
     try {
-      const res = await axios.delete(`${BASE_URL}/orders/${id}`);
+      const res = await axios.post(`${BASE_URL}/orders/${id}`, {
+        newStatus: 'Đã hủy',
+        userId: userId,
+      });
       const result = res.data.message;
       console.log(result);
       setModalVisible(!modalVisible);
     } catch (error) {
-      console.log(error);
+      console.log('Lỗi (OrderScreen):', error);
     }
   };
 
@@ -152,7 +160,7 @@ const DeleteOrder = ({ id }) => {
               </Pressable>
               <Pressable
                 className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
-                onPress={() => handleDeleteOrder()}
+                onPress={() => handleUpdateOrder()}
               >
                 <Text className='text-center text-white'>Đồng ý</Text>
               </Pressable>
