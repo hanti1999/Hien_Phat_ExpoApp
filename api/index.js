@@ -33,6 +33,7 @@ app.listen(port, () => {
 
 const User = require('./models/user');
 const Order = require('./models/order');
+const Notification = require('./models/notification');
 
 // Đăng ký tài khoản
 app.post('/register', async (req, res) => {
@@ -175,7 +176,7 @@ app.post('/orders', async (req, res) => {
     // tích điểm
     user.points += cartPoints;
 
-    // Tạo mảng chứ object sản phẩm
+    // Tạo mảng chứa object sản phẩm
     const products = cartItems.map((item) => ({
       name: item?.title,
       quantity: item.quantity,
@@ -243,7 +244,6 @@ app.post('/orders/:orderId', async (req, res) => {
     const orderId = req.params.orderId;
     const { newStatus, userId } = req.body;
 
-    // cập nhật trạng thái đơn hàng
     const order = await Order.findById(orderId);
     order.status = newStatus;
     await order.save();
@@ -257,19 +257,30 @@ app.post('/orders/:orderId', async (req, res) => {
   }
 });
 
-// tích điểm (đã tích hợp cùng nút đặt hàng)
-// app.put('/user/:userId', async (req, res) => {
-//   try {
-//     const userId = req.params.userId;
-//     const user = await User.findById(userId);
+// Tạo thông báo
+app.post('/notification/create', async (req, res) => {
+  try {
+    const { title, content, image } = req?.body;
 
-//     await User.findByIdAndUpdate(userId, {
-//       $set: { points: req.body.points },
-//     });
+    const noti = new Notification({
+      title: title,
+      content: content,
+      image: image,
+    });
 
-//     res.status(200).json({ user });
-//     console.log(user.points);
-//   } catch (error) {
-//     res.status(500).json({ message: error });
-//   }
-// });
+    res.status(200).json({ message: 'Tạo thông báo thành công!' });
+    await noti.save();
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+app.get('/notification', async (req, res) => {
+  try {
+    const notification = await Notification.find({});
+
+    res.status(200).json({ notification });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
