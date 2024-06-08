@@ -144,7 +144,12 @@ app.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { userId: user._id, address: user.address, name: user.name },
+      {
+        userId: user._id,
+        address: user.address,
+        name: user.name,
+        phoneNumber: user?.phoneNumber,
+      },
       secretKey
     );
 
@@ -220,6 +225,23 @@ app.get('/profile/:userId', async (req, res) => {
     res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving the user profile' });
+  }
+});
+
+// cập nhật thông tin khách hàng
+app.post('/profile/update', async (req, res) => {
+  try {
+    const { userId, name, phoneNumber, address } = req.body;
+
+    const user = await User.findByIdAndUpdate(userId, {
+      name: name,
+      phoneNumber: phoneNumber,
+      address: address,
+    });
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: 'Cập nhật hồ sơ thất bại!' });
   }
 });
 

@@ -25,6 +25,7 @@ import { UserType } from '../userContext';
 const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const navigation = useNavigation();
+
   return (
     <SafeAreaView
       style={{
@@ -60,9 +61,9 @@ const NoItemInCart = ({ navigation }) => {
       </Text>
       <Pressable
         onPress={() => navigation.navigate('Home')}
-        className='py-3 w-full bg-primary-pink rounded-xl'
+        className='py-4 w-full bg-primary-pink rounded-xl'
       >
-        <Text className='text-white text-lg text-center'>
+        <Text className='text-white text-[18px] text-center'>
           Tiếp tục mua hàng
         </Text>
       </Pressable>
@@ -224,17 +225,19 @@ const ItemInCart = ({ navigation }) => {
         <Pressable
           onPress={handlePlaceOrder}
           style={{ gap: 8 }}
-          className='py-3 w-full bg-primary-pink flex-row items-center justify-center rounded-xl '
+          className='h-[60px] w-full bg-primary-pink flex-row items-center justify-center rounded-xl '
         >
-          <Text className='text-white text-lg text-center'>Đặt hàng nào</Text>
+          <Text className='text-white text-[18px] text-center'>
+            Đặt hàng nào
+          </Text>
           <FontAwesome6 name='smile-wink' size={20} color='white' />
         </Pressable>
 
         <Pressable
           onPress={() => navigation.navigate('Home')}
-          className='py-3 w-full border-primary-pink border rounded-xl mt-2'
+          className='h-[60px] flex justify-center w-full border-primary-pink border rounded-xl mt-2'
         >
-          <Text className=' text-lg text-center'>Tiếp tục mua sắm</Text>
+          <Text className=' text-[18px] text-center'>Tiếp tục mua sắm</Text>
         </Pressable>
       </View>
     </ScrollView>

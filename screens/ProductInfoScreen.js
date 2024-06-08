@@ -90,20 +90,20 @@ const ProductInfoScreen = ({ route, navigation }) => {
 
       <View className='flex-row justify-evenly bg-white py-4'>
         <OpenURLButton url='https://zalo.me/0986359498'>
-          <Text className='text-[#0068ff] text-lg'>
+          <Text className='text-[#0068ff] text-[18px]'>
             Tư vấn
             <Text className='font-bold'> Zalo</Text>
           </Text>
         </OpenURLButton>
         <Pressable
           onPress={() => addItemToCart(item)}
-          className='bg-primary-pink rounded-lg flex-1 mx-2 items-center h-16 justify-center'
+          className='bg-primary-pink rounded-lg flex-1 mx-2 items-center h-[60px] justify-center'
           disabled={isLoading}
         >
           {isLoading ? (
             <ActivityIndicator color={'#fff'} />
           ) : (
-            <Text className='text-white text-lg '>Mua ngay</Text>
+            <Text className='text-white text-[18px] '>Mua ngay</Text>
           )}
         </Pressable>
       </View>
@@ -163,7 +163,7 @@ const OpenURLButton = ({ url, children }) => {
 
   return (
     <Pressable
-      className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-16 items-center justify-center'
+      className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-[60px] items-center justify-center'
       onPress={() => handlePress()}
     >
       {children}

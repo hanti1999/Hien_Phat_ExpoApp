@@ -73,7 +73,6 @@ const OrderScreen = ({ route, navigation }) => {
       <ScrollView className='bg-gray-100'>
         {orders.map((o, i) => (
           <View key={i} className='p-2 mb-2 bg-white '>
-            <Text className='text-[16px]'>Mã đơn hàng: {o._id}</Text>
             <Text className='text-[16px]'>Sản phẩm ({o.products.length}):</Text>
             {o.products.map((p, index) => (
               <Text style={{ marginLeft: 10, fontSize: 16 }} key={index}>
@@ -97,19 +96,21 @@ const OrderScreen = ({ route, navigation }) => {
                 {o?.totalPrice.toLocaleString()}
               </Text>
             </Text>
-            <Text className='text-[16px]'>
-              Điểm tích được:{' '}
-              <Text className='font-bold text-blue-500'>
-                {o?.points.toLocaleString()}
-              </Text>
-            </Text>
             <Text className='text-[16px] mt-2 text-gray-500'>
               Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
             </Text>
             {o.status != 'Đã hủy' ? (
-              <UpdateOrderButton id={o._id} userId={userId} />
+              <>
+                <Text className='text-[16px]'>
+                  Tích điểm:{' '}
+                  <Text className='font-bold text-blue-500'>
+                    {o?.points.toLocaleString()}
+                  </Text>
+                </Text>
+                <UpdateOrderButton id={o._id} userId={userId} />
+              </>
             ) : (
-              ''
+              <></>
             )}
           </View>
         ))}
