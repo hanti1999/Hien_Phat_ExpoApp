@@ -35,6 +35,7 @@ const EditProfileScreen = ({ route, navigation }) => {
         setLoading(false);
       } else {
         console.log('Cập nhật thông tin không thành công (EditProfileScreen)');
+        setLoading(false);
       }
     } catch (error) {
       setLoading(false);

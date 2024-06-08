@@ -9,6 +9,7 @@ import {
   StatusBar,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { Entypo, Ionicons, FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -80,6 +81,7 @@ const ItemInCart = ({ navigation }) => {
   const [name, setName] = useState('');
   const [note, setNote] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [loading, setLoading] = useState(false);
   const { userId, setUserId } = useContext(UserType);
   const phoneRef = useRef(null);
   let cartPoints = (cartAmount * 1) / 100;
@@ -88,11 +90,9 @@ const ItemInCart = ({ navigation }) => {
     const fetchUser = async () => {
       const token = await AsyncStorage.getItem('authToken');
       const decodeToken = jwtDecode(token);
-      const userId = decodeToken.userId;
       const userAddress = decodeToken?.address;
       const userName = decodeToken?.name;
       const userPhoneNumber = decodeToken?.phoneNumber;
-      setUserId(userId);
       setAddress(userAddress);
       setName(userName);
       setPhoneNumber(userPhoneNumber);
@@ -102,9 +102,11 @@ const ItemInCart = ({ navigation }) => {
   }, []);
 
   const handlePlaceOrder = async () => {
+    setLoading(true);
     if (phoneNumber === '') {
       Alert.alert('Thông báo', 'Vui lòng điền số điện thoại!');
       phoneRef.current.focus();
+      setLoading(false);
       return;
     }
     try {
@@ -124,11 +126,14 @@ const ItemInCart = ({ navigation }) => {
       if (response.status === 200) {
         navigation.navigate('Thanks');
         dispatch(clearCart());
+        setLoading(false);
         console.log('Tạo đơn hàng thành công');
       } else {
+        setLoading(false);
         console.log('Tạo đơn hàng không thành công');
       }
     } catch (error) {
+      setLoading(false);
       console.log('Lỗi (CartScreen): ', error);
     }
   };
@@ -225,12 +230,19 @@ const ItemInCart = ({ navigation }) => {
         <Pressable
           onPress={handlePlaceOrder}
           style={{ gap: 8 }}
+          disabled={loading}
           className='h-[60px] w-full bg-primary-pink flex-row items-center justify-center rounded-xl '
         >
-          <Text className='text-white text-[18px] text-center'>
-            Đặt hàng nào
-          </Text>
-          <FontAwesome6 name='smile-wink' size={20} color='white' />
+          {loading ? (
+            <ActivityIndicator color={'#fff'} />
+          ) : (
+            <>
+              <Text className='text-white text-[18px] text-center'>
+                Đặt hàng nào
+              </Text>
+              <FontAwesome6 name='smile-wink' size={20} color='white' />
+            </>
+          )}
         </Pressable>
 
         <Pressable

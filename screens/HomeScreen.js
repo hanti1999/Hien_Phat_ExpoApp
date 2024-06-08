@@ -9,8 +9,10 @@ import {
   Alert,
   StatusBar,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState, useContext } from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
-import React, { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import HorizontalCategory from '../components/HorizontalCategory';
 import ProductTitle from '../components/ProductTitle';
@@ -18,6 +20,7 @@ import ProductCard from '../components/ProductCard';
 import SeeMoreCard from '../components/SeeMoreCard';
 import SearchBar from '../components/SearchBar';
 import slider from '../assets/data/slider';
+import { UserType } from '../userContext';
 import {
   mayLocNuoc,
   mayHutMui,
@@ -27,20 +30,22 @@ import {
 } from '../assets/data/productData';
 
 const HomeScreen = () => {
-  // const [products, setProducts] = useState([]);
+  const { userId, setUserId } = useContext(UserType);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const res = await axios.get('https://fakestoreapi.com/products');
-  //       setProducts(res.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const token = await AsyncStorage.getItem('authToken');
+        const decodeToken = jwtDecode(token);
+        const uId = decodeToken.userId;
+        setUserId(uId);
+      } catch (error) {
+        console.log('Lỗi (catch HomeScreen - authToken): ', error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchUserId();
+  }, []);
 
   return (
     <SafeAreaView

@@ -19,7 +19,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
@@ -31,40 +30,27 @@ const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const token = await AsyncStorage.getItem('authToken');
-        const decodeToken = jwtDecode(token);
-        const uId = decodeToken.userId;
-        setUserId(uId);
-      } catch (error) {
-        console.log('Lỗi (catch ProfileScreen): ', error);
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/profile/${userId}`);
         const user = res.data.user;
-        setCurrentUser(user);
-        setLoading(false);
-        setIsError(false);
+        if (res.status === 200) {
+          setCurrentUser(user);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          console.log(res.data.message);
+        }
       } catch (error) {
-        setIsError(true);
         console.log('Lỗi (catch ProfileScreen): ', error);
       }
     };
 
     fetchUserProfile();
-  }, [currentUser || isError]);
+  }, [currentUser || userId]);
 
   if (loading) {
     return <Loading />;

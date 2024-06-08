@@ -96,9 +96,6 @@ const OrderScreen = ({ route, navigation }) => {
                 {o?.totalPrice.toLocaleString()}
               </Text>
             </Text>
-            <Text className='text-[16px] mt-2 text-gray-500'>
-              Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
-            </Text>
             {o.status != 'Đã hủy' ? (
               <>
                 <Text className='text-[16px]'>
@@ -112,6 +109,9 @@ const OrderScreen = ({ route, navigation }) => {
             ) : (
               <></>
             )}
+            <Text className='text-[16px] mt-2 text-gray-500'>
+              Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
+            </Text>
           </View>
         ))}
       </ScrollView>
@@ -156,13 +156,13 @@ const UpdateOrderButton = ({ id, userId }) => {
             </Text>
             <View style={{ gap: 4 }} className='flex-row items-center'>
               <Pressable
-                className='rounded w-32 h-10 justify-center border-primary-pink border'
+                className='rounded-xl w-32 h-10 justify-center border-primary-pink border'
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text className='text-center text-[16px]'>Không</Text>
               </Pressable>
               <Pressable
-                className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
+                className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
                 onPress={handleUpdateOrder}
               >
                 <Text className='text-center text-[16px] text-white'>
