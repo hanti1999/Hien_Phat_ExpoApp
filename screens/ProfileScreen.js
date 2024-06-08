@@ -98,12 +98,16 @@ const ProfileScreen = () => {
 
         <View className='p-2 mt-2 bg-white'>
           <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
+            onPress={() =>
+              navigation.navigate('EditProfile', {
+                currentUser: currentUser,
+              })
+            }
             className='flex-row items-center justify-between py-3'
           >
             <View style={{ gap: 10 }} className='flex-row items-center'>
               <AntDesign name='user' size={24} color='black' />
-              <Text className='text-base'>Thông tin cá nhân</Text>
+              <Text className='text-base'>Sửa thông tin cá nhân</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
           </Pressable>
@@ -182,7 +186,7 @@ const OpenURLButton = ({ url, children }) => {
   };
   return (
     <Pressable
-      onPress={() => handlePress()}
+      onPress={handlePress}
       className='flex-row items-center justify-between py-3'
     >
       {children}
@@ -220,20 +224,24 @@ const LogoutButton = () => {
           style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
           className='flex-1 items-center justify-center'
         >
-          <View className=' p-2 rounded-lg bg-white shadow-lg'>
-            <Text className='text-center my-4'>Bạn muốn đăng xuất?</Text>
+          <View className=' p-2 rounded-xl bg-white shadow-lg'>
+            <Text className='text-center my-4 text-[16px]'>
+              Bạn muốn đăng xuất?
+            </Text>
             <View style={{ gap: 4 }} className='flex-row items-center'>
               <Pressable
-                className='rounded w-32 h-10 justify-center border-primary-pink border'
+                className='rounded-xl w-32 h-10 justify-center border-primary-pink border'
                 onPress={() => setModalVisible(!modalVisible)}
               >
-                <Text className='text-center'>Hủy</Text>
+                <Text className='text-center text-[16px]'>Hủy</Text>
               </Pressable>
               <Pressable
-                className='rounded w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
-                onPress={() => handleLogout()}
+                className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
+                onPress={handleLogout}
               >
-                <Text className='text-center text-white'>Đồng ý</Text>
+                <Text className='text-center text-[16px] text-white'>
+                  Đồng ý
+                </Text>
               </Pressable>
             </View>
           </View>

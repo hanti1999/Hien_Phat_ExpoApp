@@ -13,6 +13,7 @@ import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
 import OrderScreen from '../screens/OrderScreen';
 import ThanksScreen from '../screens/ThanksScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -133,6 +134,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name='Thanks'
           component={ThanksScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='EditProfile'
+          component={EditProfileScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

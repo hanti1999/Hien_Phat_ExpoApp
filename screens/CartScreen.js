@@ -60,7 +60,7 @@ const NoItemInCart = ({ navigation }) => {
       </Text>
       <Pressable
         onPress={() => navigation.navigate('Home')}
-        className='py-3 w-full bg-primary-pink rounded-lg'
+        className='py-3 w-full bg-primary-pink rounded-xl'
       >
         <Text className='text-white text-lg text-center'>
           Tiếp tục mua hàng
@@ -90,9 +90,11 @@ const ItemInCart = ({ navigation }) => {
       const userId = decodeToken.userId;
       const userAddress = decodeToken?.address;
       const userName = decodeToken?.name;
+      const userPhoneNumber = decodeToken?.phoneNumber;
       setUserId(userId);
       setAddress(userAddress);
       setName(userName);
+      setPhoneNumber(userPhoneNumber);
     };
 
     fetchUser();
@@ -131,13 +133,13 @@ const ItemInCart = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView className='bg-gray-100'>
       <View className='bg-white p-2'>
         <Text className='uppercase font-bold text-xl'>Chi tiết đơn hàng</Text>
         {cartItems.map((item, index) => (
           <RenderItemToCart item={item} key={index} dispatch={dispatch} />
         ))}
-        <Text className='mt-2'>
+        <Text className='mt-2 text-[16px]'>
           Tổng:{' '}
           <Text className='text-primary-pink font-bold text-lg'>
             {cartAmount.toLocaleString()}đ
@@ -150,35 +152,32 @@ const ItemInCart = ({ navigation }) => {
           Thông tin giao hàng
         </Text>
         <View>
-          <Text className='italic text-red-500'>
-            *Vui lòng điền đủ thông tin
-          </Text>
-          <Text className='my-2'>Tên người nhận</Text>
+          <Text className='my-3 text-[16px]'>Tên người nhận:</Text>
           <TextInput
-            className='py-1 px-2 border rounded-lg border-gray-200'
+            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
             value={name}
             onChangeText={setName}
           />
-          <Text className='my-2'>Số điện thoại người nhận</Text>
+          <Text className='my-3 text-[16px]'>Số điện thoại người nhận:</Text>
           <TextInput
             value={phoneNumber}
             ref={phoneRef}
             keyboardType='numeric'
             placeholder='Vui lòng điền số điện thoại'
             onChangeText={setPhoneNumber}
-            className='p-1 px-2 border rounded-lg border-gray-200'
+            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
           />
-          <Text className='my-2'>Địa chỉ nhận hàng</Text>
+          <Text className='my-3 text-[16px]'>Địa chỉ nhận hàng:</Text>
           <TextInput
             value={address}
             onChangeText={setAddress}
             multiline
             numberOfLines={3}
-            className='p-1 px-2 border rounded-lg border-gray-200'
+            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
           />
-          <Text className='my-2'>Ghi chú</Text>
+          <Text className='my-3 text-[16px]'>Ghi chú:</Text>
           <TextInput
-            className='p-1 px-2 border rounded-lg border-gray-200'
+            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
             value={note}
             placeholder='(Không bắt buộc)'
             onChangeText={setNote}
@@ -194,27 +193,29 @@ const ItemInCart = ({ navigation }) => {
           <Pressable
             onPress={() => setPaymentMethod('cash')}
             style={{ gap: 8 }}
-            className='flex-row border border-gray-200 rounded-lg p-2 items-center mt-2'
+            className='flex-row border border-gray-300 rounded-xl p-2 items-center mt-2'
           >
             {paymentMethod === 'cash' ? (
               <AntDesign name='checkcircle' size={20} color={P_PINK} />
             ) : (
               <Entypo name='circle' size={20} color={P_PINK} />
             )}
-            <Text>Thanh toán tiền mặt khi nhận hàng</Text>
+            <Text className='text-[16px]'>
+              Thanh toán tiền mặt khi nhận hàng
+            </Text>
           </Pressable>
 
           <Pressable
             onPress={() => setPaymentMethod('card')}
             style={{ gap: 8 }}
-            className='flex-row border border-gray-200 rounded-lg p-2 items-center mt-2'
+            className='flex-row border border-gray-300 rounded-xl p-2 items-center mt-2'
           >
             {paymentMethod === 'card' ? (
               <AntDesign name='checkcircle' size={20} color={P_PINK} />
             ) : (
               <Entypo name='circle' size={20} color={P_PINK} />
             )}
-            <Text>Thanh toán chuyển khoản</Text>
+            <Text className='text-[16px]'>Thanh toán chuyển khoản</Text>
           </Pressable>
         </View>
       </View>
@@ -223,7 +224,7 @@ const ItemInCart = ({ navigation }) => {
         <Pressable
           onPress={handlePlaceOrder}
           style={{ gap: 8 }}
-          className='py-3 w-full bg-primary-pink flex-row items-center justify-center rounded-lg '
+          className='py-3 w-full bg-primary-pink flex-row items-center justify-center rounded-xl '
         >
           <Text className='text-white text-lg text-center'>Đặt hàng nào</Text>
           <FontAwesome6 name='smile-wink' size={20} color='white' />
@@ -231,7 +232,7 @@ const ItemInCart = ({ navigation }) => {
 
         <Pressable
           onPress={() => navigation.navigate('Home')}
-          className='py-3 w-full border-primary-pink border rounded-lg mt-2'
+          className='py-3 w-full border-primary-pink border rounded-xl mt-2'
         >
           <Text className=' text-lg text-center'>Tiếp tục mua sắm</Text>
         </Pressable>
@@ -254,11 +255,11 @@ const RenderItemToCart = ({ item, dispatch }) => {
         <Text className='font-semibold text-base' numberOfLines={3}>
           {item?.title}
         </Text>
-        <Text className='my-2'>
+        <Text className='my-2 text-[16px]'>
           Số lượng: <Text className='font-bold'>{item?.quantity}</Text> x{' '}
           {item?.price.toLocaleString()}đ
         </Text>
-        <Text className='border-t border-gray-200 mb-2'>
+        <Text className='border-t border-gray-200 mb-2 text-[16px]'>
           ={' '}
           <Text className='font-bold'>
             {(item?.quantity * item?.price).toLocaleString()}đ
@@ -266,7 +267,7 @@ const RenderItemToCart = ({ item, dispatch }) => {
         </Text>
         <Pressable onPress={handleProduct} className='flex-row items-center'>
           <Ionicons name='trash' size={20} color={P_PINK} />
-          <Text className='text-primary-pink'>Xoá sản phẩm</Text>
+          <Text className='text-primary-pink text-[16px]'>Xoá sản phẩm</Text>
         </Pressable>
       </View>
     </View>

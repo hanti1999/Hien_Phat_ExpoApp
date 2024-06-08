@@ -100,7 +100,7 @@ const RegisterScreen = ({ navigation }) => {
       <KeyboardAvoidingView>
         <View className='items-center'></View>
 
-        <View className='flex-row justify-between mt-4 mb-2'>
+        <View className='flex-row justify-between items-center mt-4 mb-2'>
           <Pressable>
             <Text className='text-lg font-semibold'>
               {phoneRegister ? 'Điện thoại' : 'Email'}
@@ -113,12 +113,12 @@ const RegisterScreen = ({ navigation }) => {
           </Pressable>
         </View>
 
-        <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+        <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
           {phoneRegister ? (
             <>
               <AntDesign name='mobile1' size={24} color='gray' />
               <TextInput
-                className='w-[300px] text-[18px] py-1'
+                className='w-[300px] text-[18px] py-1.5'
                 placeholder='Nhập số điện thoại...'
                 value={phone}
                 keyboardType='numeric'
@@ -129,7 +129,7 @@ const RegisterScreen = ({ navigation }) => {
             <>
               <AntDesign name='mail' size={24} color='gray' />
               <TextInput
-                className='w-[300px] text-[18px] py-1'
+                className='w-[300px] text-[18px] py-1.5'
                 placeholder='Nhập Email...'
                 value={email}
                 onChangeText={(text) => setEmail(text)}
@@ -139,10 +139,10 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
             <AntDesign name='user' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-[18px] py-1'
+              className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập tên của bạn...'
               value={name}
               onChangeText={(text) => setName(text)}
@@ -151,10 +151,10 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
             <Ionicons name='location-outline' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-[18px] py-1'
+              className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập địa chỉ bạn...'
               numberOfLines={3}
               multiline
@@ -165,10 +165,10 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-[18px] py-1'
+              className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập mật khẩu...'
               value={password}
               onChangeText={(text) => setPassword(text)}
@@ -184,10 +184,10 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 bg-gray-200 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput
-              className='w-[300px] text-[18px] py-1'
+              className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập lại mật khẩu...'
               value={confirmPass}
               onChangeText={(text) => setConfirmPass(text)}

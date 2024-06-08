@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBUyXMdjilQFSQ5l9C9Zu3wTnFZZH5IPgI',
+  apiKey: process.env.FIREBASE_APIKEY,
   authDomain: 'hien-phat-expoapp.firebaseapp.com',
   projectId: 'hien-phat-expoapp',
   storageBucket: 'hien-phat-expoapp.appspot.com',

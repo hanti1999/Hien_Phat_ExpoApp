@@ -66,8 +66,8 @@ const sendVerificationEmail = async (email, otp) => {
   const mailOption = {
     from: 'Gas Hien Phat',
     to: email,
-    subject: 'Xac minh dia chi Mail',
-    text: `Ma xac minh cua ban la: ${otp}`,
+    subject: 'Xác minh địa chỉ Mail',
+    text: `Mã xác minh của bạn là: ${otp}`,
   };
 
   try {
@@ -154,6 +154,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Tạo đơn hàng
 app.post('/orders', async (req, res) => {
   try {
     const {
@@ -183,7 +184,6 @@ app.post('/orders', async (req, res) => {
       price: item.price,
     }));
 
-    // Tạo một Order mới
     const order = new Order({
       user: userId,
       name: name,
@@ -206,6 +206,7 @@ app.post('/orders', async (req, res) => {
   }
 });
 
+// lấy thông tin khách hàng theo id
 app.get('/profile/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -222,6 +223,7 @@ app.get('/profile/:userId', async (req, res) => {
   }
 });
 
+// Thấy thông tin đơn hàng theo id khách
 app.get('/orders/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -275,6 +277,7 @@ app.post('/notification/create', async (req, res) => {
   }
 });
 
+// lấy thông báo về
 app.get('/notification', async (req, res) => {
   try {
     const notification = await Notification.find({});
