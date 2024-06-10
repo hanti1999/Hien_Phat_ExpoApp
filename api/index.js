@@ -32,8 +32,6 @@ app.listen(port, () => {
 });
 
 const User = require('./models/user');
-const Order = require('./models/order');
-const Notification = require('./models/notification');
 
 // Đăng ký tài khoản
 app.post('/register', async (req, res) => {
@@ -159,6 +157,41 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// lấy thông tin khách hàng theo id
+app.get('/profile/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving the user profile' });
+  }
+});
+
+// cập nhật thông tin khách hàng
+app.post('/profile/update', async (req, res) => {
+  try {
+    const { userId, name, phoneNumber, address } = req.body;
+
+    const user = await User.findByIdAndUpdate(userId, {
+      name: name,
+      phoneNumber: phoneNumber,
+      address: address,
+    });
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: 'Cập nhật hồ sơ thất bại!' });
+  }
+});
+
+const Order = require('./models/order');
 // Tạo đơn hàng
 app.post('/orders', async (req, res) => {
   try {
@@ -211,40 +244,6 @@ app.post('/orders', async (req, res) => {
   }
 });
 
-// lấy thông tin khách hàng theo id
-app.get('/profile/:userId', async (req, res) => {
-  try {
-    const userId = req.params.userId;
-
-    const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    res.status(200).json({ user });
-  } catch (error) {
-    res.status(500).json({ message: 'Error retrieving the user profile' });
-  }
-});
-
-// cập nhật thông tin khách hàng
-app.post('/profile/update', async (req, res) => {
-  try {
-    const { userId, name, phoneNumber, address } = req.body;
-
-    const user = await User.findByIdAndUpdate(userId, {
-      name: name,
-      phoneNumber: phoneNumber,
-      address: address,
-    });
-
-    res.status(200).json({ user });
-  } catch (error) {
-    res.status(500).json({ message: 'Cập nhật hồ sơ thất bại!' });
-  }
-});
-
 // Thấy thông tin đơn hàng theo id khách
 app.get('/orders/:userId', async (req, res) => {
   try {
@@ -281,6 +280,7 @@ app.post('/orders/:orderId', async (req, res) => {
   }
 });
 
+const Notification = require('./models/notification');
 // Tạo thông báo
 app.post('/notification/create', async (req, res) => {
   try {
@@ -307,5 +307,82 @@ app.get('/notification', async (req, res) => {
     res.status(200).json({ notification });
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+});
+
+const Product = require('./models/product');
+// Tìm kiếm sản phẩm
+app.get('/product/search', async (req, res) => {
+  try {
+    const { query } = req.body;
+    const products = await Product.find({ name: new RegExp(query, 'i') });
+    res.status(200).json({ products });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.log('Lỗi /product/search', error);
+  }
+});
+
+app.get('/product', async (req, res) => {
+  try {
+    const product = await Product.find();
+    res.status(200).json({ product });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.log('Lỗi get /product', error);
+  }
+});
+
+app.post('/product/add', async (req, res) => {
+  try {
+    const product = new Product(req?.body);
+    await product.save();
+    res.status(200).json({ product });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.log('Lỗi /product/add', error);
+  }
+});
+
+const Category = require('./models/category');
+app.post('/category/add', async (req, res) => {
+  try {
+    const category = new Category(req.body);
+    await category.save();
+    res.status(200).json({ category });
+  } catch (error) {
+    res.status(500).json({ error });
+    console.log('Lỗi /category/add', error);
+  }
+});
+
+app.get('/category/get', async (req, res) => {
+  try {
+    const category = await Category.find();
+    res.status(200).json({ category });
+  } catch (error) {
+    res.status(500).json({ error });
+    console.log('Lỗi /category/get', error);
+  }
+});
+
+const Brand = require('./models/brand');
+app.post('/brand/add', async (req, res) => {
+  try {
+    const brand = new Brand(req.body);
+    await brand.save();
+    res.status(200).json({ brand });
+  } catch (error) {
+    res.status(500).json({ error });
+    console.log('Lỗi /brand/add', error);
+  }
+});
+
+app.get('/brand/get', async (req, res) => {
+  try {
+    const brand = await Brand.find();
+    res.status(200).json({ brand });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 });
