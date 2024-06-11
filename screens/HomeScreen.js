@@ -83,9 +83,9 @@ const HomeScreen = () => {
         </View>
 
         <ScrollView horizontal className='bg-white pl-2'>
-          {sale.map((item, index) => (
+          {/* {sale.map((item, index) => (
             <ProductCard item={item} key={index} />
-          ))}
+          ))} */}
           <SeeMoreCard />
         </ScrollView>
 
@@ -93,9 +93,9 @@ const HomeScreen = () => {
           <ProductTitle text={'Bếp gas'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {bepGas.map((item, index) => (
+            {/* {bepGas.map((item, index) => (
               <ProductCard item={item} key={index} />
-            ))}
+            ))} */}
             <SeeMoreCard />
           </ScrollView>
         </View>
@@ -113,9 +113,9 @@ const HomeScreen = () => {
           <ProductTitle text={'Bếp điện'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {bepDien.map((item, index) => (
+            {/* {bepDien.map((item, index) => (
               <ProductCard item={item} key={index} />
-            ))}
+            ))} */}
             <SeeMoreCard />
           </ScrollView>
         </View>
@@ -133,9 +133,9 @@ const HomeScreen = () => {
           <ProductTitle text={'Máy lọc nước'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {mayLocNuoc.map((item, index) => (
+            {/* {mayLocNuoc.map((item, index) => (
               <ProductCard item={item} key={index} />
-            ))}
+            ))} */}
             <SeeMoreCard />
           </ScrollView>
         </View>
@@ -144,9 +144,9 @@ const HomeScreen = () => {
           <ProductTitle text={'Máy hút mùi'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {mayHutMui.map((item, index) => (
+            {/* {mayHutMui.map((item, index) => (
               <ProductCard item={item} key={index} />
-            ))}
+            ))} */}
             <SeeMoreCard />
           </ScrollView>
         </View>

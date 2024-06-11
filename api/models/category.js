@@ -9,12 +9,9 @@ const CategorySchema = new Schema({
   description: {
     type: String,
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Product',
-    },
-  ],
+  image: {
+    type: String,
+  },
 });
 
 const Category = mongoose.model('Category', CategorySchema);

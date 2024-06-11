@@ -1,52 +1,68 @@
-import { Text, ScrollView, Pressable, Image, Alert } from 'react-native';
-import React from 'react';
-
-const list = [
-  {
-    id: 0,
-    image: require('../assets/category-icon/bepGas.png'),
-    name: 'Bếp gas',
-  },
-  {
-    id: 1,
-    image: require('../assets/category-icon/bepDien.png'),
-    name: 'Bếp điện',
-  },
-  {
-    id: 2,
-    image: require('../assets/category-icon/giaDung.png'),
-    name: 'Gia dụng',
-  },
-  {
-    id: 3,
-    image: require('../assets/category-icon/gaost.png'),
-    name: 'Gạo',
-  },
-  {
-    id: 4,
-    image: require('../assets/category-icon/phuKien.png'),
-    name: 'Phụ kiện',
-  },
-  {
-    id: 5,
-    image: require('../assets/category-icon/nuoc.png'),
-    name: 'Nước',
-  },
-];
+import {
+  Text,
+  ScrollView,
+  Pressable,
+  Image,
+  Alert,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BASE_URL } from '@env';
+import { useNavigation } from '@react-navigation/native';
 
 const HorizontalCategory = () => {
+  const [catList, setCatList] = useState();
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/category`);
+
+        if (res.status === 200) {
+          const cat = res.data.category;
+          setCatList(cat);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          console.log('Lỗi, fetch category không thành công');
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log('Lỗi Horizontal category', error);
+      }
+    };
+
+    fetchCategory();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className='h-[84px] flex justify-center'>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {list.map((item, index) => (
+      {catList?.map((item, index) => (
         <Pressable
-          onPress={() => Alert.alert('Thông báo', 'Clicked')}
+          onPress={() =>
+            navigation.navigate('ProductByCategory', {
+              categoryId: item._id,
+            })
+          }
           key={index}
           className='m-1'
         >
           <Image
             resizeMode='contain'
             className='w-20 h-20'
-            source={item?.image}
+            source={{ uri: item?.image }}
           />
           <Text className='text-center font-medium'>{item?.name}</Text>
         </Pressable>

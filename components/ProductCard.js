@@ -37,12 +37,12 @@ const ProductCard = ({ item }) => {
           item: item,
         })
       }
-      className='w-[180px] max-h-[320px] pr-2 mb-2'
+      className='w-[180px] max-h-[320px] mr-2 mb-2'
       disabled={isLoading}
     >
       <View className='border h-full flex justify-between border-gray-200 bg-pink-100 rounded-md overflow-hidden'>
         <View>
-          <Image className='w-full h-[180px]' source={item?.image} />
+          <Image className='w-full h-[180px]' source={{ uri: item?.image }} />
           <View className='px-2 pt-1'>
             <Text numberOfLines={2}>{item?.title}</Text>
             <Text className='line-through'>

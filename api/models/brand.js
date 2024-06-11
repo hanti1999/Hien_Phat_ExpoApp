@@ -9,12 +9,6 @@ const BrandSchema = new Schema({
   description: {
     type: String,
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Product',
-    },
-  ],
 });
 
 const Brand = mongoose.model('Brand', BrandSchema);

@@ -14,6 +14,7 @@ import CartScreen from '../screens/CartScreen';
 import OrderScreen from '../screens/OrderScreen';
 import ThanksScreen from '../screens/ThanksScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -139,6 +140,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name='EditProfile'
           component={EditProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='ProductByCategory'
+          component={ProductsByCategoryScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

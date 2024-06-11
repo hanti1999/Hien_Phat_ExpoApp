@@ -142,7 +142,7 @@ const renderImage = ({ item }) => {
       style={{ height: width, width: width }}
     >
       <Image
-        source={item}
+        source={{ uri: item }}
         style={{ resizeMode: 'contain' }}
         className='w-full h-full '
       />
