@@ -15,10 +15,10 @@ import {
   Ionicons,
 } from '@expo/vector-icons';
 import React, { useState } from 'react';
+import { BASE_URL } from '@env';
 import axios from 'axios';
 import validateEmail from '../utils/validateEmail';
 import validatePhone from '../utils/validatePhone';
-import { BASE_URL } from '../config';
 
 const RegisterScreen = ({ navigation }) => {
   const [phone, setPhone] = useState('');

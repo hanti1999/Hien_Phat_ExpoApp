@@ -9,8 +9,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { BASE_URL } from '@env';
 import axios from 'axios';
-import { BASE_URL } from '../config';
 import ScreenHeader from '../components/ScreenHeader';
 
 const EditProfileScreen = ({ route, navigation }) => {

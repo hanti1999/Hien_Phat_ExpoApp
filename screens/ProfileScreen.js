@@ -19,10 +19,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import { BASE_URL } from '@env';
 import axios from 'axios';
 import { clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
-import { BASE_URL, P_PINK } from '../config';
 import Loading from '../components/Loading';
 import { UserType } from '../userContext';
 

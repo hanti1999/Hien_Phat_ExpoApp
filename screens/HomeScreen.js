@@ -31,6 +31,7 @@ import {
 
 const HomeScreen = () => {
   const { userId, setUserId } = useContext(UserType);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserId = async () => {

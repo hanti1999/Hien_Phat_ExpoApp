@@ -17,10 +17,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
+import { BASE_URL } from '@env';
 import axios from 'axios';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
-import { BASE_URL, P_PINK } from '../config';
+import { P_PINK } from '../config';
 import { UserType } from '../userContext';
 
 const CartScreen = () => {

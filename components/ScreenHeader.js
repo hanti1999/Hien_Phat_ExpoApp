@@ -1,7 +1,7 @@
 import { StyleSheet, Text, Pressable, View } from 'react-native';
-import React from 'react';
-import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { Entypo } from '@expo/vector-icons';
+import React from 'react';
 
 const ScreenHeader = ({ text }) => {
   const navigation = useNavigation();

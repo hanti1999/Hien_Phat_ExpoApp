@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
+import { BASE_URL } from '@env';
 import moment from 'moment';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 import Loading from '../components/Loading';
-import { BASE_URL } from '../config';
 
 const NotificationScreen = () => {
   const [notification, setNotification] = useState();

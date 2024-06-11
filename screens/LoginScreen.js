@@ -14,8 +14,8 @@ import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { BASE_URL } from '@env';
 import axios from 'axios';
-import { BASE_URL } from '../config';
 
 const LoginScreen = () => {
   const [loginInfo, setLoginInfo] = useState('');

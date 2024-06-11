@@ -281,7 +281,6 @@ app.post('/orders/:orderId', async (req, res) => {
 });
 
 const Notification = require('./models/notification');
-// Tạo thông báo
 app.post('/notification/create', async (req, res) => {
   try {
     const { title, content, image } = req?.body;
@@ -299,7 +298,6 @@ app.post('/notification/create', async (req, res) => {
   }
 });
 
-// lấy thông báo về
 app.get('/notification', async (req, res) => {
   try {
     const notification = await Notification.find({});
@@ -315,7 +313,9 @@ const Product = require('./models/product');
 app.get('/product/search', async (req, res) => {
   try {
     const { query } = req.body;
-    const products = await Product.find({ name: new RegExp(query, 'i') });
+    const products = await Product.find({
+      name: new RegExp(query, 'i'),
+    }).populate(['category', 'brand']);
     res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -325,7 +325,7 @@ app.get('/product/search', async (req, res) => {
 
 app.get('/product', async (req, res) => {
   try {
-    const product = await Product.find();
+    const product = await Product.find().populate(['category', 'brand']);
     res.status(200).json({ product });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -356,10 +356,22 @@ app.post('/category/add', async (req, res) => {
   }
 });
 
-app.get('/category/get', async (req, res) => {
+app.get('/category', async (req, res) => {
   try {
-    const category = await Category.find();
+    const category = await Category.find().populate('products');
     res.status(200).json({ category });
+  } catch (error) {
+    res.status(500).json({ error });
+    console.log('Lỗi /category/get', error);
+  }
+});
+
+app.get('/category/:id', async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id).populate(
+      'products'
+    );
+    res.status(200).json({ products: category.products });
   } catch (error) {
     res.status(500).json({ error });
     console.log('Lỗi /category/get', error);
@@ -378,9 +390,9 @@ app.post('/brand/add', async (req, res) => {
   }
 });
 
-app.get('/brand/get', async (req, res) => {
+app.get('/brand', async (req, res) => {
   try {
-    const brand = await Brand.find();
+    const brand = await Brand.find().populate('products');
     res.status(200).json({ brand });
   } catch (error) {
     res.status(500).json({ error });
