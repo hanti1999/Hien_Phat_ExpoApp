@@ -22,7 +22,7 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
   const [phoneLogin, setPhoneLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -51,12 +51,12 @@ const LoginScreen = () => {
     };
 
     const postUser = async () => {
-      setLoaing(true);
+      setLoading(true);
       try {
         const res = await axios.post(`${BASE_URL}/login`, user);
         const token = res.data.token;
         AsyncStorage.setItem('authToken', token);
-        setLoaing(false);
+        setLoading(false);
         setLoginInfo('');
         setPassword('');
         navigation.replace('Main');

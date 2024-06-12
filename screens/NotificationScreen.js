@@ -22,9 +22,15 @@ const NotificationScreen = () => {
     const fetchNotification = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/notification`);
-        const notification = res.data?.notification;
-        setNotification(notification);
-        setLoading(false);
+        if (res.status === 200) {
+          const notification = res.data?.notification;
+          setNotification(notification);
+          setLoading(false);
+          console.log('Fetch thông báo thành công');
+        } else {
+          setLoading(false);
+          console.log('Fetch thông báo không thành công');
+        }
       } catch (error) {
         console.log('Lỗi (NotificationScreen)', error);
       }

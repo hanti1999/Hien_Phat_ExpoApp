@@ -7,7 +7,6 @@ import {
   Alert,
   Linking,
   Modal,
-  ActivityIndicator,
 } from 'react-native';
 import {
   FontAwesome,
@@ -40,9 +39,10 @@ const ProfileScreen = () => {
         if (res.status === 200) {
           setCurrentUser(user);
           setLoading(false);
+          console.log('Fetch thông tin người dùng thành công');
         } else {
           setLoading(false);
-          console.log(res.data.message);
+          console.log('Fetch thông tin người dùng không thành công');
         }
       } catch (error) {
         console.log('Lỗi (catch ProfileScreen): ', error);
@@ -50,7 +50,7 @@ const ProfileScreen = () => {
     };
 
     fetchUserProfile();
-  }, [currentUser || userId]);
+  }, []);
 
   if (loading) {
     return <Loading />;

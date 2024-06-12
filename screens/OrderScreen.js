@@ -5,7 +5,6 @@ import {
   Pressable,
   Image,
   ScrollView,
-  Alert,
   Modal,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -13,6 +12,7 @@ import { BASE_URL } from '@env';
 import moment from 'moment';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
+import NoProduct from '../components/NoProduct';
 import Loading from '../components/Loading';
 
 const OrderScreen = ({ route, navigation }) => {
@@ -23,10 +23,16 @@ const OrderScreen = ({ route, navigation }) => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/orders/${userId}`);
-        const orders = response.data?.orders;
-        setOrders(orders);
-        setLoading(false);
+        const res = await axios.get(`${BASE_URL}/orders/${userId}`);
+        const orders = res.data?.orders;
+        if (res.status === 200) {
+          setOrders(orders);
+          setLoading(false);
+          console.log('Fetch đơn hàng thành công');
+        } else {
+          setLoading(false);
+          console.log('Fetch đơn hàng không thành công');
+        }
       } catch (error) {
         setLoading(false);
         console.log('Đơn hàng trống!', error);
@@ -34,37 +40,14 @@ const OrderScreen = ({ route, navigation }) => {
     };
 
     fetchOrders();
-  }, [orders]);
+  }, []);
 
   if (loading) {
     return <Loading />;
   }
 
   if (orders.length === 0) {
-    return (
-      <SafeAreaView className='bg-white h-full'>
-        <ScreenHeader text='Lịch sử đơn hàng' />
-        <View className='flex items-center h-full bg-gray-100 px-2'>
-          <Image
-            style={{ maxWidth: 400, maxHeight: 400 }}
-            source={require('../assets/cart.png')}
-          />
-          <Text className='text-[#ff725e] text-xs'>
-            Image by storyset on Freepik
-          </Text>
-
-          <Text className='font-semibold text-lg my-10'>Bạn chưa đặt gì!</Text>
-          <Pressable
-            onPress={() => navigation.navigate('Home')}
-            className='py-3 w-full bg-primary-pink rounded-xl'
-          >
-            <Text className='text-white text-lg text-center'>
-              Tiếp tục mua hàng
-            </Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
-    );
+    return <NoProduct text={'Bạn chưa có đơn hàng nào!'} />;
   }
 
   return (

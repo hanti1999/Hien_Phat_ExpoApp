@@ -265,7 +265,10 @@ const RenderItemToCart = ({ item, dispatch }) => {
   return (
     <View className='flex-row border-b border-gray-200 py-2.5'>
       <View className='w-1/2'>
-        <Image className='h-[120px] w-full' source={item?.productImg} />
+        <Image
+          className='h-[120px] w-full'
+          source={{ uri: item?.productImg }}
+        />
       </View>
       <View className='w-1/2'>
         <Text className='font-semibold text-base' numberOfLines={3}>

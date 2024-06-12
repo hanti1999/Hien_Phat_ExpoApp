@@ -5,7 +5,10 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
+  Image,
+  Pressable,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
@@ -13,9 +16,11 @@ import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
+import NoProduct from '../components/NoProduct';
 
-const ProductsByCategoryScreen = ({ route, navigation }) => {
+const ProductsByCategoryScreen = ({ route }) => {
   const { categoryId } = route?.params;
+  const navigation = useNavigation();
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('default');
@@ -29,21 +34,26 @@ const ProductsByCategoryScreen = ({ route, navigation }) => {
           const data = res.data.products;
           setProducts(data);
           setLoading(false);
+          console.log('Fetch thành công');
         } else {
           setLoading(false);
           console.log('Fetch không thành công');
         }
       } catch (error) {
         setLoading(false);
-        console.log('Lỗi ProductByCategorySceen');
+        console.log('Lỗi ProductByCategorySceen', error);
       }
     };
 
     fetchProductById();
-  }, [products]);
+  }, []);
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (products.length === 0) {
+    return <NoProduct text={'Chưa có sản phẩm'} />;
   }
 
   return (
@@ -53,7 +63,6 @@ const ProductsByCategoryScreen = ({ route, navigation }) => {
       <Picker
         selectedValue={selectedValue}
         mode='dropdown'
-        style={{ borderWidth: 1, borderColor: '#ddd' }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
         <Picker.Item label='Nổi bật' value={'default'} />

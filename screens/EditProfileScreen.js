@@ -5,7 +5,6 @@ import {
   StatusBar,
   TextInput,
   Pressable,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';

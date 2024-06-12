@@ -1,11 +1,15 @@
 import { Text, View, Pressable, Alert } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
-const SeeMoreCard = () => {
+const SeeMoreCard = ({ categoryId }) => {
+  const navigation = useNavigation();
   return (
     <Pressable
-      onPress={() => Alert.alert('loading...')}
+      onPress={() =>
+        navigation.navigate('ProductByCategory', { categoryId: categoryId })
+      }
       className='h-[320px] w-[180px]'
     >
       <View className='w-full h-full justify-center items-center'>
