@@ -9,11 +9,7 @@ import {
   Alert,
   StatusBar,
 } from 'react-native';
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  Ionicons,
-} from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -174,7 +170,7 @@ const RegisterScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
               secureTextEntry={!showPassword}
             />
-            <MaterialCommunityIcons
+            <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color='gray'
@@ -193,7 +189,7 @@ const RegisterScreen = ({ navigation }) => {
               onChangeText={(text) => setConfirmPass(text)}
               secureTextEntry={!showPassword}
             />
-            <MaterialCommunityIcons
+            <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color='gray'

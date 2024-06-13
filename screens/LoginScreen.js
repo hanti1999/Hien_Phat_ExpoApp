@@ -10,8 +10,8 @@ import {
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
@@ -57,7 +57,6 @@ const LoginScreen = () => {
         const token = res.data.token;
         AsyncStorage.setItem('authToken', token);
         setLoading(false);
-        setLoginInfo('');
         setPassword('');
         navigation.replace('Main');
       } catch (error) {
@@ -130,7 +129,7 @@ const LoginScreen = () => {
               onChangeText={(text) => setPassword(text)}
               secureTextEntry={!showPassword}
             />
-            <MaterialCommunityIcons
+            <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color='gray'

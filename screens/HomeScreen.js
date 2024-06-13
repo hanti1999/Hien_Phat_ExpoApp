@@ -11,8 +11,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SliderBox } from 'react-native-image-slider-box';
 import React, { useEffect, useState, useContext } from 'react';
+import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
 import { jwtDecode } from 'jwt-decode';
 import { BASE_URL } from '@env';
@@ -50,7 +50,9 @@ const HomeScreen = () => {
       try {
         const res = await axios.get(`${BASE_URL}/product`);
         if (res.status === 200) {
-          setProduct(res?.data?.product);
+          const data = res?.data?.product;
+          setProduct(data);
+
           setLoading(false);
           console.log('Fetch sản phẩm thành công');
         } else {
@@ -78,7 +80,7 @@ const HomeScreen = () => {
     (product) => product.category.name === 'Gia dụng'
   );
 
-  let khac = products?.filter((product) => product.category.name === 'Gas');
+  let gas = products?.filter((product) => product.category.name === 'Gas');
 
   if (loading) {
     return <Loading />;
@@ -119,10 +121,10 @@ const HomeScreen = () => {
         </View>
 
         <ScrollView horizontal className='bg-white pl-2'>
-          {/* {sale.map((item, index) => (
+          {products.slice(0, 6).map((item, index) => (
             <ProductCard item={item} key={index} />
-          ))} */}
-          <SeeMoreCard />
+          ))}
+          {/* <SeeMoreCard /> */}
         </ScrollView>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
@@ -169,7 +171,7 @@ const HomeScreen = () => {
           <ProductTitle text={'Gia dụng'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {/* {mayLocNuoc.map((item, index) => (
+            {/* {giaDung.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))} */}
             <SeeMoreCard />
@@ -180,7 +182,7 @@ const HomeScreen = () => {
           <ProductTitle text={'Gas'} />
 
           <ScrollView horizontal className='px-2 mt-10'>
-            {/* {mayHutMui.map((item, index) => (
+            {/* {gas.map((item, index) => (
               <ProductCard item={item} key={index} />
             ))} */}
             <SeeMoreCard />

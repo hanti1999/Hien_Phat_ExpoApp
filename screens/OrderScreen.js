@@ -28,7 +28,7 @@ const OrderScreen = ({ route, navigation }) => {
         if (res.status === 200) {
           setOrders(orders);
           setLoading(false);
-          console.log('Fetch đơn hàng thành công');
+          console.log('Fetch lịch sử đơn hàng thành công');
         } else {
           setLoading(false);
           console.log('Fetch đơn hàng không thành công');

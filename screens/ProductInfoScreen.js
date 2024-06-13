@@ -6,19 +6,20 @@ import {
   SafeAreaView,
   Platform,
   Pressable,
-  FlatList,
   Dimensions,
   StatusBar,
   Alert,
   Linking,
   ActivityIndicator,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { SliderBox } from 'react-native-image-slider-box';
+import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
+import ScreenHeader from '../components/ScreenHeader';
+import { P_PINK } from '../config';
 
-const ProductInfoScreen = ({ route, navigation }) => {
+const ProductInfoScreen = ({ route }) => {
   const { price, oldPrice, carouselImages, title, features, item } =
     route?.params;
   const width = Dimensions.get('window').width;
@@ -49,14 +50,14 @@ const ProductInfoScreen = ({ route, navigation }) => {
     >
       <ScrollView stickyHeaderIndices={[1]} className='bg-gray-100'>
         <StatusBar />
-        <Navigation navigation={navigation} />
+        <ScreenHeader text={'Chi tiết sản phẩm'} />
 
-        <FlatList
-          data={carouselImages}
-          horizontal
-          renderItem={renderImage}
-          decelerationRate={0.8}
-          snapToInterval={width}
+        <SliderBox
+          images={carouselImages}
+          dotColor='#302671'
+          inactiveDotColor='#333'
+          ImageComponentStyle={width}
+          sliderBoxHeight={width}
         />
 
         <View className='p-2.5 bg-pink-100'>
@@ -108,45 +109,6 @@ const ProductInfoScreen = ({ route, navigation }) => {
         </Pressable>
       </View>
     </SafeAreaView>
-  );
-};
-
-const Navigation = ({ navigation }) => {
-  const cartQuantity = useSelector((state) => state.cart.totalQuantity);
-
-  return (
-    <View className=' flex-row justify-between items-center bg-white'>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Entypo name='chevron-thin-left' size={24} style={{ padding: 10 }} />
-      </Pressable>
-      <Pressable
-        className='relative'
-        onPress={() => navigation.navigate('Cart')}
-      >
-        <Ionicons name='cart-outline' size={32} style={{ padding: 10 }} />
-        <View className='absolute w-5 h-5 bg-primary-pink rounded-full right-1 top-1'>
-          <Text className='text-center text-white h-full leading-5'>
-            {cartQuantity}
-          </Text>
-        </View>
-      </Pressable>
-    </View>
-  );
-};
-
-const renderImage = ({ item }) => {
-  const width = Dimensions.get('window').width;
-  return (
-    <View
-      className='justify-center items-center'
-      style={{ height: width, width: width }}
-    >
-      <Image
-        source={{ uri: item }}
-        style={{ resizeMode: 'contain' }}
-        className='w-full h-full '
-      />
-    </View>
   );
 };
 

@@ -45,10 +45,17 @@ const ProductCard = ({ item }) => {
           <Image className='w-full h-[180px]' source={{ uri: item?.image }} />
           <View className='px-2 pt-1'>
             <Text numberOfLines={2}>{item?.title}</Text>
-            <Text className='line-through'>
-              {item?.oldPrice.toLocaleString()}
-            </Text>
-            <Text className='font-semibold text-red-500 text-lg'>
+            <View className='flex-row items-center my-0.5'>
+              <View className='p-0.5 rounded bg-red-500 mr-1'>
+                <Text className='text-white '>
+                  -{100 - Math.round((item?.price * 100) / item?.oldPrice)}%
+                </Text>
+              </View>
+              <Text className='line-through'>
+                {item?.oldPrice.toLocaleString()}
+              </Text>
+            </View>
+            <Text className='font-semibold text-red-500 text-[18px]'>
               {item?.price.toLocaleString()}đ
             </Text>
           </View>
