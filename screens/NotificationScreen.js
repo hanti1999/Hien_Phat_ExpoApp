@@ -5,6 +5,7 @@ import {
   Platform,
   StatusBar,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
@@ -53,30 +54,36 @@ const NotificationScreen = () => {
     >
       <StatusBar />
       <ScreenHeader text={'Thông báo'} />
-      <ScrollView className='bg-gray-100 flex h-full'>
-        {notification.map((item, index) => (
-          <View key={index} className='bg-white p-2 mb-2'>
-            <Text className='font-semibold uppercase text-base'>
-              {item?.title}
-            </Text>
-            {item?.content.map((i, index) => (
-              <View
-                style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}
-                key={index}
-              >
-                <AntDesign name='minus' size={14} color='black' />
-                <Text className='text-[16px]'>{i}</Text>
-              </View>
-            ))}
-            <View className='mt-4'>
-              <Text className='text-gray-500 text-sm'>
-                {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}
-              </Text>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+
+      <FlatList
+        data={notification}
+        renderItem={renderItem}
+        keyExtractor={(item) => item._id}
+        style={{ backgroundColor: 'rgb(243 244 246)' }}
+      />
     </SafeAreaView>
+  );
+};
+
+const renderItem = ({ item }) => {
+  return (
+    <View className='bg-white p-2 mb-2'>
+      <Text className='font-semibold uppercase text-base'>{item?.title}</Text>
+      {item?.content.map((i, index) => (
+        <View
+          style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}
+          key={index}
+        >
+          <AntDesign name='minus' size={14} color='black' />
+          <Text className='text-[16px]'>{i}</Text>
+        </View>
+      ))}
+      <View className='mt-4'>
+        <Text className='text-gray-500 text-sm'>
+          {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}
+        </Text>
+      </View>
+    </View>
   );
 };
 

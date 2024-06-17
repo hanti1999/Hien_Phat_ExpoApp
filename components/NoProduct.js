@@ -12,7 +12,7 @@ import ScreenHeader from './ScreenHeader';
 const NoProduct = ({ text }) => {
   return (
     <SafeAreaView className='bg-white h-full'>
-      <ScreenHeader text={'Sản phẩm'} />
+      <ScreenHeader />
       <View className='flex items-center h-full bg-gray-100 px-2'>
         <Image
           style={{ maxWidth: 400, maxHeight: 400 }}

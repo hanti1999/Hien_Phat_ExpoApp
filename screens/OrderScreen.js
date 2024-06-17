@@ -15,7 +15,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import NoProduct from '../components/NoProduct';
 import Loading from '../components/Loading';
 
-const OrderScreen = ({ route, navigation }) => {
+const OrderScreen = ({ route }) => {
   const { userId } = route?.params;
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
@@ -107,7 +107,7 @@ const UpdateOrderButton = ({ id, userId }) => {
 
   const handleUpdateOrder = async () => {
     try {
-      const res = await axios.post(`${BASE_URL}/orders/${id}`, {
+      const res = await axios.post(`${BASE_URL}/cancelOrder/${id}`, {
         newStatus: 'Đã hủy',
         userId: userId,
       });

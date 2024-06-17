@@ -8,6 +8,7 @@ import {
   Pressable,
   Alert,
   StatusBar,
+  FlatList,
   ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -120,22 +121,33 @@ const HomeScreen = () => {
           />
         </View>
 
-        <ScrollView horizontal className='bg-white pl-2'>
-          {products.slice(0, 6).map((item, index) => (
-            <ProductCard item={item} key={index} />
-          ))}
-          {/* <SeeMoreCard /> */}
-        </ScrollView>
+        <FlatList
+          style={{ backgroundColor: 'white', paddingHorizontal: 4 }}
+          renderItem={({ item }) => <ProductCard item={item} />}
+          keyExtractor={(item) => item._id}
+          initialNumToRender={6}
+          data={products}
+          horizontal
+        />
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Bếp gas'} />
 
-          <ScrollView horizontal className='px-2 mt-10'>
-            {bepGas.slice(0, 6).map((item, index) => (
-              <ProductCard item={item} key={index} />
-            ))}
-            <SeeMoreCard categoryId='6666d75349ada55e0903d7ec' />
-          </ScrollView>
+          <FlatList
+            style={{
+              backgroundColor: 'white',
+              paddingHorizontal: 4,
+              marginTop: 20,
+            }}
+            renderItem={({ item }) => <ProductCard item={item} />}
+            keyExtractor={(item) => item._id}
+            initialNumToRender={6}
+            data={bepGas}
+            horizontal
+            ListFooterComponent={
+              <SeeMoreCard categoryId='6666d75349ada55e0903d7ec' />
+            }
+          />
         </View>
 
         <View>
@@ -150,12 +162,21 @@ const HomeScreen = () => {
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Bếp điện'} />
 
-          <ScrollView horizontal className='px-2 mt-10'>
-            {/* {bepDien.map((item, index) => (
-              <ProductCard item={item} key={index} />
-            ))} */}
-            <SeeMoreCard />
-          </ScrollView>
+          <FlatList
+            style={{
+              backgroundColor: 'white',
+              paddingHorizontal: 4,
+              marginTop: 20,
+            }}
+            renderItem={({ item }) => <ProductCard item={item} />}
+            keyExtractor={(item) => item._id}
+            initialNumToRender={6}
+            data={bepDien}
+            horizontal
+            ListFooterComponent={
+              <SeeMoreCard categoryId='6667cd3d026b92076ff622a5' />
+            }
+          />
         </View>
 
         <View>
@@ -170,23 +191,41 @@ const HomeScreen = () => {
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Gia dụng'} />
 
-          <ScrollView horizontal className='px-2 mt-10'>
-            {/* {giaDung.map((item, index) => (
-              <ProductCard item={item} key={index} />
-            ))} */}
-            <SeeMoreCard />
-          </ScrollView>
+          <FlatList
+            style={{
+              backgroundColor: 'white',
+              paddingHorizontal: 4,
+              marginTop: 20,
+            }}
+            renderItem={({ item }) => <ProductCard item={item} />}
+            keyExtractor={(item) => item._id}
+            initialNumToRender={6}
+            data={giaDung}
+            horizontal
+            ListFooterComponent={
+              <SeeMoreCard categoryId='6667cd99026b92076ff622a7' />
+            }
+          />
         </View>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Gas'} />
 
-          <ScrollView horizontal className='px-2 mt-10'>
-            {/* {gas.map((item, index) => (
-              <ProductCard item={item} key={index} />
-            ))} */}
-            <SeeMoreCard />
-          </ScrollView>
+          <FlatList
+            style={{
+              backgroundColor: 'white',
+              paddingHorizontal: 4,
+              marginTop: 20,
+            }}
+            renderItem={({ item }) => <ProductCard item={item} />}
+            keyExtractor={(item) => item._id}
+            initialNumToRender={6}
+            data={gas}
+            horizontal
+            ListFooterComponent={
+              <SeeMoreCard categoryId='6667cf05026b92076ff622af' />
+            }
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -230,15 +269,14 @@ const HorizontalCategory = () => {
   }
 
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {catList?.map((item, index) => (
+    <FlatList
+      renderItem={({ item }) => (
         <Pressable
           onPress={() =>
             navigation.navigate('ProductByCategory', {
               categoryId: item._id,
             })
           }
-          key={index}
           className='m-1'
         >
           <Image
@@ -248,8 +286,11 @@ const HorizontalCategory = () => {
           />
           <Text className='text-center font-medium'>{item?.name}</Text>
         </Pressable>
-      ))}
-    </ScrollView>
+      )}
+      data={catList}
+      keyExtractor={(item) => item._id}
+      horizontal
+    />
   );
 };
 

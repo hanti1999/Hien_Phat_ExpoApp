@@ -1,7 +1,7 @@
-import { Text, View, Pressable, Alert } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
 
 const SeeMoreCard = ({ categoryId }) => {
   const navigation = useNavigation();

@@ -1,7 +1,6 @@
 import {
   Text,
   View,
-  Image,
   ScrollView,
   SafeAreaView,
   Platform,
@@ -17,7 +16,6 @@ import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
-import { P_PINK } from '../config';
 
 const ProductInfoScreen = ({ route }) => {
   const { price, oldPrice, carouselImages, title, features, item } =
@@ -29,7 +27,7 @@ const ProductInfoScreen = ({ route }) => {
   const addItemToCart = (item) => {
     dispatch(
       addToCart({
-        id: item?.id,
+        id: item?._id,
         title: item?.title,
         productImg: item?.image,
         price: item?.price,

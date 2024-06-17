@@ -12,7 +12,7 @@ const ProductCard = ({ item }) => {
   const addItemToCart = (item) => {
     dispatch(
       addToCart({
-        id: item?.id,
+        id: item?._id,
         title: item?.title,
         productImg: item?.image,
         price: item?.price,
@@ -28,7 +28,7 @@ const ProductCard = ({ item }) => {
     <Pressable
       onPress={() =>
         navigation.navigate('Info', {
-          id: item?.id,
+          id: item?._id,
           title: item?.title,
           oldPrice: item?.oldPrice,
           price: item?.price,
@@ -37,7 +37,7 @@ const ProductCard = ({ item }) => {
           item: item,
         })
       }
-      className='w-[180px] max-h-[320px] mr-2 mb-2'
+      className='w-[180px] max-h-[320px] mx-1 my-2'
       disabled={isLoading}
     >
       <View className='border h-full flex justify-between border-gray-200 bg-pink-100 rounded-md overflow-hidden'>
@@ -52,11 +52,11 @@ const ProductCard = ({ item }) => {
                 </Text>
               </View>
               <Text className='line-through'>
-                {item?.oldPrice.toLocaleString()}
+                {item?.oldPrice?.toLocaleString()}
               </Text>
             </View>
             <Text className='font-semibold text-red-500 text-[18px]'>
-              {item?.price.toLocaleString()}đ
+              {item?.price?.toLocaleString()}đ
             </Text>
           </View>
         </View>

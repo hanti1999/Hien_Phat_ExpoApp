@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, SafeAreaView, StatusBar, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
@@ -17,8 +10,7 @@ import Loading from '../components/Loading';
 
 const ProductsByCategoryScreen = ({ route }) => {
   const { categoryId } = route?.params;
-  const navigation = useNavigation();
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedValue, setSelectedValue] = useState('default');
 
@@ -31,10 +23,10 @@ const ProductsByCategoryScreen = ({ route }) => {
           const data = res.data.products;
           setProducts(data);
           setLoading(false);
-          console.log('Fetch thành công');
+          console.log('Fetch sản phẩm thành công');
         } else {
           setLoading(false);
-          console.log('Fetch không thành công');
+          console.log('Fetch sản phẩm không thành công');
         }
       } catch (error) {
         setLoading(false);
@@ -57,8 +49,7 @@ const ProductsByCategoryScreen = ({ route }) => {
     <SafeAreaView style={{ backgroundColor: '#fff' }}>
       <StatusBar />
       <ScreenHeader text={'Sản phẩm'} />
-      <ScrollView className='bg-white'>
-        <Picker
+      {/* <Picker
           selectedValue={selectedValue}
           mode='dropdown'
           onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
@@ -66,18 +57,26 @@ const ProductsByCategoryScreen = ({ route }) => {
           <Picker.Item label='Nổi bật' value={'default'} />
           <Picker.Item label='Giá tăng dần' value={'ascending'} />
           <Picker.Item label='Giá giảm dần' value={'descending'} />
-        </Picker>
+        </Picker> */}
 
-        <View className='flex-row flex-wrap'>
-          {products?.map((item, index) => (
-            <ProductCard item={item} key={index} />
-          ))}
-        </View>
-      </ScrollView>
+      <FlatList
+        data={products}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              flex: 1 / 2,
+              alignItems: 'center',
+            }}
+          >
+            <ProductCard item={item} />
+          </View>
+        )}
+        numColumns={2}
+        keyExtractor={(item) => item._id}
+        style={{ height: '100%' }}
+      />
     </SafeAreaView>
   );
 };
 
 export default ProductsByCategoryScreen;
-
-const styles = StyleSheet.create({});

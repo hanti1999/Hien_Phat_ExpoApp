@@ -193,7 +193,7 @@ app.post('/profile/update', async (req, res) => {
 
 const Order = require('./models/order');
 // Tạo đơn hàng
-app.post('/orders', async (req, res) => {
+app.post('/order/create', async (req, res) => {
   try {
     const {
       userId,
@@ -262,7 +262,7 @@ app.get('/orders/:userId', async (req, res) => {
 });
 
 // Hủy đơn hàng
-app.post('/orders/:orderId', async (req, res) => {
+app.post('/cancelOrder/:orderId', async (req, res) => {
   try {
     const orderId = req.params.orderId;
     const { newStatus, userId } = req.body;
@@ -312,9 +312,9 @@ const Product = require('./models/product');
 // Tìm kiếm sản phẩm
 app.get('/product/search', async (req, res) => {
   try {
-    const { query } = req.body;
+    const input = req.query.q;
     const products = await Product.find({
-      name: new RegExp(query, 'i'),
+      title: new RegExp(input, 'i'),
     }).populate(['category', 'brand']);
     res.status(200).json({ products });
   } catch (error) {
@@ -333,6 +333,7 @@ app.get('/product', async (req, res) => {
   }
 });
 
+// get products by category
 app.get('/product/:categoryId', async (req, res) => {
   try {
     const { categoryId } = req?.params;
@@ -341,6 +342,18 @@ app.get('/product/:categoryId', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error });
     console.log('Lỗi get /product/:categoryId', error);
+  }
+});
+
+// get products by brand
+app.get('/product/:brandId', async (req, res) => {
+  try {
+    const { brandId } = req?.params;
+    const products = await Product.find({ brand: brandId });
+    res.status(200).json({ products });
+  } catch (error) {
+    res.status(500).json({ message: error });
+    console.log('Lỗi get /product/:brandId', error);
   }
 });
 
