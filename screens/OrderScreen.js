@@ -3,7 +3,7 @@ import {
   SafeAreaView,
   View,
   Pressable,
-  Image,
+  ActivityIndicator,
   ScrollView,
   Modal,
 } from 'react-native';
@@ -79,18 +79,16 @@ const OrderScreen = ({ route }) => {
                 {o?.totalPrice.toLocaleString()}
               </Text>
             </Text>
-            {o.status != 'Đã hủy' ? (
-              <>
-                <Text className='text-[16px]'>
-                  Tích điểm:{' '}
-                  <Text className='font-bold text-blue-500'>
-                    {o?.points.toLocaleString()}
-                  </Text>
-                </Text>
-                <UpdateOrderButton id={o._id} userId={userId} />
-              </>
-            ) : (
+            <Text className='text-[16px]'>
+              Tích điểm:{' '}
+              <Text className='font-bold text-blue-500'>
+                {o?.points.toLocaleString()}
+              </Text>
+            </Text>
+            {o.status === 'Đã giao' || o.status === 'Đã hủy' ? (
               <></>
+            ) : (
+              <UpdateOrderButton id={o._id} userId={userId} />
             )}
             <Text className='text-[16px] mt-2 text-gray-500'>
               Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
@@ -102,20 +100,29 @@ const OrderScreen = ({ route }) => {
   );
 };
 
-const UpdateOrderButton = ({ id, userId }) => {
+const UpdateOrderButton = ({ id }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleUpdateOrder = async () => {
     try {
-      const res = await axios.post(`${BASE_URL}/cancelOrder/${id}`, {
+      const res = await axios.patch(`${BASE_URL}/order/${id}/cancel`, {
         newStatus: 'Đã hủy',
-        userId: userId,
       });
-      const result = res.data.message;
-      console.log(result);
-      setModalVisible(!modalVisible);
+
+      setLoading(true);
+      if (res.status === 200) {
+        const result = res.data.message;
+        console.log(result);
+        setModalVisible(!modalVisible);
+        setLoading(false);
+      } else {
+        console.log('Hủy đơn không thành công');
+        setLoading(false);
+      }
     } catch (error) {
       console.log('Lỗi (OrderScreen):', error);
+      setLoading(false);
     }
   };
 
@@ -148,16 +155,20 @@ const UpdateOrderButton = ({ id, userId }) => {
                 className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
                 onPress={handleUpdateOrder}
               >
-                <Text className='text-center text-[16px] text-white'>
-                  Đồng ý
-                </Text>
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <Text className='text-center text-[16px] text-white'>
+                    Đồng ý
+                  </Text>
+                )}
               </Pressable>
             </View>
           </View>
         </View>
       </Modal>
       <Pressable
-        className='border border-red-500 rounded-xl py-1 mt-1 w-32'
+        className='border border-red-500 rounded-xl py-1 mt-1 w-32 flex justify-center'
         onPress={() => setModalVisible(!modalVisible)}
       >
         <Text className='text-red-500 font-semibold text-center'>

@@ -205,15 +205,14 @@ app.post('/order/create', async (req, res) => {
       shippingAddress,
       paymentMethod,
       cartPoints,
+      usePoint,
     } = req.body;
 
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    if (usePoint) {
+      const user = await User.findById(userId);
+      user.points = 0;
+      await user.save();
     }
-
-    // tích điểm
-    user.points += cartPoints;
 
     // Tạo mảng chứa object sản phẩm
     const products = cartItems.map((item) => ({
@@ -235,7 +234,6 @@ app.post('/order/create', async (req, res) => {
     });
 
     await order.save();
-    await user.save();
 
     res.status(200).json({ message: 'Order created successfully!' });
   } catch (error) {
@@ -262,19 +260,44 @@ app.get('/orders/:userId', async (req, res) => {
 });
 
 // Hủy đơn hàng
-app.post('/cancelOrder/:orderId', async (req, res) => {
+app.patch('/order/:orderId/cancel', async (req, res) => {
   try {
     const orderId = req.params.orderId;
-    const { newStatus, userId } = req.body;
+    const { newStatus } = req.body;
 
-    const order = await Order.findById(orderId);
-    order.status = newStatus;
-    await order.save();
-    const user = await User.findById(userId);
-    user.points -= order.points;
-    await user.save();
+    const order = await Order.findByIdAndUpdate(orderId, { status: newStatus });
 
     res.status(200).json({ message: 'Hủy thành công' });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+app.patch('/order/:orderId/deliver', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+    const updateOrder = await Order.findByIdAndUpdate(orderId, {
+      status: 'Đang giao',
+    });
+    res.status(200).json({ message: 'Cập nhật trạng thái thành công!' });
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+app.patch('/order/:orderId/delivered', async (req, res) => {
+  try {
+    const orderId = req.params.orderId;
+
+    const order = await Order.findById(orderId);
+    order.status = 'Đã giao';
+    await order.save();
+
+    const user = await User.findById(order.user);
+    user.points += order.points;
+    await user.save();
+
+    res.status(200).json({ message: 'Cập nhật trạng thái thành công!' });
   } catch (error) {
     res.status(500).json({ message: error });
   }

@@ -10,19 +10,17 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
+  Switch,
 } from 'react-native';
 import {
-  Entypo,
-  Ionicons,
   FontAwesome6,
   AntDesign,
+  MaterialIcons,
   Fontisto,
 } from '@expo/vector-icons';
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { jwtDecode } from 'jwt-decode';
 import { BASE_URL } from '@env';
 import axios from 'axios';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
@@ -30,13 +28,111 @@ import ScreenHeader from '../components/ScreenHeader';
 import NoProduct from '../components/NoProduct';
 import { UserType } from '../userContext';
 import { P_PINK } from '../config';
+import Loading from '../components/Loading';
 
 const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const navigation = useNavigation();
+  const cartAmount = useSelector((state) => state.cart.totalAmount);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const dispatch = useDispatch();
+  const { userId, setUserId } = useContext(UserType);
+  const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [totalAmount, setTotalAmount] = useState(cartAmount);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [userPoints, setUserPoints] = useState(0);
+  const [usePoint, setUsePoint] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [address, setAddress] = useState('');
+  const [name, setName] = useState('');
+  const [note, setNote] = useState('');
+  const phoneRef = useRef(null);
+  let cartPoints = Math.round((totalAmount * 1) / 100);
+  let voucher = 0;
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/profile/${userId}`);
+        const user = res.data.user;
+        if (res.status === 200) {
+          setAddress(user?.address);
+          setName(user?.name);
+          setPhoneNumber(user?.phoneNumber);
+          setUserPoints(user?.points);
+          setLoading(false);
+          console.log('Fetch thông tin người dùng thành công');
+        } else {
+          setLoading(false);
+          console.log('Fetch thông tin người dùng không thành công');
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log('Lỗi (catch ProfileScreen): ', error);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
+  useEffect(() => {
+    setTotalAmount(cartAmount);
+  }, [cartAmount]);
+
+  const handlePlaceOrder = async () => {
+    setOrderLoading(true);
+    if (phoneNumber === '') {
+      Alert.alert('Thông báo', 'Vui lòng điền số điện thoại!');
+      setIsVisible(!isVisible);
+      phoneRef.current.focus();
+      setOrderLoading(false);
+      return;
+    }
+    try {
+      const orderData = {
+        userId: userId,
+        name: name,
+        phoneNumber: phoneNumber,
+        note: note,
+        cartItems: cartItems,
+        totalPrice: totalAmount,
+        shippingAddress: address,
+        paymentMethod: paymentMethod,
+        cartPoints: cartPoints,
+        usePoint: usePoint,
+      };
+
+      const response = await axios.post(`${BASE_URL}/order/create`, orderData);
+      if (response.status === 200) {
+        navigation.navigate('Thanks');
+        dispatch(clearCart());
+        setOrderLoading(false);
+        console.log('Tạo đơn hàng thành công');
+      } else {
+        setOrderLoading(false);
+        console.log('Tạo đơn hàng không thành công');
+      }
+    } catch (error) {
+      setOrderLoading(false);
+      console.log('Lỗi (CartScreen): ', error);
+    }
+  };
+
+  const toggleSwitch = () => {
+    setUsePoint(!usePoint);
+    setTotalAmount(
+      usePoint ? totalAmount + userPoints : totalAmount - userPoints
+    );
+  };
 
   if (cartQuantity === 0) {
     return <NoProduct text={'Chưa có sản phẩm trong giỏ hàng!'} />;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -47,84 +143,9 @@ const CartScreen = () => {
       }}
     >
       <StatusBar />
-      <ItemInCart navigation={navigation} />
-    </SafeAreaView>
-  );
-};
-
-const ItemInCart = ({ navigation }) => {
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const cartAmount = useSelector((state) => state.cart.totalAmount);
-  const dispatch = useDispatch();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [address, setAddress] = useState('');
-  const [name, setName] = useState('');
-  const [note, setNote] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('cash');
-  const [isVisible, setIsVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { userId, setUserId } = useContext(UserType);
-  const phoneRef = useRef(null);
-  let cartPoints = (cartAmount * 1) / 100;
-  let voucher = 20000;
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = await AsyncStorage.getItem('authToken');
-      const decodeToken = jwtDecode(token);
-      const userAddress = decodeToken?.address;
-      const userName = decodeToken?.name;
-      const userPhoneNumber = decodeToken?.phoneNumber;
-      setAddress(userAddress);
-      setName(userName);
-      setPhoneNumber(userPhoneNumber);
-    };
-
-    fetchUser();
-  }, []);
-
-  const handlePlaceOrder = async () => {
-    setLoading(true);
-    if (phoneNumber === '') {
-      Alert.alert('Thông báo', 'Vui lòng điền số điện thoại!');
-      phoneRef.current.focus();
-      setLoading(false);
-      return;
-    }
-    try {
-      const orderData = {
-        userId: userId,
-        name: name,
-        phoneNumber: phoneNumber,
-        note: note,
-        cartItems: cartItems,
-        totalPrice: cartAmount - voucher,
-        shippingAddress: address,
-        paymentMethod: paymentMethod,
-        cartPoints: cartPoints,
-      };
-
-      const response = await axios.post(`${BASE_URL}/order/create`, orderData);
-      if (response.status === 200) {
-        navigation.navigate('Thanks');
-        dispatch(clearCart());
-        setLoading(false);
-        console.log('Tạo đơn hàng thành công');
-      } else {
-        setLoading(false);
-        console.log('Tạo đơn hàng không thành công');
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log('Lỗi (CartScreen): ', error);
-    }
-  };
-
-  return (
-    <>
       <ScreenHeader text={'Giỏ hàng'} />
-      <ScrollView className='bg-gray-100'>
-        <View className='bg-pink-100 py-2'>
+      <ScrollView className='bg-gray-100' showsVerticalScrollIndicator={false}>
+        <View className='bg-pink-100 py-2 mb-2'>
           <Text className='uppercase font-bold text-xl mx-2'>
             Chi tiết đơn hàng
           </Text>
@@ -137,27 +158,40 @@ const ItemInCart = ({ navigation }) => {
               {cartAmount?.toLocaleString()}đ
             </Text>
           </View>
-          <View className='flex-row justify-between items-center mt-2 mx-2'>
-            <View className='flex-row items-center'>
-              <Fontisto name='ticket-alt' size={24} color='pink' />
-              <Text className='text-right text-[16px]'> Ưu đãi giảm</Text>
+          {voucher != 0 && (
+            <View className='flex-row justify-between items-center mt-2 mx-2'>
+              <View className='flex-row items-center' style={{ gap: 4 }}>
+                <Fontisto name='ticket-alt' size={24} color='pink' />
+                <Text className='text-right text-[16px]'>Ưu đãi giảm</Text>
+              </View>
+              <Text className='text-primary-pink text-[18px]'>0đ</Text>
             </View>
-            <Text className='text-primary-pink text-[18px]'>
-              -{voucher?.toLocaleString()}đ
-            </Text>
+          )}
+          <View className='flex-row justify-between items-center mt-2 mx-2'>
+            <View className='flex-row items-center' style={{ gap: 4 }}>
+              <MaterialIcons name='wallet' size={24} color='pink' />
+              <Text className='text-right text-[16px]'>
+                Dùng {userPoints?.toLocaleString()} điểm
+              </Text>
+            </View>
+            <Switch
+              trackColor={{ false: '#767577', true: P_PINK }}
+              onValueChange={toggleSwitch}
+              value={usePoint}
+            />
           </View>
         </View>
 
-        <View className='mt-2 p-2 bg-white'>
+        <View className='mb-2 p-2 bg-white'>
           <View className='flex-row justify-between'>
             <Text className='uppercase font-bold text-[20px] '>
               Giao hàng tới
             </Text>
 
             <Pressable onPress={() => setIsVisible(!isVisible)}>
-              <View className='flex-row items-center'>
+              <View className='flex-row items-center' style={{ gap: 4 }}>
                 <Text style={{ color: 'blue' }}>Sửa thông tin</Text>
-                <Entypo name='pencil' size={20} color='blue' />
+                <FontAwesome6 name='pencil' size={20} color='blue' />
               </View>
             </Pressable>
           </View>
@@ -181,6 +215,13 @@ const ItemInCart = ({ navigation }) => {
                   onChangeText={setPhoneNumber}
                   className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
                 />
+                <Text className='my-3 text-[16px]'>Ghi chú:</Text>
+                <TextInput
+                  value={note}
+                  onChangeText={setNote}
+                  placeholder='(Không bắt buộc)'
+                  className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+                />
               </View>
             )}
             <Text className='my-3 text-[16px]'>Địa chỉ nhận hàng:</Text>
@@ -191,18 +232,12 @@ const ItemInCart = ({ navigation }) => {
               editable={isVisible}
               numberOfLines={3}
               className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
-            />
-            <Text className='my-3 text-[16px]'>Ghi chú:</Text>
-            <TextInput
-              className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
-              value={note}
-              placeholder='(Không bắt buộc)'
-              onChangeText={setNote}
+              style={{ backgroundColor: isVisible ? 'white' : '#e5e7eb' }}
             />
           </View>
         </View>
 
-        <View className='mt-2 p-2 mb-2 bg-white'>
+        <View className='p-2 mb-2 bg-white'>
           <Text className='uppercase font-bold text-xl'>
             Phương thức thanh toán
           </Text>
@@ -215,7 +250,7 @@ const ItemInCart = ({ navigation }) => {
               {paymentMethod === 'cash' ? (
                 <AntDesign name='checkcircle' size={20} color={P_PINK} />
               ) : (
-                <Entypo name='circle' size={20} color={P_PINK} />
+                <FontAwesome6 name='circle' size={20} color={P_PINK} />
               )}
               <Text className='text-[16px]'>
                 Thanh toán tiền mặt khi nhận hàng
@@ -230,7 +265,7 @@ const ItemInCart = ({ navigation }) => {
               {paymentMethod === 'card' ? (
                 <AntDesign name='checkcircle' size={20} color={P_PINK} />
               ) : (
-                <Entypo name='circle' size={20} color={P_PINK} />
+                <FontAwesome6 name='circle' size={20} color={P_PINK} />
               )}
               <Text className='text-[16px]'>Thanh toán chuyển khoản</Text>
             </Pressable>
@@ -242,12 +277,14 @@ const ItemInCart = ({ navigation }) => {
         <View className='flex-row justify-between items-center mt-4 mb-2'>
           <Text className='text-[18px]'>Tổng thanh toán: </Text>
           <Text className='text-primary-pink font-bold text-[20px]'>
-            {(cartAmount - voucher).toLocaleString()}đ
+            {totalAmount.toLocaleString()}đ
           </Text>
         </View>
         <View className='flex-row justify-between items-center mb-2'>
           <Text className='text-primary-pink'>
-            Quý khách tiết kiệm được {voucher.toLocaleString()}đ
+            Quý khách tiết kiệm được{' '}
+            {(cartAmount - totalAmount).toLocaleString()}
+            đ
             <Image
               className='w-5 h-5'
               source={require('../assets/tulip.png')}
@@ -258,10 +295,10 @@ const ItemInCart = ({ navigation }) => {
         <Pressable
           onPress={handlePlaceOrder}
           style={{ gap: 8 }}
-          disabled={loading}
+          disabled={orderLoading}
           className='h-[60px] w-full bg-primary-pink flex-row items-center justify-center rounded-xl '
         >
-          {loading ? (
+          {orderLoading ? (
             <ActivityIndicator color={'#fff'} />
           ) : (
             <>
@@ -280,7 +317,7 @@ const ItemInCart = ({ navigation }) => {
           <Text className=' text-[18px] text-center'>Tiếp tục mua sắm</Text>
         </Pressable>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -292,17 +329,17 @@ const RenderItemToCart = ({ item, dispatch }) => {
 
   return (
     <View
-      style={{ gap: 14 }}
-      className='flex-row border-b bg-pink-100 border-gray-400 items-center p-2 overflow-hidden'
+      style={{ gap: 8 }}
+      className='flex-row border-b bg-pink-100 border-gray-400 items-center p-2'
     >
-      <View className='w-1/2'>
+      <View style={{ width: width / 2 }}>
         <Image
           className=' w-full rounded-lg'
           style={{ width: width / 2, height: width / 2.5 }}
           source={{ uri: item?.productImg }}
         />
       </View>
-      <View className='w-1/2'>
+      <View style={{ width: width / 2 }}>
         <View className='border-b-2 border-gray-300'>
           <Text className='font-semibold text-[18px]' numberOfLines={3}>
             {item?.title}
@@ -312,14 +349,15 @@ const RenderItemToCart = ({ item, dispatch }) => {
           Số lượng: <Text className='font-bold'>{item?.quantity}</Text> x{' '}
           {item?.price?.toLocaleString()}đ
         </Text>
-        <Text className='border-t border-gray-200 mb-2 text-[16px]'>
-          ={' '}
-          <Text className='font-bold'>
-            {(item?.quantity * item?.price)?.toLocaleString()}đ
-          </Text>
+        <Text className='font-bold text-[16px] mb-2'>
+          = {(item?.quantity * item?.price)?.toLocaleString()}đ
         </Text>
-        <Pressable onPress={handleProduct} className='flex-row items-center'>
-          <Ionicons name='trash' size={20} color={P_PINK} />
+        <Pressable
+          onPress={handleProduct}
+          className='flex-row items-center'
+          style={{ gap: 4 }}
+        >
+          <Fontisto name='trash' size={20} color={P_PINK} />
           <Text className='text-primary-pink text-[16px]'>Xoá sản phẩm</Text>
         </Pressable>
       </View>
