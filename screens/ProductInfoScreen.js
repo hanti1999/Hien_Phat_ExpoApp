@@ -13,41 +13,18 @@ import {
   FlatList,
 } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
-import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
-import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import { BASE_URL } from '@env';
-import axios from 'axios';
+import React, { useState } from 'react';
+import moment from 'moment';
 import { addToCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 
 const ProductInfoScreen = ({ route }) => {
-  const { id, price, oldPrice, carouselImages, title, features, item } =
-    route?.params;
+  const { item } = route?.params;
   const width = Dimensions.get('window').width;
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/review/${id}`);
-
-        if (res.status === 200) {
-          setReviews(res.data.review);
-          console.log('fetch review thành công');
-        } else {
-          console.log('fetch review không thành công');
-        }
-      } catch (error) {
-        console.log('fetch review không thành công (ProductInfoScreen)');
-      }
-    };
-
-    fetchReviews();
-  }, []);
 
   const addItemToCart = (item) => {
     dispatch(
@@ -76,7 +53,7 @@ const ProductInfoScreen = ({ route }) => {
         <ScreenHeader text={'Chi tiết sản phẩm'} />
 
         <SliderBox
-          images={carouselImages}
+          images={item?.carouselImages}
           dotColor='#302671'
           inactiveDotColor='#333'
           ImageComponentStyle={width}
@@ -85,19 +62,21 @@ const ProductInfoScreen = ({ route }) => {
 
         <View className='p-2 mb-2 bg-pink-100'>
           <Text numberOfLines={2} className='font-semibold text-[18px]'>
-            {title}
+            {item?.title}
           </Text>
           <View className='flex-row items-center py-3'>
             <View className='p-0.5 rounded bg-red-500 mr-1'>
               <Text className='text-white '>
-                -{100 - Math.round((price * 100) / oldPrice)}%
+                -{100 - Math.round((item?.price * 100) / item?.oldPrice)}%
               </Text>
             </View>
             <Text className='line-through text-[16px]'>
-              {oldPrice.toLocaleString()}đ
+              {item?.oldPrice.toLocaleString()}đ
             </Text>
           </View>
-          <Text className='text-2xl font-bold'>{price.toLocaleString()}đ</Text>
+          <Text className='text-2xl font-bold'>
+            {item?.price.toLocaleString()}đ
+          </Text>
         </View>
 
         <View className='p-2 mb-2 bg-pink-200'>
@@ -105,7 +84,7 @@ const ProductInfoScreen = ({ route }) => {
             Đặc điểm nổi bật
           </Text>
           <View>
-            {features?.map((item, index) => (
+            {item?.features?.map((item, index) => (
               <Text className='pt-0.5' key={index}>
                 o {item}
               </Text>
@@ -115,7 +94,7 @@ const ProductInfoScreen = ({ route }) => {
 
         <View className='p-2 mb-2 bg-pink-300'>
           <Text className='text-[16px] font-semibold mb-2'>Đánh giá</Text>
-          <Review reviews={reviews} />
+          <Reviews reviews={item?.reviews} />
         </View>
       </ScrollView>
 
@@ -163,7 +142,7 @@ const OpenURLButton = ({ url, children }) => {
   );
 };
 
-const Review = ({ reviews }) => {
+const Reviews = ({ reviews }) => {
   if (reviews.length === 0) {
     return <Text>Chưa có đánh giá!</Text>;
   }
@@ -176,7 +155,7 @@ const Review = ({ reviews }) => {
       horizontal
       showsHorizontalScrollIndicator={false}
       renderItem={({ item }) => (
-        <View className='mr-2 bg-white rounded-lg p-2 max-w-[400px]'>
+        <View className='mr-2 bg-white rounded-lg p-2 w-[360px]'>
           <View className='flex-row items-center' style={{ gap: 4 }}>
             <Text className='text-[#faa935] font-semibold'>{item?.rating}</Text>
             <FontAwesome name='star' size={16} color='#faa935' />

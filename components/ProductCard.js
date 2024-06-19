@@ -24,19 +24,13 @@ const ProductCard = ({ item }) => {
     }, 1000);
   };
 
+  const navToInfo = () => {
+    navigation.navigate('Info', { item });
+  };
+
   return (
     <Pressable
-      onPress={() =>
-        navigation.navigate('Info', {
-          id: item?._id,
-          title: item?.title,
-          oldPrice: item?.oldPrice,
-          price: item?.price,
-          carouselImages: item?.carouselImages,
-          features: item?.features,
-          item: item,
-        })
-      }
+      onPress={navToInfo}
       className='w-[180px] max-h-[320px] mx-1 my-2'
       disabled={isLoading}
     >

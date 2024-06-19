@@ -190,8 +190,10 @@ const CartScreen = () => {
 
             <Pressable onPress={() => setIsVisible(!isVisible)}>
               <View className='flex-row items-center' style={{ gap: 4 }}>
-                <Text style={{ color: 'blue' }}>Sửa thông tin</Text>
-                <FontAwesome6 name='pencil' size={20} color='blue' />
+                <Text style={{ color: 'blue', fontSize: 16 }}>
+                  Sửa thông tin
+                </Text>
+                <FontAwesome6 name='pencil' size={16} color='blue' />
               </View>
             </Pressable>
           </View>

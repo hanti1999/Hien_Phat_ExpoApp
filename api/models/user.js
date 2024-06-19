@@ -26,6 +26,12 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  reviews: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
   createAt: {
     type: Date,
     default: Date.now,

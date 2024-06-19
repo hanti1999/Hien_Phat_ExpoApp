@@ -209,9 +209,7 @@ app.post('/order/create', async (req, res) => {
     } = req.body;
 
     if (usePoint) {
-      const user = await User.findById(userId);
-      user.points = 0;
-      await user.save();
+      await User.findByIdAndUpdate(userId, { points: 0 });
     }
 
     // Tạo mảng chứa object sản phẩm
@@ -234,6 +232,10 @@ app.post('/order/create', async (req, res) => {
     });
 
     await order.save();
+
+    await User.findByIdAndUpdate(userId, {
+      $push: { orders: order._id },
+    });
 
     res.status(200).json({ message: 'Order created successfully!' });
   } catch (error) {
@@ -338,7 +340,7 @@ app.get('/product/search', async (req, res) => {
     const input = req.query.q;
     const products = await Product.find({
       title: new RegExp(input, 'i'),
-    }).populate(['category', 'brand']);
+    }).populate(['category', 'brand', 'reviews']);
     res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -348,7 +350,11 @@ app.get('/product/search', async (req, res) => {
 
 app.get('/product', async (req, res) => {
   try {
-    const product = await Product.find().populate(['category', 'brand']);
+    const product = await Product.find().populate([
+      'category',
+      'brand',
+      'reviews',
+    ]);
     res.status(200).json({ product });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -436,10 +442,9 @@ app.get('/brand', async (req, res) => {
 
 //Review
 const Review = require('./models/review');
-const { isErrored } = require('stream');
-app.post('/review/create/:productId', async (req, res) => {
+app.post('/review/create/:productId/:userId', async (req, res) => {
   try {
-    const productId = req.params.productId;
+    const { productId, userId } = req.params;
     const newReview = new Review(req.body);
     const savedReview = await newReview.save();
 
@@ -447,21 +452,12 @@ app.post('/review/create/:productId', async (req, res) => {
       $push: { reviews: savedReview._id },
     });
 
+    await User.findByIdAndUpdate(userId, {
+      $push: { reviews: savedReview._id },
+    });
+
     res.status(200).json({ message: 'Gửi đánh giá thành công!' });
   } catch (error) {
     res.status(500).json({ error });
-  }
-});
-
-app.get('/review/:productId', async (req, res) => {
-  try {
-    const productId = req?.params.productId;
-
-    const review = await Review.find({ product: productId });
-
-    res.status(200).json({ review });
-  } catch (error) {
-    res.status(500).json({ error });
-    console.log(error);
   }
 });

@@ -79,15 +79,16 @@ const renderItem = ({ item }) => {
   return (
     <View className='bg-white p-2 mb-2'>
       <Text className='font-semibold uppercase text-base'>{item?.title}</Text>
-      {item?.content.map((i, index) => (
-        <View
-          style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}
-          key={index}
-        >
-          <AntDesign name='minus' size={14} color='black' />
-          <Text className='text-[16px]'>{i}</Text>
-        </View>
-      ))}
+      <FlatList
+        data={item?.content}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => (
+          <View style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}>
+            <AntDesign name='minus' size={14} color='black' />
+            <Text className='text-[16px]'>{item}</Text>
+          </View>
+        )}
+      />
       <View className='mt-4'>
         <Text className='text-gray-500 text-sm'>
           {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}

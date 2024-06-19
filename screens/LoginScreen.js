@@ -60,6 +60,7 @@ const LoginScreen = () => {
         setPassword('');
         navigation.replace('Main');
       } catch (error) {
+        setLoading(false);
         Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
         console.log('Lỗi! (LoginScreen): ', error);
       }
