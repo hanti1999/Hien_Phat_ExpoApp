@@ -7,6 +7,8 @@ import {
   Alert,
   Linking,
   Modal,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {
   FontAwesome,
@@ -27,28 +29,35 @@ import { UserType } from '../userContext';
 
 const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
+  const [refreshing, setRefreshing] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/profile/${userId}`);
-        const user = res.data.user;
-        if (res.status === 200) {
-          setCurrentUser(user);
-          setLoading(false);
-          console.log('Fetch thông tin người dùng thành công');
-        } else {
-          setLoading(false);
-          console.log('Fetch thông tin người dùng không thành công');
-        }
-      } catch (error) {
-        console.log('Lỗi (catch ProfileScreen): ', error);
-      }
-    };
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchUserProfile();
+    setRefreshing(false);
+  };
 
+  const fetchUserProfile = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/profile/${userId}`);
+      const user = res.data.user;
+      if (res.status === 200) {
+        setCurrentUser(user);
+        setLoading(false);
+        console.log('Fetch thông tin người dùng thành công');
+      } else {
+        setLoading(false);
+        console.log('Fetch thông tin người dùng không thành công');
+      }
+    } catch (error) {
+      console.log('Lỗi (catch ProfileScreen): ', error);
+    }
+  };
+
+  useEffect(() => {
     fetchUserProfile();
   }, []);
 
@@ -64,7 +73,13 @@ const ProfileScreen = () => {
       }}
     >
       <StatusBar />
-      <View className='bg-gray-100 flex-1'>
+      <ScrollView
+        stickyHeaderIndices={[0]}
+        className='bg-gray-100 flex-1'
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <ScreenHeader text={'Tài khoản'} />
         <View
           style={{ gap: 12 }}
@@ -155,7 +170,7 @@ const ProfileScreen = () => {
             Gas Hiền Phát - v{'1.0.0'}
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

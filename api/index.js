@@ -433,3 +433,35 @@ app.get('/brand', async (req, res) => {
     res.status(500).json({ error });
   }
 });
+
+//Review
+const Review = require('./models/review');
+const { isErrored } = require('stream');
+app.post('/review/create/:productId', async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const newReview = new Review(req.body);
+    const savedReview = await newReview.save();
+
+    await Product.findByIdAndUpdate(productId, {
+      $push: { reviews: savedReview._id },
+    });
+
+    res.status(200).json({ message: 'Gửi đánh giá thành công!' });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+app.get('/review/:productId', async (req, res) => {
+  try {
+    const productId = req?.params.productId;
+
+    const review = await Review.find({ product: productId });
+
+    res.status(200).json({ review });
+  } catch (error) {
+    res.status(500).json({ error });
+    console.log(error);
+  }
+});

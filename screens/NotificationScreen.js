@@ -4,7 +4,7 @@ import {
   View,
   Platform,
   StatusBar,
-  ScrollView,
+  RefreshControl,
   FlatList,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -16,27 +16,34 @@ import ScreenHeader from '../components/ScreenHeader';
 import Loading from '../components/Loading';
 
 const NotificationScreen = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const [notification, setNotification] = useState();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchNotification = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/notification`);
-        if (res.status === 200) {
-          const notification = res.data?.notification;
-          setNotification(notification);
-          setLoading(false);
-          console.log('Fetch thông báo thành công');
-        } else {
-          setLoading(false);
-          console.log('Fetch thông báo không thành công');
-        }
-      } catch (error) {
-        console.log('Lỗi (NotificationScreen)', error);
-      }
-    };
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchNotification();
+    setRefreshing(false);
+  };
 
+  const fetchNotification = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/notification`);
+      if (res.status === 200) {
+        const notification = res.data?.notification;
+        setNotification(notification);
+        setLoading(false);
+        console.log('Fetch thông báo thành công');
+      } else {
+        setLoading(false);
+        console.log('Fetch thông báo không thành công');
+      }
+    } catch (error) {
+      console.log('Lỗi (NotificationScreen)', error);
+    }
+  };
+
+  useEffect(() => {
     fetchNotification();
   }, []);
 
@@ -60,6 +67,9 @@ const NotificationScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item._id}
         style={{ backgroundColor: 'rgb(243 244 246)' }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );

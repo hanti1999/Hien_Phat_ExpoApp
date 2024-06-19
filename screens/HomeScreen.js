@@ -10,6 +10,7 @@ import {
   StatusBar,
   FlatList,
   ActivityIndicator,
+  RefreshControl,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
@@ -28,8 +29,15 @@ import { UserType } from '../userContext';
 
 const HomeScreen = () => {
   const { userId, setUserId } = useContext(UserType);
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchProducts();
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -46,26 +54,25 @@ const HomeScreen = () => {
     fetchUserId();
   }, []);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/product`);
-        if (res.status === 200) {
-          const data = res?.data?.product;
-          setProduct(data);
-
-          setLoading(false);
-          console.log('Fetch sản phẩm thành công');
-        } else {
-          setLoading(false);
-          console.log('Lỗi!, không fetch được sản phẩm');
-        }
-      } catch (error) {
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/product`);
+      if (res.status === 200) {
+        const data = res?.data?.product;
+        setProduct(data);
         setLoading(false);
-        console.log('Lỗi HomeScreen - fet Products', error);
+        console.log('Fetch sản phẩm thành công');
+      } else {
+        setLoading(false);
+        console.log('Lỗi!, không fetch được sản phẩm');
       }
-    };
+    } catch (error) {
+      setLoading(false);
+      console.log('Lỗi HomeScreen - fet Products', error);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
   }, []);
 
@@ -93,7 +100,13 @@ const HomeScreen = () => {
       style={{ paddingTop: Platform.OS == 'android' ? 0 : 0 }}
     >
       <StatusBar />
-      <ScrollView stickyHeaderIndices={[0]} className='bg-gray-100'>
+      <ScrollView
+        stickyHeaderIndices={[0]}
+        className='bg-gray-100'
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <SearchBar />
 
         <HorizontalCategory />
