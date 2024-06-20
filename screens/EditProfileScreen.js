@@ -6,13 +6,14 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 
-const EditProfileScreen = ({ route, navigation }) => {
+const EditProfileScreen = ({ route }) => {
   const { currentUser } = route?.params;
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
@@ -30,11 +31,12 @@ const EditProfileScreen = ({ route, navigation }) => {
       };
       const res = await axios.post(`${BASE_URL}/profile/update`, userData);
       if (res.status === 200) {
+        setLoading(false);
+        Alert.alert('Thông báo', 'Cập nhật thông tin thành công!');
         console.log('Cập nhật thông tin thành công');
-        setLoading(false);
       } else {
-        console.log('Cập nhật thông tin không thành công (EditProfileScreen)');
         setLoading(false);
+        console.log('Cập nhật thông tin không thành công (EditProfileScreen)');
       }
     } catch (error) {
       setLoading(false);

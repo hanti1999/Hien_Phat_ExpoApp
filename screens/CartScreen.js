@@ -221,8 +221,9 @@ const CartScreen = () => {
                 <TextInput
                   value={note}
                   onChangeText={setNote}
+                  multiline
                   placeholder='(Không bắt buộc)'
-                  className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+                  className='h-[70px] px-2 border rounded-xl border-gray-300 text-[16px]'
                 />
               </View>
             )}
@@ -232,8 +233,7 @@ const CartScreen = () => {
               onChangeText={setAddress}
               multiline
               editable={isVisible}
-              numberOfLines={3}
-              className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+              className='px-2 h-[70px] border rounded-xl border-gray-300 text-[16px]'
               style={{ backgroundColor: isVisible ? 'white' : '#e5e7eb' }}
             />
           </View>

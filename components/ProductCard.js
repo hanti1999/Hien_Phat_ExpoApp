@@ -1,10 +1,10 @@
 import { Text, View, Pressable, Image, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
+import { useNavigation } from '@react-navigation/native';
 
-const ProductCard = ({ item }) => {
+const ProductCard = ({ item, userId }) => {
   const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const ProductCard = ({ item }) => {
   };
 
   const navToInfo = () => {
-    navigation.navigate('Info', { item });
+    navigation.navigate('Info', { item, userId });
   };
 
   return (

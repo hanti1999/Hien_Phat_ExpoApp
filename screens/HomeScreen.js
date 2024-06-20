@@ -44,8 +44,8 @@ const HomeScreen = () => {
       try {
         const token = await AsyncStorage.getItem('authToken');
         const decodeToken = jwtDecode(token);
-        const uId = decodeToken.userId;
-        setUserId(uId);
+        const userId = decodeToken.userId;
+        setUserId(userId);
       } catch (error) {
         console.log('Lỗi (catch HomeScreen - authToken): ', error);
       }
@@ -58,7 +58,7 @@ const HomeScreen = () => {
     try {
       const res = await axios.get(`${BASE_URL}/product`);
       if (res.status === 200) {
-        const data = res?.data?.product;
+        const data = res?.data?.products;
         setProduct(data);
         setLoading(false);
         console.log('Fetch sản phẩm thành công');
@@ -135,11 +135,11 @@ const HomeScreen = () => {
         </View>
 
         <FlatList
-          style={{ backgroundColor: 'white', paddingHorizontal: 4 }}
-          renderItem={({ item }) => <ProductCard item={item} />}
-          keyExtractor={(item) => item._id}
-          initialNumToRender={6}
           data={products}
+          style={{ backgroundColor: 'white', paddingHorizontal: 4 }}
+          renderItem={({ item }) => <ProductCard userId={userId} item={item} />}
+          keyExtractor={(item) => item?._id}
+          initialNumToRender={6}
           horizontal
         />
 
@@ -147,15 +147,17 @@ const HomeScreen = () => {
           <ProductTitle text={'Bếp gas'} />
 
           <FlatList
+            data={bepGas}
             style={{
               backgroundColor: 'white',
               paddingHorizontal: 4,
               marginTop: 20,
             }}
-            renderItem={({ item }) => <ProductCard item={item} />}
-            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <ProductCard userId={userId} item={item} />
+            )}
+            keyExtractor={(item) => item?._id}
             initialNumToRender={6}
-            data={bepGas}
             horizontal
             ListFooterComponent={
               <SeeMoreCard categoryId='6666d75349ada55e0903d7ec' />
@@ -181,8 +183,10 @@ const HomeScreen = () => {
               paddingHorizontal: 4,
               marginTop: 20,
             }}
-            renderItem={({ item }) => <ProductCard item={item} />}
-            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <ProductCard userId={userId} item={item} />
+            )}
+            keyExtractor={(item) => item?._id}
             initialNumToRender={6}
             data={bepDien}
             horizontal
@@ -210,8 +214,10 @@ const HomeScreen = () => {
               paddingHorizontal: 4,
               marginTop: 20,
             }}
-            renderItem={({ item }) => <ProductCard item={item} />}
-            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <ProductCard userId={userId} item={item} />
+            )}
+            keyExtractor={(item) => item?._id}
             initialNumToRender={6}
             data={giaDung}
             horizontal
@@ -230,8 +236,10 @@ const HomeScreen = () => {
               paddingHorizontal: 4,
               marginTop: 20,
             }}
-            renderItem={({ item }) => <ProductCard item={item} />}
-            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <ProductCard userId={userId} item={item} />
+            )}
+            keyExtractor={(item) => item?._id}
             initialNumToRender={6}
             data={gas}
             horizontal
@@ -287,7 +295,7 @@ const HorizontalCategory = () => {
         <Pressable
           onPress={() =>
             navigation.navigate('ProductByCategory', {
-              categoryId: item._id,
+              categoryId: item?._id,
             })
           }
           className='m-1'
@@ -301,7 +309,7 @@ const HorizontalCategory = () => {
         </Pressable>
       )}
       data={catList}
-      keyExtractor={(item) => item._id}
+      keyExtractor={(item) => item?._id}
       horizontal
     />
   );

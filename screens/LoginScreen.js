@@ -54,11 +54,17 @@ const LoginScreen = () => {
       setLoading(true);
       try {
         const res = await axios.post(`${BASE_URL}/login`, user);
-        const token = res.data.token;
-        AsyncStorage.setItem('authToken', token);
-        setLoading(false);
-        setPassword('');
-        navigation.replace('Main');
+        if (res.status === 200) {
+          const token = res.data.token;
+          AsyncStorage.setItem('authToken', token);
+          setLoading(false);
+          setPassword('');
+          navigation.replace('Main');
+          console.log('Đăng nhập thành công');
+        } else {
+          setLoading(false);
+          console.log('Đăng nhập không thành công');
+        }
       } catch (error) {
         setLoading(false);
         Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');

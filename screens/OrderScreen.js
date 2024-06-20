@@ -4,8 +4,9 @@ import {
   View,
   Pressable,
   ActivityIndicator,
-  ScrollView,
   Modal,
+  FlatList,
+  RefreshControl,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
@@ -17,28 +18,35 @@ import Loading from '../components/Loading';
 
 const OrderScreen = ({ route }) => {
   const { userId } = route?.params;
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/orders/${userId}`);
-        const orders = res.data?.orders;
-        if (res.status === 200) {
-          setOrders(orders);
-          setLoading(false);
-          console.log('Fetch lịch sử đơn hàng thành công');
-        } else {
-          setLoading(false);
-          console.log('Fetch đơn hàng không thành công');
-        }
-      } catch (error) {
+  const fetchOrders = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/orders/${userId}`);
+      const orders = res.data?.orders;
+      if (res.status === 200) {
+        setOrders(orders);
         setLoading(false);
-        console.log('Đơn hàng trống!', error);
+        console.log('Fetch lịch sử đơn hàng thành công');
+      } else {
+        setLoading(false);
+        console.log('Fetch đơn hàng không thành công');
       }
-    };
+    } catch (error) {
+      setLoading(false);
+      console.log('Đơn hàng trống!', error);
+    }
+  };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchOrders();
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
     fetchOrders();
   }, []);
 
@@ -53,62 +61,76 @@ const OrderScreen = ({ route }) => {
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
       <ScreenHeader text='Lịch sử đơn hàng' />
-      <ScrollView className='bg-gray-100'>
-        {orders.map((o, i) => (
-          <View key={i} className='p-2 mb-2 bg-white '>
-            <Text className='text-[16px]'>Sản phẩm ({o.products.length}):</Text>
-            {o.products.map((p, index) => (
-              <Text style={{ marginLeft: 10, fontSize: 16 }} key={index}>
-                {p.quantity} x {p.name}
-              </Text>
-            ))}
-            <Text className='text-[16px]'>
-              Trạng thái:{' '}
-              <Text
-                style={{
-                  color: o?.status != 'Đã hủy' ? '#3b82f6' : '#fc0303',
-                  fontWeight: 700,
-                }}
-              >
-                {o?.status}
-              </Text>
-            </Text>
-            <Text className='text-[16px]'>
-              Tổng:{' '}
-              <Text className='font-bold text-blue-500'>
-                {o?.totalPrice.toLocaleString()}
-              </Text>
-            </Text>
-            <Text className='text-[16px]'>
-              Tích điểm:{' '}
-              <Text className='font-bold text-blue-500'>
-                {o?.points.toLocaleString()}
-              </Text>
-            </Text>
-            {o.status === 'Đã giao' || o.status === 'Đã hủy' ? (
-              <></>
-            ) : (
-              <UpdateOrderButton id={o._id} userId={userId} />
-            )}
-            <Text className='text-[16px] mt-2 text-gray-500'>
-              Thời gian: {moment(o.createAt).format('DD/MM/YYYY HH:mm')}
-            </Text>
-          </View>
-        ))}
-      </ScrollView>
+      <FlatList
+        data={orders}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item }) => (
+          <RenderOrders fetchOrders={fetchOrders} item={item} />
+        )}
+        style={{ backgroundColor: '#f9fafb' }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
     </SafeAreaView>
   );
 };
 
-const UpdateOrderButton = ({ id }) => {
+const RenderOrders = ({ item, fetchOrders }) => {
+  return (
+    <View className='p-2 mb-2 bg-white '>
+      <Text className='text-[16px]'>Sản phẩm ({item?.products.length}):</Text>
+      <FlatList
+        data={item?.products}
+        keyExtractor={(item, index) => index}
+        renderItem={({ item }) => (
+          <Text style={{ marginLeft: 10, fontSize: 16 }}>
+            {item.quantity} x {item.name}
+          </Text>
+        )}
+      />
+      <Text className='text-[16px]'>
+        Trạng thái:{' '}
+        <Text
+          style={{
+            color: item?.status != 'Đã hủy' ? '#3b82f6' : '#fc0303',
+            fontWeight: 700,
+          }}
+        >
+          {item?.status}
+        </Text>
+      </Text>
+      <Text className='text-[16px]'>
+        Tổng:{' '}
+        <Text className='font-bold text-blue-500'>
+          {item?.totalPrice.toLocaleString()}
+        </Text>
+      </Text>
+      <Text className='text-[16px]'>
+        Tích điểm:{' '}
+        <Text className='font-bold text-blue-500'>
+          {item?.points.toLocaleString()}
+        </Text>
+      </Text>
+      {item.status === 'Đã giao' || item.status === 'Đã hủy' ? (
+        <></>
+      ) : (
+        <UpdateOrderButton fetchOrders={fetchOrders} id={item._id} />
+      )}
+      <Text className='text-[16px] mt-2 text-gray-500'>
+        Thời gian: {moment(item.createAt).format('DD/MM/YYYY HH:mm')}
+      </Text>
+    </View>
+  );
+};
+
+const UpdateOrderButton = ({ id, fetchOrders }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleUpdateOrder = async () => {
     try {
-      const res = await axios.patch(`${BASE_URL}/order/${id}/cancel`, {
-        newStatus: 'Đã hủy',
-      });
+      const res = await axios.patch(`${BASE_URL}/order/${id}/cancel`);
 
       setLoading(true);
       if (res.status === 200) {
@@ -116,6 +138,7 @@ const UpdateOrderButton = ({ id }) => {
         console.log(result);
         setModalVisible(!modalVisible);
         setLoading(false);
+        fetchOrders();
       } else {
         console.log('Hủy đơn không thành công');
         setLoading(false);

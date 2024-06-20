@@ -10,6 +10,20 @@ const reviewSchema = new mongoose.Schema({
     max: 5,
     default: 5,
   },
+  productRating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5,
+    default: 5,
+  },
+  serviceRating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5,
+    default: 5,
+  },
   createAt: {
     type: Date,
     default: Date.now(),

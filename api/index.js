@@ -162,7 +162,7 @@ app.get('/profile/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate('orders');
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -244,12 +244,12 @@ app.post('/order/create', async (req, res) => {
   }
 });
 
-// Thấy thông tin đơn hàng theo id khách
+// Lấy thông tin đơn hàng theo id khách
 app.get('/orders/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    const orders = await Order.find({ user: userId }).populate('user');
+    const orders = await Order.find({ user: userId });
 
     if (!orders || orders.length === 0) {
       return res.status(404).json({ message: 'No orders found for this user' });
@@ -265,9 +265,8 @@ app.get('/orders/:userId', async (req, res) => {
 app.patch('/order/:orderId/cancel', async (req, res) => {
   try {
     const orderId = req.params.orderId;
-    const { newStatus } = req.body;
 
-    const order = await Order.findByIdAndUpdate(orderId, { status: newStatus });
+    await Order.findByIdAndUpdate(orderId, { status: 'Đã hủy' });
 
     res.status(200).json({ message: 'Hủy thành công' });
   } catch (error) {
@@ -278,7 +277,7 @@ app.patch('/order/:orderId/cancel', async (req, res) => {
 app.patch('/order/:orderId/deliver', async (req, res) => {
   try {
     const orderId = req.params.orderId;
-    const updateOrder = await Order.findByIdAndUpdate(orderId, {
+    await Order.findByIdAndUpdate(orderId, {
       status: 'Đang giao',
     });
     res.status(200).json({ message: 'Cập nhật trạng thái thành công!' });
@@ -291,13 +290,11 @@ app.patch('/order/:orderId/delivered', async (req, res) => {
   try {
     const orderId = req.params.orderId;
 
-    const order = await Order.findById(orderId);
-    order.status = 'Đã giao';
-    await order.save();
+    const order = await Order.findByIdAndUpdate(orderId, { status: 'Đã giao' });
 
-    const user = await User.findById(order.user);
-    user.points += order.points;
-    await user.save();
+    await User.findByIdAndUpdate(order.user, {
+      $inc: { points: order.points },
+    });
 
     res.status(200).json({ message: 'Cập nhật trạng thái thành công!' });
   } catch (error) {
@@ -316,8 +313,8 @@ app.post('/notification/create', async (req, res) => {
       image: image,
     });
 
-    res.status(200).json({ message: 'Tạo thông báo thành công!' });
     await noti.save();
+    res.status(200).json({ message: 'Tạo thông báo thành công!' });
   } catch (error) {
     res.status(500).json({ message: error });
   }
@@ -350,12 +347,12 @@ app.get('/product/search', async (req, res) => {
 
 app.get('/product', async (req, res) => {
   try {
-    const product = await Product.find().populate([
+    const products = await Product.find().populate([
       'category',
       'brand',
       'reviews',
     ]);
-    res.status(200).json({ product });
+    res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ message: error });
     console.log('Lỗi get /product', error);
@@ -452,9 +449,11 @@ app.post('/review/create/:productId/:userId', async (req, res) => {
       $push: { reviews: savedReview._id },
     });
 
-    await User.findByIdAndUpdate(userId, {
+    const user = await User.findByIdAndUpdate(userId, {
       $push: { reviews: savedReview._id },
     });
+
+    await Review.findByIdAndUpdate(savedReview._id, { name: user.name });
 
     res.status(200).json({ message: 'Gửi đánh giá thành công!' });
   } catch (error) {

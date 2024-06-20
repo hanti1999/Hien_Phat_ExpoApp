@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect } from 'react';
 
-const ThanksScreen = () => {
+const ThanksScreen = ({ text }) => {
   const navigation = useNavigation();
   useEffect(() => {
     setTimeout(() => {
@@ -33,7 +33,7 @@ const ThanksScreen = () => {
           textAlign: 'center',
         }}
       >
-        Cảm ơn bạn đã đặt hàng!
+        Cảm ơn bạn đã tin tưởng và ủng hộ!
       </Text>
       <LottieView
         source={require('../assets/sparkle.json')}

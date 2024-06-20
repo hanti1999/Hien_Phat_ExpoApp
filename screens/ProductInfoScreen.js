@@ -20,8 +20,8 @@ import moment from 'moment';
 import { addToCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 
-const ProductInfoScreen = ({ route }) => {
-  const { item } = route?.params;
+const ProductInfoScreen = ({ route, navigation }) => {
+  const { item, userId } = route?.params;
   const width = Dimensions.get('window').width;
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
@@ -40,6 +40,10 @@ const ProductInfoScreen = ({ route }) => {
       setLoading(false);
     }, 1000);
   };
+
+  const navigateToReview = () => {
+    navigation.navigate('Review', { productId: item._id, userId: userId });
+  };
   return (
     <SafeAreaView
       style={{
@@ -48,7 +52,11 @@ const ProductInfoScreen = ({ route }) => {
         backgroundColor: '#fff',
       }}
     >
-      <ScrollView stickyHeaderIndices={[1]} className='bg-gray-100'>
+      <ScrollView
+        stickyHeaderIndices={[1]}
+        showsVerticalScrollIndicator={false}
+        className='bg-gray-100'
+      >
         <StatusBar />
         <ScreenHeader text={'Chi tiết sản phẩm'} />
 
@@ -93,8 +101,16 @@ const ProductInfoScreen = ({ route }) => {
         </View>
 
         <View className='p-2 mb-2 bg-pink-300'>
-          <Text className='text-[16px] font-semibold mb-2'>Đánh giá</Text>
+          <Text className='text-[16px] font-semibold mb-2'>Bài đánh giá</Text>
           <Reviews reviews={item?.reviews} />
+          <Pressable
+            onPress={navigateToReview}
+            className='bg-white w-[200px] rounded-full p-2 mt-2'
+          >
+            <Text className='text-[16px] text-center'>
+              Viết đánh giá của bạn
+            </Text>
+          </Pressable>
         </View>
       </ScrollView>
 
@@ -160,9 +176,20 @@ const Reviews = ({ reviews }) => {
             <Text className='text-[#faa935] font-semibold'>{item?.rating}</Text>
             <FontAwesome name='star' size={16} color='#faa935' />
           </View>
-          <Text className='font-semibold'>{item?.name}</Text>
+          <Text className='font-semibold mb-1'>{item?.name}</Text>
           <Text>{item?.comment}</Text>
-          <Text className='italic text-gray-600'>
+          <View className='flex-row'>
+            <Text className='text-[#faa935] font-medium'>
+              Sản phẩm: {item?.productRating}
+              <FontAwesome name='star' size={16} color='#faa935' />
+            </Text>
+            <Text className='text-[#faa935]'> | </Text>
+            <Text className='text-[#faa935] font-medium'>
+              Dịch vụ: {item?.serviceRating}
+              <FontAwesome name='star' size={16} color='#faa935' />
+            </Text>
+          </View>
+          <Text className='italic text-gray-500'>
             {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}
           </Text>
         </View>

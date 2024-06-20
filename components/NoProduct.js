@@ -6,10 +6,12 @@ import {
   Pressable,
   Image,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import ScreenHeader from './ScreenHeader';
 
 const NoProduct = ({ text }) => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView className='bg-white h-full'>
       <ScreenHeader />
