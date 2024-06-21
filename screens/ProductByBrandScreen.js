@@ -7,20 +7,18 @@ import ProductCard from '../components/ProductCard';
 import NoProduct from '../components/NoProduct';
 import Loading from '../components/Loading';
 
-const ProductsByCategoryScreen = ({ route }) => {
-  const { categoryId } = route?.params;
+const ProductByBrandScreen = ({ route }) => {
+  const { brandId } = route?.params;
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProductById = async () => {
       try {
-        const res = await axios.get(
-          `${BASE_URL}/product/category/${categoryId}`
-        );
+        const res = await axios.get(`${BASE_URL}/product/brand/${brandId}`);
 
         if (res.status === 200) {
-          const data = res.data.products;
+          const data = res?.data.products;
           setProducts(data);
           setLoading(false);
           console.log('Fetch sản phẩm thành công');
@@ -70,4 +68,4 @@ const ProductsByCategoryScreen = ({ route }) => {
   );
 };
 
-export default ProductsByCategoryScreen;
+export default ProductByBrandScreen;

@@ -15,10 +15,10 @@ import ScreenHeader from '../components/ScreenHeader';
 
 const EditProfileScreen = ({ route }) => {
   const { currentUser } = route?.params;
-  const [loading, setLoading] = useState(false);
-  const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState('');
+  const [name, setName] = useState('');
 
   const handleUpdateProfile = async () => {
     setLoading(true);

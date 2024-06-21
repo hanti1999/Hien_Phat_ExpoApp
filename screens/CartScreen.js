@@ -26,9 +26,9 @@ import axios from 'axios';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 import NoProduct from '../components/NoProduct';
+import Loading from '../components/Loading';
 import { UserType } from '../userContext';
 import { P_PINK } from '../config';
-import Loading from '../components/Loading';
 
 const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);

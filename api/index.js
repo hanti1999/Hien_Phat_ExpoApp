@@ -360,10 +360,14 @@ app.get('/product', async (req, res) => {
 });
 
 // get products by category
-app.get('/product/:categoryId', async (req, res) => {
+app.get('/product/category/:categoryId', async (req, res) => {
   try {
     const { categoryId } = req?.params;
-    const products = await Product.find({ category: categoryId });
+    const products = await Product.find({ category: categoryId }).populate([
+      'category',
+      'brand',
+      'reviews',
+    ]);
     res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ message: error });
@@ -372,10 +376,14 @@ app.get('/product/:categoryId', async (req, res) => {
 });
 
 // get products by brand
-app.get('/product/:brandId', async (req, res) => {
+app.get('/product/brand/:brandId', async (req, res) => {
   try {
     const { brandId } = req?.params;
-    const products = await Product.find({ brand: brandId });
+    const products = await Product.find({ brand: brandId }).populate([
+      'category',
+      'brand',
+      'reviews',
+    ]);
     res.status(200).json({ products });
   } catch (error) {
     res.status(500).json({ message: error });

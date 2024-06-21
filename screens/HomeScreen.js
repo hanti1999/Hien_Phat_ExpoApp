@@ -248,6 +248,15 @@ const HomeScreen = () => {
             }
           />
         </View>
+
+        <View className='border-t-2 border-primary-pink my-2 relative bg-white'>
+          <View className='px-2 pt-2'>
+            <Text className='font-semibold text-primary-pink text-[16px]'>
+              Thương hiệu
+            </Text>
+          </View>
+          <HorizontalBrand />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -308,7 +317,68 @@ const HorizontalCategory = () => {
           <Text className='text-center font-medium'>{item?.name}</Text>
         </Pressable>
       )}
+      showsHorizontalScrollIndicator={false}
       data={catList}
+      keyExtractor={(item) => item?._id}
+      horizontal
+    />
+  );
+};
+
+const HorizontalBrand = () => {
+  const [brandList, setBrandList] = useState();
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchBrand = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/brand`);
+        if (res.status === 200) {
+          setBrandList(res?.data.brand);
+          console.log('Fetch brand thành công!');
+          setLoading(false);
+        } else {
+          console.log('Fetch brand không thành công (HomeScreen)');
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log('Fetch brand không thành công (HomeScreen)');
+      }
+    };
+
+    fetchBrand();
+  }, []);
+
+  if (loading) {
+    return (
+      <View className='h-[84px] flex justify-center'>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  return (
+    <FlatList
+      renderItem={({ item }) => (
+        <Pressable
+          onPress={() =>
+            navigation.navigate('ProductByBrand', {
+              brandId: item?._id,
+            })
+          }
+          className='m-1'
+        >
+          <Image
+            resizeMode='contain'
+            className='w-20 h-20'
+            source={{ uri: item?.image }}
+          />
+          <Text className='text-center font-medium'>{item?.name}</Text>
+        </Pressable>
+      )}
+      showsHorizontalScrollIndicator={false}
+      data={brandList}
       keyExtractor={(item) => item?._id}
       horizontal
     />

@@ -1,9 +1,9 @@
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Text, SafeAreaView } from 'react-native';
 import LottieView from 'lottie-react-native';
 import React, { useEffect } from 'react';
 
-const ThanksScreen = ({ text }) => {
+const ThanksScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
     setTimeout(() => {
@@ -53,5 +53,3 @@ const ThanksScreen = ({ text }) => {
 };
 
 export default ThanksScreen;
-
-const styles = StyleSheet.create({});

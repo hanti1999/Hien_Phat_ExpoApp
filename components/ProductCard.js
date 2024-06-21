@@ -1,8 +1,8 @@
 import { Text, View, Pressable, Image, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
-import { useNavigation } from '@react-navigation/native';
 
 const ProductCard = ({ item, userId }) => {
   const [isLoading, setLoading] = useState(false);

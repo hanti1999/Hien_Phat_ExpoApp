@@ -1,8 +1,8 @@
 import { StyleSheet, Text, Pressable, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import React from 'react';
 import { useSelector } from 'react-redux';
+import React from 'react';
 
 const ScreenHeader = ({ text }) => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);

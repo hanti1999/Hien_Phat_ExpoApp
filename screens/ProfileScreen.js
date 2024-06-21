@@ -141,7 +141,7 @@ const ProfileScreen = () => {
             <AntDesign name='right' size={16} color='black' />
           </Pressable>
 
-          <Pressable
+          {/* <Pressable
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
           >
@@ -150,7 +150,7 @@ const ProfileScreen = () => {
               <Text className='text-base'>Điều khoản và chính sách</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
-          </Pressable>
+          </Pressable> */}
 
           <OpenURLButton url='https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'>
             <View style={{ gap: 10 }} className='flex-row items-center'>
