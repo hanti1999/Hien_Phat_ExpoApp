@@ -55,7 +55,7 @@ const EditProfileScreen = ({ route }) => {
       <StatusBar />
       <ScreenHeader text='Sửa hồ sơ' />
       <View className='bg-gray-100 flex-1'>
-        <View className='px-2 pb-2 bg-white'>
+        <View className='px-3 pb-2 bg-white'>
           <Text className='my-3 text-[16px]'>Họ và tên:</Text>
           <TextInput
             value={name}

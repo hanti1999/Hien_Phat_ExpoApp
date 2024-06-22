@@ -58,7 +58,7 @@ const ReviewScreen = ({ route, navigation }) => {
     <SafeAreaView className='bg-white flex-1'>
       <StatusBar />
       <ScreenHeader text={'Trở lại'} />
-      <View className='p-2'>
+      <View className='py-2 px-3'>
         <View className='my-4 flex-row'>
           <View className='w-1/2'>
             <Text className='text-[16px]'>Tổng quan</Text>

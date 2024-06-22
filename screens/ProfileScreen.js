@@ -83,7 +83,7 @@ const ProfileScreen = () => {
         <ScreenHeader text={'Tài khoản'} />
         <View
           style={{ gap: 12 }}
-          className='p-2 flex-row items-center bg-white'
+          className='py-2 px-3 flex-row items-center bg-white'
         >
           <View className='bg-primary-pink flex justify-center items-center w-20 h-20 rounded-full'>
             <FontAwesome name='user-o' size={40} color='white' />
@@ -97,7 +97,7 @@ const ProfileScreen = () => {
           </View>
         </View>
 
-        <View className='p-2 mt-2 bg-white'>
+        <View className='py-2 px-3 mt-2 bg-white'>
           <Pressable
             onPress={() =>
               navigation.navigate('EditProfile', {
@@ -127,9 +127,24 @@ const ProfileScreen = () => {
             </View>
             <AntDesign name='right' size={16} color='black' />
           </Pressable>
+
+          <Pressable
+            onPress={() =>
+              navigation.navigate('Wishlist', {
+                wishlist: currentUser?.wishlist,
+              })
+            }
+            className='flex-row items-center justify-between py-3'
+          >
+            <View style={{ gap: 10 }} className='flex-row items-center'>
+              <FontAwesome name='heart-o' size={24} color='black' />
+              <Text className='text-base'>Danh sách yêu thích</Text>
+            </View>
+            <AntDesign name='right' size={16} color='black' />
+          </Pressable>
         </View>
 
-        <View className='p-2 mt-2 bg-white'>
+        <View className='py-2 px-3 mt-2 bg-white'>
           <Pressable
             onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
             className='flex-row items-center justify-between py-3'
@@ -161,7 +176,7 @@ const ProfileScreen = () => {
           </OpenURLButton>
         </View>
 
-        <View className='p-2 bg-white mt-2'>
+        <View className='py-2 px-3 bg-white mt-2'>
           <LogoutButton />
         </View>
 
@@ -225,7 +240,7 @@ const LogoutButton = () => {
           style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
           className='flex-1 items-center justify-center'
         >
-          <View className=' p-2 rounded-xl bg-white shadow-lg'>
+          <View className=' py-2 px-3 rounded-xl bg-white shadow-lg'>
             <Text className='text-center my-4 text-[16px]'>
               Bạn muốn đăng xuất?
             </Text>

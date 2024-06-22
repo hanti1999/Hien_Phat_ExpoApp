@@ -13,10 +13,12 @@ import {
   FlatList,
 } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
+import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import { BASE_URL } from '@env';
 import moment from 'moment';
+import axios from 'axios';
 import { addToCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 
@@ -24,7 +26,30 @@ const ProductInfoScreen = ({ route, navigation }) => {
   const { item, userId } = route?.params;
   const width = Dimensions.get('window').width;
   const dispatch = useDispatch();
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [inWishlist, setIsInWishlist] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const checkWishlist = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/wishlist/check/${item?._id}/${userId}`
+      );
+      if (res.status === 200) {
+        const result = res.data.isProductInWishlist;
+        setIsInWishlist(result);
+        console.log('Check wishlist thành công!');
+      } else {
+        console.log('Lỗi check wishlist');
+      }
+    } catch (error) {
+      console.log('Lỗi check wishlist', error);
+    }
+  };
+
+  useEffect(() => {
+    checkWishlist();
+  }, []);
 
   const addItemToCart = (item) => {
     dispatch(
@@ -35,15 +60,56 @@ const ProductInfoScreen = ({ route, navigation }) => {
         price: item?.price,
       })
     );
-    setLoading(true);
+    setIsLoading(true);
     setTimeout(() => {
-      setLoading(false);
+      setIsLoading(false);
     }, 1000);
   };
 
   const navigateToReview = () => {
     navigation.navigate('Review', { productId: item._id, userId: userId });
   };
+
+  const addWishlist = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `${BASE_URL}/wishlist/add/${item?._id}/${userId}`
+      );
+      if (res.status === 200) {
+        console.log(res.data.message);
+        setLoading(false);
+        checkWishlist();
+      } else {
+        setLoading(false);
+        console.log('Lỗi không thêm được wishlist');
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log('Lỗi không thêm được wishlist', error);
+    }
+  };
+
+  const removeWishlist = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.delete(
+        `${BASE_URL}/wishlist/delete/${item?._id}/${userId}`
+      );
+      if (res.status === 200) {
+        console.log(res.data.message);
+        checkWishlist();
+        setLoading(false);
+      } else {
+        setLoading(false);
+        console.log('Lỗi không xóa được wishlist');
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log('Lỗi không xóa được wishlist', error);
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -68,7 +134,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
           sliderBoxHeight={width}
         />
 
-        <View className='p-2 mb-2 bg-pink-100'>
+        <View className='py-2 px-3 mb-2 bg-pink-100'>
           <Text numberOfLines={2} className='font-semibold text-[18px]'>
             {item?.title}
           </Text>
@@ -87,16 +153,35 @@ const ProductInfoScreen = ({ route, navigation }) => {
               </Text>
             </View>
           </View>
-          <View className='flex-row items-center' style={{ gap: 4 }}>
-            <Text>5</Text>
-            <FontAwesome name='star' size={14} color='#faa935' />
-            <Text>({item?.reviews.length} đánh giá)</Text>
-            <Text className='text-gray-400'>|</Text>
-            <Text>Đã bán: {item?.sold}</Text>
+          <View className='flex-row justify-between items-center'>
+            <View className='flex-row items-center' style={{ gap: 4 }}>
+              <Text>5</Text>
+              <FontAwesome name='star' size={14} color='#faa935' />
+              <Text>({item?.reviews.length} đánh giá)</Text>
+              <Text className='text-gray-400'>|</Text>
+              <Text>Đã bán: {item?.sold}</Text>
+            </View>
+            {inWishlist ? (
+              <Pressable onPress={removeWishlist} disabled={loading}>
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <FontAwesome name='heart' size={24} color='#fb77c5' />
+                )}
+              </Pressable>
+            ) : (
+              <Pressable onPress={addWishlist} disabled={loading}>
+                {loading ? (
+                  <ActivityIndicator />
+                ) : (
+                  <FontAwesome name='heart-o' size={24} color='#fb77c5' />
+                )}
+              </Pressable>
+            )}
           </View>
         </View>
 
-        <View className='p-2 mb-2 bg-pink-200'>
+        <View className='py-2 px-3 mb-2 bg-pink-200'>
           <Text className='text-[16px] font-semibold mb-2'>
             Đặc điểm nổi bật
           </Text>
@@ -109,7 +194,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
           </View>
         </View>
 
-        <View className='p-2 mb-2 bg-pink-300'>
+        <View className='py-2 px-3 mb-2 bg-pink-300'>
           <Text className='text-[16px] font-semibold mb-2'>Bài đánh giá</Text>
           <Reviews reviews={item?.reviews} />
           <Pressable

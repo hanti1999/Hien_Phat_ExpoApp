@@ -78,7 +78,7 @@ const OrderScreen = ({ route }) => {
 
 const RenderOrders = ({ item, fetchOrders }) => {
   return (
-    <View className='p-2 mb-2 bg-white '>
+    <View className='py-2 px-3 mb-2 bg-white '>
       <Text className='text-[16px]'>Sản phẩm ({item?.products.length}):</Text>
       <FlatList
         data={item?.products}
@@ -163,7 +163,7 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
           style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
           className='flex-1 items-center justify-center'
         >
-          <View className=' p-2 rounded-xl bg-white shadow-lg'>
+          <View className='py-2 px-3 rounded-xl bg-white shadow-lg'>
             <Text className='text-center my-4 text-[16px]'>
               Bạn muốn hủy đơn?
             </Text>

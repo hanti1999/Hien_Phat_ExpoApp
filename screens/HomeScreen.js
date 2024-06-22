@@ -250,7 +250,7 @@ const HomeScreen = () => {
         </View>
 
         <View className='border-t-2 border-primary-pink my-2 relative bg-white'>
-          <View className='px-2 pt-2'>
+          <View className='px-3 pt-2'>
             <Text className='font-semibold text-primary-pink text-[16px]'>
               Thương hiệu
             </Text>

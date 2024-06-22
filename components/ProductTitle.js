@@ -1,9 +1,9 @@
-import { Text, View, Pressable, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import React from 'react';
 
 const ProductTitle = ({ text }) => {
   return (
-    <Pressable onPress={() => Alert.alert('Thông báo', 'Clicked')}>
+    <View>
       <View
         className='absolute -top-5 left-1/2 z-1 w-[200px]'
         style={{ transform: [{ translateX: -100 }] }}
@@ -16,7 +16,7 @@ const ProductTitle = ({ text }) => {
           </Text>
         </View>
       </View>
-    </Pressable>
+    </View>
   );
 };
 

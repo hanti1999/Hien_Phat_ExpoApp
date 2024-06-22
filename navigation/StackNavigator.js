@@ -18,6 +18,7 @@ import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
 import SearchResultList from '../screens/SearchResultList';
 import ReviewScreen from '../screens/ReviewScreen';
 import ProductByBrandScreen from '../screens/ProductByBrandScreen';
+import WishlistScreen from '../screens/WishlistScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -163,6 +164,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name='Review'
           component={ReviewScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Wishlist'
+          component={WishlistScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -15,21 +15,21 @@ const NoProduct = ({ text }) => {
   return (
     <SafeAreaView className='bg-white h-full'>
       <ScreenHeader />
-      <View className='flex items-center h-full bg-gray-100 px-2'>
+      <View className='flex items-center h-full bg-gray-100 px-3'>
         <Image
           style={{ maxWidth: 400, maxHeight: 400 }}
           source={require('../assets/cart.png')}
         />
-        <Text className='text-[#ff725e] text-xs'>
+        <Text className='text-[#ff725e] text-[12px]'>
           Image by storyset on Freepik
         </Text>
 
-        <Text className='font-semibold text-lg my-10'>{text}</Text>
+        <Text className='font-semibold text-[18px] my-10'>{text}</Text>
         <Pressable
           onPress={() => navigation.navigate('Home')}
-          className='py-3 w-full bg-primary-pink rounded-xl'
+          className='py-3 h-[48px] w-full bg-primary-pink rounded-xl'
         >
-          <Text className='text-white text-lg text-center'>
+          <Text className='text-white text-[18px] text-center'>
             Tiếp tục mua hàng
           </Text>
         </Pressable>

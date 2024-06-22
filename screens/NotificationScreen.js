@@ -77,7 +77,7 @@ const NotificationScreen = () => {
 
 const renderItem = ({ item }) => {
   return (
-    <View className='bg-white p-2 mb-2'>
+    <View className='bg-white py-2 px-3 mb-2'>
       <Text className='font-semibold uppercase text-base'>{item?.title}</Text>
       <FlatList
         data={item?.content}

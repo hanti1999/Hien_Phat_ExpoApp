@@ -145,21 +145,19 @@ const CartScreen = () => {
       <StatusBar />
       <ScreenHeader text={'Giỏ hàng'} />
       <ScrollView className='bg-gray-100' showsVerticalScrollIndicator={false}>
-        <View className='bg-pink-100 py-2 mb-2'>
-          <Text className='uppercase font-bold text-xl mx-2'>
-            Chi tiết đơn hàng
-          </Text>
+        <View className='bg-pink-100 py-2 px-3 mb-2'>
+          <Text className='uppercase font-bold text-xl'>Chi tiết đơn hàng</Text>
           {cartItems.map((item, index) => (
             <RenderItemToCart item={item} key={index} dispatch={dispatch} />
           ))}
-          <View className='flex-row justify-between items-center mt-2 mx-2'>
+          <View className='flex-row justify-between items-center mt-2'>
             <Text className='text-right text-[18px]'>Tổng tạm tính</Text>
             <Text className='text-primary-pink font-semibold text-[20px]'>
               {cartAmount?.toLocaleString()}đ
             </Text>
           </View>
           {voucher != 0 && (
-            <View className='flex-row justify-between items-center mt-2 mx-2'>
+            <View className='flex-row justify-between items-center mt-2'>
               <View className='flex-row items-center' style={{ gap: 4 }}>
                 <Fontisto name='ticket-alt' size={24} color='pink' />
                 <Text className='text-right text-[16px]'>Ưu đãi giảm</Text>
@@ -167,7 +165,7 @@ const CartScreen = () => {
               <Text className='text-primary-pink text-[18px]'>0đ</Text>
             </View>
           )}
-          <View className='flex-row justify-between items-center mt-2 mx-2'>
+          <View className='flex-row justify-between items-center mt-2'>
             <View className='flex-row items-center' style={{ gap: 4 }}>
               <MaterialIcons name='wallet' size={24} color='pink' />
               <Text className='text-right text-[16px]'>
@@ -182,7 +180,7 @@ const CartScreen = () => {
           </View>
         </View>
 
-        <View className='mb-2 p-2 bg-white'>
+        <View className='mb-2 py-2 px-3 bg-white'>
           <View className='flex-row justify-between'>
             <Text className='uppercase font-bold text-[20px] '>
               Giao hàng tới
@@ -239,7 +237,7 @@ const CartScreen = () => {
           </View>
         </View>
 
-        <View className='p-2 mb-2 bg-white'>
+        <View className='py-2 px-3 mb-2 bg-white'>
           <Text className='uppercase font-bold text-xl'>
             Phương thức thanh toán
           </Text>
@@ -275,7 +273,7 @@ const CartScreen = () => {
         </View>
       </ScrollView>
 
-      <View className='pt-2 p-2 bg-white'>
+      <View className='pt-2 py-2 px-3 bg-white'>
         <View className='flex-row justify-between items-center mt-4 mb-2'>
           <Text className='text-[18px]'>Tổng thanh toán: </Text>
           <Text className='text-primary-pink font-bold text-[20px]'>
@@ -332,7 +330,7 @@ const RenderItemToCart = ({ item, dispatch }) => {
   return (
     <View
       style={{ gap: 8 }}
-      className='flex-row border-b bg-pink-100 border-gray-400 items-center p-2'
+      className='flex-row border-b bg-pink-100 border-gray-400 items-center py-2'
     >
       <View style={{ width: width / 2 }}>
         <Image
@@ -341,7 +339,7 @@ const RenderItemToCart = ({ item, dispatch }) => {
           source={{ uri: item?.productImg }}
         />
       </View>
-      <View style={{ width: width / 2 }}>
+      <View style={{ width: width / 2, overflow: 'hidden' }}>
         <View className='border-b-2 border-gray-300'>
           <Text className='font-semibold text-[18px]' numberOfLines={3}>
             {item?.title}
