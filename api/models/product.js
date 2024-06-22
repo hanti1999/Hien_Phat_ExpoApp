@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema({
       ref: 'Review',
     },
   ],
+  sold: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Product = mongoose.model('Product', productSchema);

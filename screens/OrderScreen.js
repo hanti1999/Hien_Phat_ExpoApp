@@ -85,7 +85,7 @@ const RenderOrders = ({ item, fetchOrders }) => {
         keyExtractor={(item, index) => index}
         renderItem={({ item }) => (
           <Text style={{ marginLeft: 10, fontSize: 16 }}>
-            {item.quantity} x {item.name}
+            {item.quantity} x {item.title}
           </Text>
         )}
       />

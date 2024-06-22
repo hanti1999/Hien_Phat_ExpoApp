@@ -214,10 +214,33 @@ app.post('/order/create', async (req, res) => {
 
     // Tạo mảng chứa object sản phẩm
     const products = cartItems.map((item) => ({
-      name: item?.title,
+      productId: item?.id,
+      title: item?.title,
       quantity: item.quantity,
       price: item.price,
     }));
+
+    // Cập nhật số lượng bán
+    for (const product of products) {
+      try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+          product.productId,
+          { $inc: { sold: product.quantity } }
+        );
+
+        if (updatedProduct) {
+          console.log(
+            `Đã cập nhật số lượng sản phẩm với ID ${product.productId}`
+          );
+        } else {
+          console.log(`Không tìm thấy sản phẩm với ID ${product.productId}`);
+        }
+      } catch (error) {
+        console.error(
+          `Lỗi khi cập nhật sản phẩm với ID ${product.productId}: ${error.message}`
+        );
+      }
+    }
 
     const order = new Order({
       user: userId,

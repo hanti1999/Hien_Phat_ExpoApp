@@ -72,19 +72,28 @@ const ProductInfoScreen = ({ route, navigation }) => {
           <Text numberOfLines={2} className='font-semibold text-[18px]'>
             {item?.title}
           </Text>
-          <View className='flex-row items-center py-3'>
-            <View className='p-0.5 rounded bg-red-500 mr-1'>
+          <View className='flex-row items-center py-2' style={{ gap: 8 }}>
+            <Text className='text-[24px] font-bold'>
+              {item?.price.toLocaleString()}đ
+            </Text>
+
+            <Text className='line-through text-[16px] text-gray-500'>
+              {item?.oldPrice.toLocaleString()}đ
+            </Text>
+
+            <View className='px-1 py-0.5 rounded-lg bg-red-500'>
               <Text className='text-white '>
                 -{100 - Math.round((item?.price * 100) / item?.oldPrice)}%
               </Text>
             </View>
-            <Text className='line-through text-[16px]'>
-              {item?.oldPrice.toLocaleString()}đ
-            </Text>
           </View>
-          <Text className='text-2xl font-bold'>
-            {item?.price.toLocaleString()}đ
-          </Text>
+          <View className='flex-row items-center' style={{ gap: 4 }}>
+            <Text>5</Text>
+            <FontAwesome name='star' size={14} color='#faa935' />
+            <Text>({item?.reviews.length} đánh giá)</Text>
+            <Text className='text-gray-400'>|</Text>
+            <Text>Đã bán: {item?.sold}</Text>
+          </View>
         </View>
 
         <View className='p-2 mb-2 bg-pink-200'>

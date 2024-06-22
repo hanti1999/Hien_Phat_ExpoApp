@@ -36,34 +36,39 @@ const ProductCard = ({ item, userId }) => {
     >
       <View className='border h-full flex justify-between border-gray-200 bg-pink-100 rounded-md overflow-hidden'>
         <View>
-          <Image className='w-full h-[180px]' source={{ uri: item?.image }} />
-          <View className='px-2 pt-1'>
+          <Image className='w-full h-[160px]' source={{ uri: item?.image }} />
+          <View className='p-1.5 h-[100px] justify-between'>
             <Text numberOfLines={2}>{item?.title}</Text>
-            <View className='flex-row items-center my-0.5'>
-              <View className='p-0.5 rounded bg-red-500 mr-1'>
+            <View className='flex-row items-center' style={{ gap: 4 }}>
+              <View className='px-1 py-0.5 rounded bg-red-500'>
                 <Text className='text-white '>
                   -{100 - Math.round((item?.price * 100) / item?.oldPrice)}%
                 </Text>
               </View>
-              <Text className='line-through'>
+              <Text className='line-through text-gray-500'>
                 {item?.oldPrice?.toLocaleString()}
               </Text>
             </View>
-            <Text className='font-semibold text-red-500 text-[18px]'>
-              {item?.price?.toLocaleString()}đ
-            </Text>
+            <View className='flex-row justify-between items-center'>
+              <Text className='font-semibold text-red-500 text-[18px]'>
+                {item?.price?.toLocaleString()}đ
+              </Text>
+              <Text className='text-gray-500 text-[12px]'>
+                Đã bán: {item?.sold}
+              </Text>
+            </View>
           </View>
         </View>
 
         <View>
           <Pressable
             onPress={() => addItemToCart(item)}
-            className=' bg-primary-pink h-12 flex items-center justify-center'
+            className=' bg-primary-pink h-[48px] flex items-center justify-center'
           >
             {isLoading ? (
               <ActivityIndicator color='#fff' />
             ) : (
-              <Text className=' text-white text-base font-medium uppercase'>
+              <Text className=' text-white text-[16px] font-medium uppercase'>
                 sắm ngay nào!
               </Text>
             )}
