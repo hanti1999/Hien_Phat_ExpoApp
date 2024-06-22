@@ -162,7 +162,7 @@ app.get('/profile/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
 
-    const user = await User.findById(userId).populate('orders');
+    const user = await User.findById(userId).populate(['orders', 'wishlist']);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -487,6 +487,57 @@ app.post('/review/create/:productId/:userId', async (req, res) => {
     await Review.findByIdAndUpdate(savedReview._id, { name: user.name });
 
     res.status(200).json({ message: 'Gửi đánh giá thành công!' });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+// add wishlist
+app.post('/wishlist/add/:productId/:userId', async (req, res) => {
+  try {
+    const { productId, userId } = req.params;
+    const user = await User.findByIdAndUpdate(userId, {
+      $addToSet: { wishlist: productId },
+    });
+
+    if (user.wishlist.includes(productId)) {
+      console.log('Sản phẩm đã tồn tại!');
+      res.status(409).json({ message: 'Sản phẩm đã tồn tại!' });
+    } else {
+      res.status(200).json({ message: 'Thêm wishlist thành công!' });
+    }
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+// remove from wishlist
+app.delete('/wishlist/delete/:productId/:userId', async (req, res) => {
+  try {
+    const { productId, userId } = req.params;
+    await User.findByIdAndUpdate(userId, {
+      $pull: { wishlist: productId },
+    });
+    res.status(200).json({ message: 'Xóa wishlist thành công!' });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+// check wishlist
+app.get('/wishlist/check/:productId/:userId', async (req, res) => {
+  try {
+    const { productId, userId } = req.params;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Người dùng không tồn tại' });
+    }
+
+    const isProductInWishlist = user.wishlist.includes(productId);
+
+    res.status(200).json({ isProductInWishlist });
   } catch (error) {
     res.status(500).json({ error });
   }

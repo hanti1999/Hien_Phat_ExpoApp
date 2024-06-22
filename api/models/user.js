@@ -32,6 +32,13 @@ const userSchema = new mongoose.Schema({
       ref: 'Review',
     },
   ],
+  wishlist: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: 'Product',
+      unique: true,
+    },
+  ],
   createAt: {
     type: Date,
     default: Date.now,
