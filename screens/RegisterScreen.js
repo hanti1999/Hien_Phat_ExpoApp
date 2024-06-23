@@ -188,6 +188,7 @@ const RegisterScreen = ({ navigation }) => {
               value={confirmPass}
               onChangeText={(text) => setConfirmPass(text)}
               secureTextEntry={!showPassword}
+              onSubmitEditing={handleRegister}
             />
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}

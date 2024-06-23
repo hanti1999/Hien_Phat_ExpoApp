@@ -17,13 +17,13 @@ const SearchBar = () => {
     <View className='bg-primary-pink flex-row items-center'>
       <View
         style={{ gap: 10 }}
-        className='px-2.5 flex-row flex-1 items-center bg-white h-10 rounded-md ml-4 my-2.5'
+        className='px-2.5 flex-row flex-1 items-center bg-white h-10 rounded-lg ml-4 my-2.5'
       >
         <Pressable onPress={searchHandler}>
           <Ionicons name='search' size={24} />
         </Pressable>
         <TextInput
-          className='text-base flex-1'
+          className='text-[16px] flex-1'
           placeholder='Khách iu tìm gì nè?'
           value={input}
           onChangeText={setInput}

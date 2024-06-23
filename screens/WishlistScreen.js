@@ -14,7 +14,7 @@ const WishlistScreen = ({ route }) => {
   return (
     <SafeAreaView>
       <StatusBar />
-      <ScreenHeader text={'Danh sách ước'} />
+      <ScreenHeader text={'Danh sách yêu thích'} />
       <FlatList
         data={wishlist}
         renderItem={({ item }) => (

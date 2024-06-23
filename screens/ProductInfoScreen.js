@@ -51,7 +51,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
     checkWishlist();
   }, []);
 
-  const addItemToCart = (item) => {
+  const addItemToCart = () => {
     dispatch(
       addToCart({
         id: item?._id,
@@ -107,6 +107,16 @@ const ProductInfoScreen = ({ route, navigation }) => {
     } catch (error) {
       setLoading(false);
       console.log('Lỗi không xóa được wishlist', error);
+    }
+  };
+
+  const openZalo582 = async () => {
+    const canOpenURL = await Linking.canOpenURL('https://zalo.me/0975841582');
+
+    if (canOpenURL) {
+      await Linking.openURL('https://zalo.me/0975841582');
+    } else {
+      Alert.alert(`Không thể mở URL`);
     }
   };
 
@@ -209,14 +219,17 @@ const ProductInfoScreen = ({ route, navigation }) => {
       </ScrollView>
 
       <View className='flex-row justify-evenly bg-white py-4'>
-        <OpenURLButton url='https://zalo.me/0986359498'>
+        <Pressable
+          className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-[60px] items-center justify-center'
+          onPress={openZalo582}
+        >
           <Text className='text-[#0068ff] text-[18px]'>
             Tư vấn
             <Text className='font-bold'> Zalo</Text>
           </Text>
-        </OpenURLButton>
+        </Pressable>
         <Pressable
-          onPress={() => addItemToCart(item)}
+          onPress={addItemToCart}
           className='bg-primary-pink rounded-lg flex-1 mx-2 items-center h-[60px] justify-center'
           disabled={isLoading}
         >
@@ -228,27 +241,6 @@ const ProductInfoScreen = ({ route, navigation }) => {
         </Pressable>
       </View>
     </SafeAreaView>
-  );
-};
-
-const OpenURLButton = ({ url, children }) => {
-  const handlePress = async () => {
-    const canOpenURL = await Linking.canOpenURL(url);
-
-    if (canOpenURL) {
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Không thể mở URL: ${url}`);
-    }
-  };
-
-  return (
-    <Pressable
-      className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-[60px] items-center justify-center'
-      onPress={() => handlePress()}
-    >
-      {children}
-    </Pressable>
   );
 };
 

@@ -135,6 +135,7 @@ const LoginScreen = () => {
               value={password}
               onChangeText={(text) => setPassword(text)}
               secureTextEntry={!showPassword}
+              onSubmitEditing={handleLogin}
             />
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}

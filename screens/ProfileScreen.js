@@ -18,7 +18,7 @@ import {
 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { Link, useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -54,6 +54,38 @@ const ProfileScreen = () => {
       }
     } catch (error) {
       console.log('Lỗi (catch ProfileScreen): ', error);
+    }
+  };
+
+  const handleOpenMap = async () => {
+    const canOpenURL = await Linking.canOpenURL(
+      'https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'
+    );
+
+    if (canOpenURL) {
+      await Linking.openURL('https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7');
+    } else {
+      Alert.alert(`Không thể mở URL`);
+    }
+  };
+
+  const openZalo498 = async () => {
+    const canOpenURL = await Linking.canOpenURL('https://zalo.me/0986359498');
+
+    if (canOpenURL) {
+      await Linking.openURL('https://zalo.me/0986359498');
+    } else {
+      Alert.alert(`Không thể mở URL`);
+    }
+  };
+
+  const openZalo582 = async () => {
+    const canOpenURL = await Linking.canOpenURL('https://zalo.me/0975841582');
+
+    if (canOpenURL) {
+      await Linking.openURL('https://zalo.me/0975841582');
+    } else {
+      Alert.alert(`Không thể mở URL`);
     }
   };
 
@@ -167,13 +199,16 @@ const ProfileScreen = () => {
             <AntDesign name='right' size={16} color='black' />
           </Pressable> */}
 
-          <OpenURLButton url='https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'>
+          <Pressable
+            onPress={handleOpenMap}
+            className='flex-row items-center justify-between py-3'
+          >
             <View style={{ gap: 10 }} className='flex-row items-center'>
               <Foundation name='map' size={24} color='black' />
               <Text className='text-base'>Tìm cửa hàng</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
-          </OpenURLButton>
+          </Pressable>
         </View>
 
         <View className='py-2 px-3 bg-white mt-2'>
@@ -184,29 +219,30 @@ const ProfileScreen = () => {
           <Text className='text-center text-gray-500'>
             Gas Hiền Phát - v{'1.0.0'}
           </Text>
+          <Text className='mt-5 text-center text-gray-500'>
+            Thiết kế và phát triển bởi:
+          </Text>
+          <View
+            className='mt-1 flex-row items-center justify-center'
+            style={{ gap: 4 }}
+          >
+            <Pressable onPress={openZalo498}>
+              <AntDesign name='phone' size={20} color='gray' />
+            </Pressable>
+            <Text className=' text-gray-500'>Hoàng Anh (developer)</Text>
+          </View>
+          <View
+            className='mt-1 flex-row items-center justify-center'
+            style={{ gap: 4 }}
+          >
+            <Pressable onPress={openZalo582}>
+              <AntDesign name='phone' size={20} color='gray' />
+            </Pressable>
+            <Text className=' text-gray-500'>Tú Nhi (desginer - manager)</Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
-
-const OpenURLButton = ({ url, children }) => {
-  const handlePress = async () => {
-    const canOpenURL = await Linking.canOpenURL(url);
-
-    if (canOpenURL) {
-      await Linking.openURL(url);
-    } else {
-      Alert.alert(`Không thể mở URL: ${url}`);
-    }
-  };
-  return (
-    <Pressable
-      onPress={handlePress}
-      className='flex-row items-center justify-between py-3'
-    >
-      {children}
-    </Pressable>
   );
 };
 

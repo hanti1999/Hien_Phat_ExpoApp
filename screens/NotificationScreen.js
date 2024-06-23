@@ -78,7 +78,7 @@ const NotificationScreen = () => {
 const renderItem = ({ item }) => {
   return (
     <View className='bg-white py-2 px-3 mb-2'>
-      <Text className='font-semibold uppercase text-base'>{item?.title}</Text>
+      <Text className='font-semibold uppercase text-[16px]'>{item?.title}</Text>
       <FlatList
         data={item?.content}
         keyExtractor={(item, index) => index}
@@ -90,7 +90,7 @@ const renderItem = ({ item }) => {
         )}
       />
       <View className='mt-4'>
-        <Text className='text-gray-500 text-sm'>
+        <Text className='text-gray-500 text-[14px]'>
           {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}
         </Text>
       </View>
