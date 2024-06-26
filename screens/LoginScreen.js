@@ -109,7 +109,7 @@ const LoginScreen = () => {
                 placeholder='Nhập số điện thoại...'
                 value={loginInfo}
                 keyboardType='numeric'
-                onChangeText={(text) => setLoginInfo(text)}
+                onChangeText={setLoginInfo}
               />
             </>
           ) : (
@@ -120,7 +120,7 @@ const LoginScreen = () => {
                 className='w-[300px] text-[18px] py-1.5'
                 placeholder='Nhập Email...'
                 value={loginInfo}
-                onChangeText={(text) => setLoginInfo(text)}
+                onChangeText={setLoginInfo}
               />
             </>
           )}
@@ -133,7 +133,7 @@ const LoginScreen = () => {
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập mật khẩu...'
               value={password}
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={setPassword}
               secureTextEntry={!showPassword}
               onSubmitEditing={handleLogin}
             />

@@ -118,7 +118,7 @@ const RegisterScreen = ({ navigation }) => {
                 placeholder='Nhập số điện thoại...'
                 value={phone}
                 keyboardType='numeric'
-                onChangeText={(text) => setPhone(text)}
+                onChangeText={setPhone}
               />
             </>
           ) : (
@@ -128,7 +128,7 @@ const RegisterScreen = ({ navigation }) => {
                 className='w-[300px] text-[18px] py-1.5'
                 placeholder='Nhập Email...'
                 value={email}
-                onChangeText={(text) => setEmail(text)}
+                onChangeText={setEmail}
               />
             </>
           )}
@@ -141,7 +141,7 @@ const RegisterScreen = ({ navigation }) => {
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập tên của bạn...'
               value={name}
-              onChangeText={(text) => setName(text)}
+              onChangeText={setName}
             />
           </View>
         </View>
@@ -155,7 +155,7 @@ const RegisterScreen = ({ navigation }) => {
               numberOfLines={3}
               multiline
               value={address}
-              onChangeText={(text) => setAddress(text)}
+              onChangeText={setAddress}
             />
           </View>
         </View>
@@ -167,7 +167,7 @@ const RegisterScreen = ({ navigation }) => {
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập mật khẩu...'
               value={password}
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={setPassword}
               secureTextEntry={!showPassword}
             />
             <Ionicons
@@ -186,7 +186,7 @@ const RegisterScreen = ({ navigation }) => {
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập lại mật khẩu...'
               value={confirmPass}
-              onChangeText={(text) => setConfirmPass(text)}
+              onChangeText={setConfirmPass}
               secureTextEntry={!showPassword}
               onSubmitEditing={handleRegister}
             />

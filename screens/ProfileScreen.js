@@ -9,6 +9,7 @@ import {
   Modal,
   ScrollView,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import {
   FontAwesome,
@@ -18,7 +19,7 @@ import {
 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -33,6 +34,7 @@ const ProfileScreen = () => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  const width = Dimensions.get('window').width;
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -74,16 +76,6 @@ const ProfileScreen = () => {
 
     if (canOpenURL) {
       await Linking.openURL('https://zalo.me/0986359498');
-    } else {
-      Alert.alert(`Không thể mở URL`);
-    }
-  };
-
-  const openZalo582 = async () => {
-    const canOpenURL = await Linking.canOpenURL('https://zalo.me/0975841582');
-
-    if (canOpenURL) {
-      await Linking.openURL('https://zalo.me/0975841582');
     } else {
       Alert.alert(`Không thể mở URL`);
     }
@@ -138,8 +130,10 @@ const ProfileScreen = () => {
             }
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 10 }} className='flex-row items-center'>
-              <AntDesign name='user' size={24} color='black' />
+            <View style={{ gap: 8 }} className='flex-row items-center'>
+              <View className='w-6'>
+                <AntDesign name='user' size={24} color='black' />
+              </View>
               <Text className='text-base'>Sửa thông tin cá nhân</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
@@ -153,8 +147,10 @@ const ProfileScreen = () => {
             }
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 10 }} className='flex-row items-center'>
-              <FontAwesome name='list-alt' size={24} color='black' />
+            <View style={{ gap: 8 }} className='flex-row items-center'>
+              <View className='w-6'>
+                <FontAwesome name='list-alt' size={24} color='black' />
+              </View>
               <Text className='text-base'>Đơn hàng của bạn</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
@@ -168,8 +164,10 @@ const ProfileScreen = () => {
             }
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 10 }} className='flex-row items-center'>
-              <FontAwesome name='heart-o' size={24} color='black' />
+            <View style={{ gap: 8 }} className='flex-row items-center'>
+              <View className='w-6'>
+                <FontAwesome name='heart-o' size={24} color='black' />
+              </View>
               <Text className='text-base'>Danh sách yêu thích</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
@@ -178,34 +176,40 @@ const ProfileScreen = () => {
 
         <View className='py-2 px-3 mt-2 bg-white'>
           <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
+            onPress={() => navigation.navigate('About')}
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 10 }} className='flex-row items-center'>
-              <FontAwesome name='building-o' size={24} color='black' />
+            <View style={{ gap: 8 }} className='flex-row items-center'>
+              <View className='w-6'>
+                <FontAwesome name='building-o' size={24} color='black' />
+              </View>
               <Text className='text-base'>Thông tin công ty</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
           </Pressable>
 
-          {/* <Pressable
-            onPress={() => Alert.alert('Thông báo', 'Đang phát triển')}
-            className='flex-row items-center justify-between py-3'
-          >
-            <View style={{ gap: 10 }} className='flex-row items-center'>
-              <FontAwesome name='file-text-o' size={24} color='black' />
-              <Text className='text-base'>Điều khoản và chính sách</Text>
-            </View>
-            <AntDesign name='right' size={16} color='black' />
-          </Pressable> */}
-
           <Pressable
             onPress={handleOpenMap}
             className='flex-row items-center justify-between py-3'
           >
-            <View style={{ gap: 10 }} className='flex-row items-center'>
-              <Foundation name='map' size={24} color='black' />
+            <View style={{ gap: 8 }} className='flex-row items-center'>
+              <View className='w-6'>
+                <Foundation name='map' size={24} color='black' />
+              </View>
               <Text className='text-base'>Tìm cửa hàng</Text>
+            </View>
+            <AntDesign name='right' size={16} color='black' />
+          </Pressable>
+
+          <Pressable
+            onPress={openZalo498}
+            className='flex-row items-center justify-between py-3'
+          >
+            <View style={{ gap: 8 }} className='flex-row items-center'>
+              <View className='w-6'>
+                <FontAwesome name='bug' size={24} color='black' />
+              </View>
+              <Text className='text-base'>Báo lỗi ứng dụng</Text>
             </View>
             <AntDesign name='right' size={16} color='black' />
           </Pressable>
@@ -215,30 +219,23 @@ const ProfileScreen = () => {
           <LogoutButton />
         </View>
 
-        <View className='px-2 py-4'>
-          <Text className='text-center text-gray-500'>
-            Gas Hiền Phát - v{'1.0.0'}
-          </Text>
-          <Text className='mt-5 text-center text-gray-500'>
-            Thiết kế và phát triển bởi:
-          </Text>
-          <View
-            className='mt-1 flex-row items-center justify-center'
-            style={{ gap: 4 }}
-          >
-            <Pressable onPress={openZalo498}>
-              <AntDesign name='phone' size={20} color='gray' />
-            </Pressable>
-            <Text className=' text-gray-500'>Hoàng Anh (developer)</Text>
-          </View>
-          <View
-            className='mt-1 flex-row items-center justify-center'
-            style={{ gap: 4 }}
-          >
-            <Pressable onPress={openZalo582}>
-              <AntDesign name='phone' size={20} color='gray' />
-            </Pressable>
-            <Text className=' text-gray-500'>Tú Nhi (desginer - manager)</Text>
+        <View className='mt-10'>
+          <View className='flex-row'>
+            <View style={{ width: (width * 50) / 100 }}></View>
+            <View style={{ width: (width * 50) / 100 }}>
+              <Text className=' text-gray-500'>Gas Hiền Phát - v{'1.0.0'}</Text>
+              <Text className='mt-1  text-gray-500'>
+                Thiết kế và phát triển bởi:
+              </Text>
+              <Text className=' text-gray-500'>
+                Tích Chu (desginer - manager)
+              </Text>
+              <Pressable onPress={openZalo498}>
+                <Text className=' text-blue-400 underline'>
+                  N.T.Hoàng Anh (developer)
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </ScrollView>
