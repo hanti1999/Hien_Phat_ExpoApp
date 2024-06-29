@@ -32,9 +32,9 @@ import { P_PINK } from '../config';
 
 const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
-  const navigation = useNavigation();
   const cartAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const { userId, setUserId } = useContext(UserType);
   const [paymentMethod, setPaymentMethod] = useState('cash');

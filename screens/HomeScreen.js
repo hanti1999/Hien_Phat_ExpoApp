@@ -90,6 +90,8 @@ const HomeScreen = () => {
 
   let gas = products?.filter((product) => product.category.name === 'Gas');
 
+  let sale = products?.filter((product) => product.discount > 10);
+
   if (loading) {
     return <Loading />;
   }
@@ -135,11 +137,10 @@ const HomeScreen = () => {
         </View>
 
         <FlatList
-          data={products}
+          data={sale.slice(0, 6)}
           style={{ backgroundColor: 'white', paddingHorizontal: 4 }}
           renderItem={({ item }) => <ProductCard userId={userId} item={item} />}
           keyExtractor={(item) => item?._id}
-          initialNumToRender={6}
           horizontal
         />
 
@@ -147,7 +148,7 @@ const HomeScreen = () => {
           <ProductTitle text={'Bếp gas'} />
 
           <FlatList
-            data={bepGas}
+            data={bepGas.slice(0, 6)}
             style={{
               backgroundColor: 'white',
               paddingHorizontal: 4,
@@ -157,7 +158,6 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} />
             )}
             keyExtractor={(item) => item?._id}
-            initialNumToRender={6}
             horizontal
             ListFooterComponent={
               <SeeMoreCard categoryId='6666d75349ada55e0903d7ec' />
@@ -187,8 +187,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} />
             )}
             keyExtractor={(item) => item?._id}
-            initialNumToRender={6}
-            data={bepDien}
+            data={bepDien.slice(0, 6)}
             horizontal
             ListFooterComponent={
               <SeeMoreCard categoryId='6667cd3d026b92076ff622a5' />
@@ -218,8 +217,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} />
             )}
             keyExtractor={(item) => item?._id}
-            initialNumToRender={6}
-            data={giaDung}
+            data={giaDung.slice(0, 6)}
             horizontal
             ListFooterComponent={
               <SeeMoreCard categoryId='6667cd99026b92076ff622a7' />
@@ -240,8 +238,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} />
             )}
             keyExtractor={(item) => item?._id}
-            initialNumToRender={6}
-            data={gas}
+            data={gas.slice(0, 6)}
             horizontal
             ListFooterComponent={
               <SeeMoreCard categoryId='6667cf05026b92076ff622af' />

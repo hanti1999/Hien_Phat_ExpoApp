@@ -8,6 +8,7 @@ const ProductCard = ({ item, userId }) => {
   const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const actualPrice = item?.price * (1 - item.discount / 100);
 
   const addItemToCart = (item) => {
     dispatch(
@@ -15,7 +16,7 @@ const ProductCard = ({ item, userId }) => {
         id: item?._id,
         title: item?.title,
         productImg: item?.image,
-        price: item?.price,
+        price: actualPrice,
       })
     );
     setLoading(true);
@@ -41,17 +42,15 @@ const ProductCard = ({ item, userId }) => {
             <Text numberOfLines={2}>{item?.title}</Text>
             <View className='flex-row items-center' style={{ gap: 4 }}>
               <View className='px-1 py-0.5 rounded bg-red-500'>
-                <Text className='text-white '>
-                  -{100 - Math.round((item?.price * 100) / item?.oldPrice)}%
-                </Text>
+                <Text className='text-white '>-{item?.discount}%</Text>
               </View>
               <Text className='line-through text-gray-500'>
-                {item?.oldPrice?.toLocaleString()}
+                {item?.price?.toLocaleString()}
               </Text>
             </View>
             <View className='flex-row justify-between items-center'>
               <Text className='font-semibold text-red-500 text-[18px]'>
-                {item?.price?.toLocaleString()}đ
+                {actualPrice?.toLocaleString()}đ
               </Text>
               <Text className='text-gray-500 text-[12px]'>
                 Đã bán: {item?.sold}

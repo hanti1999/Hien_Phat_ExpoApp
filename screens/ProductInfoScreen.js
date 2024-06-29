@@ -29,6 +29,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [inWishlist, setIsInWishlist] = useState();
   const [loading, setLoading] = useState(false);
+  const actualPrice = item?.price * (1 - item.discount / 100);
 
   const checkWishlist = async () => {
     try {
@@ -150,17 +151,15 @@ const ProductInfoScreen = ({ route, navigation }) => {
           </Text>
           <View className='flex-row items-center py-2' style={{ gap: 8 }}>
             <Text className='text-[24px] font-bold'>
-              {item?.price.toLocaleString()}đ
+              {actualPrice.toLocaleString()}đ
             </Text>
 
             <Text className='line-through text-[16px] text-gray-500'>
-              {item?.oldPrice.toLocaleString()}đ
+              {item?.price.toLocaleString()}đ
             </Text>
 
             <View className='px-1 py-0.5 rounded-lg bg-red-500'>
-              <Text className='text-white '>
-                -{100 - Math.round((item?.price * 100) / item?.oldPrice)}%
-              </Text>
+              <Text className='text-white '>-{item?.discount}%</Text>
             </View>
           </View>
           <View className='flex-row justify-between items-center'>

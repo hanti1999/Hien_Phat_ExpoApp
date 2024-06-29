@@ -5,8 +5,8 @@ const productSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  oldPrice: Number,
   price: Number,
+  discount: { type: Number, default: 0 },
   image: String,
   brand: {
     type: mongoose.Schema.Types.ObjectId,

@@ -9,7 +9,6 @@ import {
   Modal,
   ScrollView,
   RefreshControl,
-  Dimensions,
 } from 'react-native';
 import {
   FontAwesome,
@@ -34,7 +33,6 @@ const ProfileScreen = () => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const width = Dimensions.get('window').width;
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -221,13 +219,13 @@ const ProfileScreen = () => {
 
         <View className='mt-10'>
           <View className='flex-row'>
-            <View style={{ width: (width * 50) / 100 }}></View>
-            <View style={{ width: (width * 50) / 100 }}>
-              <Text className=' text-gray-500'>Gas Hiền Phát - v{'1.0.0'}</Text>
-              <Text className='mt-1  text-gray-500'>
+            <View className='w-1/2'></View>
+            <View className='w-1/2'>
+              <Text className='text-gray-500'>Gas Hiền Phát - v{'1.0.0'}</Text>
+              <Text className='mt-1 text-gray-500'>
                 Thiết kế và phát triển bởi:
               </Text>
-              <Text className=' text-gray-500'>
+              <Text className='text-gray-500'>
                 Tích Chu (desginer - manager)
               </Text>
               <Pressable onPress={openZalo498}>
