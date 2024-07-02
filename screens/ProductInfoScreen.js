@@ -153,14 +153,16 @@ const ProductInfoScreen = ({ route, navigation }) => {
             <Text className='text-[24px] font-bold'>
               {actualPrice.toLocaleString()}đ
             </Text>
-
-            <Text className='line-through text-[16px] text-gray-500'>
-              {item?.price.toLocaleString()}đ
-            </Text>
-
-            <View className='px-1 py-0.5 rounded-lg bg-red-500'>
-              <Text className='text-white '>-{item?.discount}%</Text>
-            </View>
+            {item?.discount > 0 && (
+              <>
+                <Text className='line-through text-[16px] text-gray-500'>
+                  {item?.price.toLocaleString()}đ
+                </Text>
+                <View className='px-1 py-0.5 rounded-lg bg-red-500'>
+                  <Text className='text-white '>-{item?.discount}%</Text>
+                </View>
+              </>
+            )}
           </View>
           <View className='flex-row justify-between items-center'>
             <View className='flex-row items-center' style={{ gap: 4 }}>

@@ -40,14 +40,16 @@ const ProductCard = ({ item, userId }) => {
           <Image className='w-full h-[160px]' source={{ uri: item?.image }} />
           <View className='p-1.5 h-[100px] justify-between'>
             <Text numberOfLines={2}>{item?.title}</Text>
-            <View className='flex-row items-center' style={{ gap: 4 }}>
-              <View className='px-1 py-0.5 rounded bg-red-500'>
-                <Text className='text-white '>-{item?.discount}%</Text>
+            {item?.discount > 0 && (
+              <View className='flex-row items-center' style={{ gap: 4 }}>
+                <View className='px-1 py-0.5 rounded bg-red-500'>
+                  <Text className='text-white '>-{item?.discount}%</Text>
+                </View>
+                <Text className='line-through text-gray-500'>
+                  {item?.price?.toLocaleString()}
+                </Text>
               </View>
-              <Text className='line-through text-gray-500'>
-                {item?.price?.toLocaleString()}
-              </Text>
-            </View>
+            )}
             <View className='flex-row justify-between items-center'>
               <Text className='font-semibold text-red-500 text-[18px]'>
                 {actualPrice?.toLocaleString()}đ

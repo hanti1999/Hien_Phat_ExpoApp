@@ -31,8 +31,15 @@ app.listen(port, () => {
   console.log('Server is running on port:', port);
 });
 
+const Notification = require('./models/notification');
+const Category = require('./models/category');
+const Product = require('./models/product');
+const Review = require('./models/review');
+const Order = require('./models/order');
+const Brand = require('./models/brand');
 const User = require('./models/user');
 
+// // User controllers
 // Đăng ký tài khoản
 app.post('/register', async (req, res) => {
   try {
@@ -144,9 +151,6 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign(
       {
         userId: user._id,
-        address: user.address,
-        name: user.name,
-        phoneNumber: user?.phoneNumber,
       },
       secretKey
     );
@@ -191,7 +195,7 @@ app.post('/profile/update', async (req, res) => {
   }
 });
 
-const Order = require('./models/order');
+// // Order controllers
 // Tạo đơn hàng
 app.post('/order/create', async (req, res) => {
   try {
@@ -325,7 +329,7 @@ app.patch('/order/:orderId/delivered', async (req, res) => {
   }
 });
 
-const Notification = require('./models/notification');
+// // Notification controllers
 app.post('/notification/create', async (req, res) => {
   try {
     const { title, content, image } = req?.body;
@@ -353,7 +357,7 @@ app.get('/notification', async (req, res) => {
   }
 });
 
-const Product = require('./models/product');
+// // Product controllers
 // Tìm kiếm sản phẩm
 app.get('/product/search', async (req, res) => {
   try {
@@ -385,7 +389,7 @@ app.get('/product', async (req, res) => {
 // get products by category
 app.get('/product/category/:categoryId', async (req, res) => {
   try {
-    const { categoryId } = req?.params;
+    const categoryId = req?.params?.categoryId;
     const products = await Product.find({ category: categoryId }).populate([
       'category',
       'brand',
@@ -401,7 +405,7 @@ app.get('/product/category/:categoryId', async (req, res) => {
 // get products by brand
 app.get('/product/brand/:brandId', async (req, res) => {
   try {
-    const { brandId } = req?.params;
+    const brandId = req?.params?.brandId;
     const products = await Product.find({ brand: brandId }).populate([
       'category',
       'brand',
@@ -425,7 +429,7 @@ app.post('/product/add', async (req, res) => {
   }
 });
 
-const Category = require('./models/category');
+// // Category controllers
 app.post('/category/add', async (req, res) => {
   try {
     const category = new Category(req.body);
@@ -447,7 +451,7 @@ app.get('/category', async (req, res) => {
   }
 });
 
-const Brand = require('./models/brand');
+// // Brand controllers
 app.post('/brand/add', async (req, res) => {
   try {
     const brand = new Brand(req.body);
@@ -468,8 +472,8 @@ app.get('/brand', async (req, res) => {
   }
 });
 
-//Review
-const Review = require('./models/review');
+// // Review controllers
+// Review
 app.post('/review/create/:productId/:userId', async (req, res) => {
   try {
     const { productId, userId } = req.params;
