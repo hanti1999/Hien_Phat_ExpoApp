@@ -9,14 +9,17 @@ import {
   Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 
 const EditProfileScreen = ({ route }) => {
   const { currentUser } = route?.params;
+  const [showPassword, setShowPassword] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
   const [name, setName] = useState('');
 
@@ -28,6 +31,7 @@ const EditProfileScreen = ({ route }) => {
         name: name,
         phoneNumber: phoneNumber,
         address: address,
+        password: password,
       };
       const res = await axios.post(`${BASE_URL}/profile/update`, userData);
       if (res.status === 200) {
@@ -44,10 +48,15 @@ const EditProfileScreen = ({ route }) => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   useEffect(() => {
     setName(currentUser?.name);
     setAddress(currentUser?.address);
     setPhoneNumber(currentUser?.phoneNumber);
+    setPassword(currentUser?.password);
   }, []);
 
   return (
@@ -77,6 +86,24 @@ const EditProfileScreen = ({ route }) => {
             className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
             onChangeText={setAddress}
           />
+
+          <Text className='my-3 text-[16px]'>Mật khẩu của bạn:</Text>
+          <View className='px-2 border rounded-xl border-gray-300 flex-row items-center justify-between'>
+            <TextInput
+              value={password}
+              placeholder='Thêm địa chỉ giao hàng...'
+              className='py-3 text-[16px]'
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+              style={{ flex: 1 }}
+            />
+            <Ionicons
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={24}
+              color='gray'
+              onPress={toggleShowPassword}
+            />
+          </View>
 
           <Pressable
             onPress={handleUpdateProfile}

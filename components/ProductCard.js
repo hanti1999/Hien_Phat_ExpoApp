@@ -1,14 +1,22 @@
-import { Text, View, Pressable, Image, ActivityIndicator } from 'react-native';
+import {
+  Text,
+  View,
+  Pressable,
+  Image,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
 
-const ProductCard = ({ item, userId }) => {
+const ProductCard = ({ item, userId, size }) => {
   const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const actualPrice = item?.price * (1 - item.discount / 100);
+  const width = Dimensions.get('window').width;
 
   const addItemToCart = (item) => {
     dispatch(
@@ -32,12 +40,13 @@ const ProductCard = ({ item, userId }) => {
   return (
     <Pressable
       onPress={navToInfo}
-      className='w-[180px] max-h-[320px] mx-1 my-2'
+      className='max-h-[340px] mx-1 my-1'
       disabled={isLoading}
+      style={{ width: width * size - 8 }}
     >
       <View className='border h-full flex justify-between border-gray-200 bg-pink-100 rounded-md overflow-hidden'>
         <View>
-          <Image className='w-full h-[160px]' source={{ uri: item?.image }} />
+          <Image className='w-full h-[180px]' source={{ uri: item?.image }} />
           <View className='p-1.5 h-[100px] justify-between'>
             <Text numberOfLines={2}>{item?.title}</Text>
             {item?.discount > 0 && (

@@ -8,7 +8,7 @@ import NoProduct from '../components/NoProduct';
 import Loading from '../components/Loading';
 
 const ProductByBrandScreen = ({ route }) => {
-  const { brandId } = route?.params;
+  const { brandId, userId } = route?.params;
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,17 +51,10 @@ const ProductByBrandScreen = ({ route }) => {
       <FlatList
         data={products}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flex: 1 / 2,
-              alignItems: 'center',
-            }}
-          >
-            <ProductCard item={item} />
-          </View>
+          <ProductCard item={item} userId={userId} size={0.5} />
         )}
         numColumns={2}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item, index) => index}
         style={{ height: '100%' }}
       />
     </SafeAreaView>

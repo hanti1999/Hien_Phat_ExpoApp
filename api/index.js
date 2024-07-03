@@ -181,12 +181,13 @@ app.get('/profile/:userId', async (req, res) => {
 // cập nhật thông tin khách hàng
 app.post('/profile/update', async (req, res) => {
   try {
-    const { userId, name, phoneNumber, address } = req.body;
+    const { userId, name, phoneNumber, address, password } = req.body;
 
     const user = await User.findByIdAndUpdate(userId, {
       name: name,
       phoneNumber: phoneNumber,
       address: address,
+      password: password,
     });
 
     res.status(200).json({ user });

@@ -86,7 +86,7 @@ const LoginScreen = () => {
           <Text className='text-2xl font-bold'>Đăng nhập</Text>
         </View>
 
-        <View className='flex-row justify-between items-center mt-24 mb-4'>
+        <View className='flex-row justify-between items-center mt-12 mb-4'>
           <Pressable>
             <Text className='text-lg font-semibold'>
               {phoneLogin ? 'Điện thoại' : 'Email'}
@@ -161,7 +161,7 @@ const LoginScreen = () => {
           </Pressable>
         </View>
 
-        <View className='mt-20'>
+        <View className='mt-12'>
           <Pressable
             onPress={handleLogin}
             className='bg-primary-pink rounded-md mx-auto px-4 py-4 w-[200px]'
@@ -177,7 +177,7 @@ const LoginScreen = () => {
 
           <Pressable
             onPress={() => navigation.navigate('Register')}
-            className='mt-4'
+            className='py-2 mt-2'
           >
             <Text className='text-center text-gray-500'>
               Chưa có tài khoản? Đăng ký ngay!

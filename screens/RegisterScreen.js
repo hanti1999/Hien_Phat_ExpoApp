@@ -215,7 +215,7 @@ const RegisterScreen = ({ navigation }) => {
             </Text>
           </Pressable>
 
-          <Pressable onPress={() => navigation.goBack()} className='mt-4'>
+          <Pressable onPress={() => navigation.goBack()} className='py-2 mt-2'>
             <Text className='text-center text-gray-500'>
               Đã tài khoản? Đăng nhập ngay!
             </Text>

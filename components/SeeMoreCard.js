@@ -3,12 +3,12 @@ import { Text, View, Pressable } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import React from 'react';
 
-const SeeMoreCard = ({ categoryId }) => {
+const SeeMoreCard = ({ categoryId, userId }) => {
   const navigation = useNavigation();
   return (
     <Pressable
       onPress={() =>
-        navigation.navigate('ProductByCategory', { categoryId: categoryId })
+        navigation.navigate('ProductByCategory', { categoryId, userId })
       }
       className='h-[320px] w-[180px]'
     >

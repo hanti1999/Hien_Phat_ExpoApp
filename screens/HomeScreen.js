@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
 import { jwtDecode } from 'jwt-decode';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -111,7 +112,7 @@ const HomeScreen = () => {
       >
         <SearchBar />
 
-        <HorizontalCategory />
+        <HorizontalCategory userId={userId} />
 
         <SliderBox
           images={slider}
@@ -139,7 +140,9 @@ const HomeScreen = () => {
         <FlatList
           data={sale.slice(0, 6)}
           style={{ backgroundColor: 'white', paddingHorizontal: 4 }}
-          renderItem={({ item }) => <ProductCard userId={userId} item={item} />}
+          renderItem={({ item }) => (
+            <ProductCard userId={userId} item={item} size={0.45} />
+          )}
           keyExtractor={(item) => item?._id}
           horizontal
         />
@@ -155,12 +158,15 @@ const HomeScreen = () => {
               marginTop: 20,
             }}
             renderItem={({ item }) => (
-              <ProductCard userId={userId} item={item} />
+              <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
             horizontal
             ListFooterComponent={
-              <SeeMoreCard categoryId='6666d75349ada55e0903d7ec' />
+              <SeeMoreCard
+                categoryId='6666d75349ada55e0903d7ec'
+                userId={userId}
+              />
             }
           />
         </View>
@@ -184,13 +190,16 @@ const HomeScreen = () => {
               marginTop: 20,
             }}
             renderItem={({ item }) => (
-              <ProductCard userId={userId} item={item} />
+              <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
             data={bepDien.slice(0, 6)}
             horizontal
             ListFooterComponent={
-              <SeeMoreCard categoryId='6667cd3d026b92076ff622a5' />
+              <SeeMoreCard
+                categoryId='6667cd3d026b92076ff622a5'
+                userId={userId}
+              />
             }
           />
         </View>
@@ -214,13 +223,16 @@ const HomeScreen = () => {
               marginTop: 20,
             }}
             renderItem={({ item }) => (
-              <ProductCard userId={userId} item={item} />
+              <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
             data={giaDung.slice(0, 6)}
             horizontal
             ListFooterComponent={
-              <SeeMoreCard categoryId='6667cd99026b92076ff622a7' />
+              <SeeMoreCard
+                categoryId='6667cd99026b92076ff622a7'
+                userId={userId}
+              />
             }
           />
         </View>
@@ -235,13 +247,16 @@ const HomeScreen = () => {
               marginTop: 20,
             }}
             renderItem={({ item }) => (
-              <ProductCard userId={userId} item={item} />
+              <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
             data={gas.slice(0, 6)}
             horizontal
             ListFooterComponent={
-              <SeeMoreCard categoryId='6667cf05026b92076ff622af' />
+              <SeeMoreCard
+                categoryId='6667cf05026b92076ff622af'
+                userId={userId}
+              />
             }
           />
         </View>
@@ -252,14 +267,14 @@ const HomeScreen = () => {
               Thương hiệu
             </Text>
           </View>
-          <HorizontalBrand />
+          <HorizontalBrand userId={userId} />
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const HorizontalCategory = () => {
+const HorizontalCategory = ({ userId }) => {
   const [catList, setCatList] = useState();
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -302,6 +317,7 @@ const HorizontalCategory = () => {
           onPress={() =>
             navigation.navigate('ProductByCategory', {
               categoryId: item?._id,
+              userId: userId,
             })
           }
           className='m-1'
@@ -322,7 +338,7 @@ const HorizontalCategory = () => {
   );
 };
 
-const HorizontalBrand = () => {
+const HorizontalBrand = ({ userId }) => {
   const [brandList, setBrandList] = useState();
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
@@ -362,6 +378,7 @@ const HorizontalBrand = () => {
           onPress={() =>
             navigation.navigate('ProductByBrand', {
               brandId: item?._id,
+              userId: userId,
             })
           }
           className='m-1'
