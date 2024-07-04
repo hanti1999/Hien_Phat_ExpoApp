@@ -10,7 +10,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import * as Location from 'expo-location';
+import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
 import validateEmail from '../utils/validateEmail';
@@ -48,6 +49,7 @@ const RegisterScreen = ({ navigation }) => {
               loginInfo: phone,
               password: password,
               address: address,
+              phoneNumber: phone,
               otp,
             });
           } catch (error) {
@@ -84,6 +86,28 @@ const RegisterScreen = ({ navigation }) => {
       }
     }
   };
+
+  useEffect(() => {
+    const getPermissions = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== 'granted') {
+        console.log('Người dùng từ chối quyền truy cập');
+        return;
+      }
+
+      let currentLocation = await Location.getCurrentPositionAsync({});
+
+      let reverseGeocode = await Location.reverseGeocodeAsync({
+        longitude: currentLocation.coords.longitude,
+        latitude: currentLocation.coords.latitude,
+      });
+
+      setAddress(`${reverseGeocode[0]?.formattedAddress}`);
+      console.log('Đã lấy được địa chỉ:', reverseGeocode[0]?.formattedAddress);
+    };
+    getPermissions();
+  }, []);
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>

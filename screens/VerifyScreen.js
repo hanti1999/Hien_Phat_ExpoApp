@@ -14,7 +14,8 @@ import axios from 'axios';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
-  const { name, loginInfo, password, address, otp } = route.params;
+  const { name, loginInfo, password, address, phoneNumber, otp } =
+    route?.params;
 
   const handleVerify = () => {
     if (code != otp) {
@@ -27,6 +28,7 @@ const VerifyScreen = ({ navigation, route }) => {
       loginInfo: loginInfo,
       password: password,
       address: address,
+      phoneNumber: phoneNumber,
     };
 
     const postRegister = async () => {

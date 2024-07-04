@@ -82,6 +82,7 @@ const EditProfileScreen = ({ route }) => {
           <Text className='my-3 text-[16px]'>Địa chỉ giao hàng:</Text>
           <TextInput
             value={address}
+            multiline
             placeholder='Thêm địa chỉ giao hàng...'
             className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
             onChangeText={setAddress}

@@ -26,7 +26,7 @@ const ScreenHeader = ({ text }) => {
       >
         <Ionicons
           name='cart-outline'
-          size={32}
+          size={30}
           style={{ paddingHorizontal: 12, paddingVertical: 10 }}
         />
         <View className='absolute w-5 h-5 bg-primary-pink rounded-full right-1 top-1'>

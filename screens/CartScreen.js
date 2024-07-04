@@ -85,7 +85,7 @@ const CartScreen = () => {
     setOrderLoading(true);
     if (phoneNumber === '') {
       Alert.alert('Thông báo', 'Vui lòng điền số điện thoại!');
-      setIsVisible(!isVisible);
+      setIsVisible(true);
       phoneRef.current.focus();
       setOrderLoading(false);
       return;
@@ -204,17 +204,7 @@ const CartScreen = () => {
                   value={name}
                   onChangeText={setName}
                 />
-                <Text className='my-3 text-[16px]'>
-                  Số điện thoại người nhận:
-                </Text>
-                <TextInput
-                  value={phoneNumber}
-                  ref={phoneRef}
-                  keyboardType='numeric'
-                  placeholder='Vui lòng điền số điện thoại'
-                  onChangeText={setPhoneNumber}
-                  className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
-                />
+
                 <Text className='my-3 text-[16px]'>Ghi chú:</Text>
                 <TextInput
                   value={note}
@@ -225,6 +215,17 @@ const CartScreen = () => {
                 />
               </View>
             )}
+            <Text className='my-3 text-[16px]'>Số điện thoại người nhận:</Text>
+            <TextInput
+              value={phoneNumber}
+              ref={phoneRef}
+              keyboardType='numeric'
+              placeholder='Vui lòng điền số điện thoại'
+              editable={isVisible}
+              onChangeText={setPhoneNumber}
+              className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+              style={{ backgroundColor: isVisible ? 'white' : '#e5e7eb' }}
+            />
             <Text className='my-3 text-[16px]'>Địa chỉ nhận hàng:</Text>
             <TextInput
               value={address}
@@ -274,7 +275,7 @@ const CartScreen = () => {
       </ScrollView>
 
       <View className='pt-2 py-2 px-3 bg-white'>
-        <View className='flex-row justify-between items-center mt-4 mb-2'>
+        <View className='flex-row justify-between items-center my-2'>
           <Text className='text-[18px]'>Tổng thanh toán: </Text>
           <Text className='text-primary-pink font-bold text-[20px]'>
             {totalAmount.toLocaleString()}đ

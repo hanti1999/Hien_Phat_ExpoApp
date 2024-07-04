@@ -36,9 +36,12 @@ const userSchema = new mongoose.Schema({
     {
       type: mongoose.Types.ObjectId,
       ref: 'Product',
-      unique: true,
     },
   ],
+  role: {
+    type: String,
+    default: 'user',
+  },
   createAt: {
     type: Date,
     default: Date.now,
