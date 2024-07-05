@@ -16,7 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialIcons } from '@expo/vector-icons';
 import { jwtDecode } from 'jwt-decode';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -33,6 +32,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
+  const navigation = useNavigation();
 
   const onRefresh = async () => {
     setRefreshing(true);

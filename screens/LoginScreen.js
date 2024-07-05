@@ -18,9 +18,8 @@ import { BASE_URL } from '@env';
 import axios from 'axios';
 
 const LoginScreen = () => {
-  const [loginInfo, setLoginInfo] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [phoneLogin, setPhoneLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -46,7 +45,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     const user = {
-      loginInfo: loginInfo,
+      phoneNumber: phoneNumber,
       password: password,
     };
 
@@ -82,68 +81,38 @@ const LoginScreen = () => {
       </View>
 
       <KeyboardAvoidingView>
-        <View className='items-center'>
-          <Text className='text-2xl font-bold'>Đăng nhập</Text>
+        <View>
+          <Text className='text-2xl font-bold text-center'>Đăng nhập</Text>
         </View>
 
-        <View className='flex-row justify-between items-center mt-12 mb-4'>
-          <Pressable>
-            <Text className='text-lg font-semibold'>
-              {phoneLogin ? 'Điện thoại' : 'Email'}
-            </Text>
-          </Pressable>
-          <Pressable onPress={() => setPhoneLogin(!phoneLogin)}>
-            <Text className='text-base text-gray-500'>
-              {phoneLogin ? 'Đăng nhập với email' : 'Đăng nhập với điện thoại'}
-            </Text>
-          </Pressable>
+        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 rounded-md mt-6'>
+          <AntDesign name='mobile1' size={24} color='gray' />
+          <TextInput
+            autoCapitalize='none'
+            className='w-[300px] text-[18px] py-1.5'
+            placeholder='Nhập số điện thoại...'
+            value={phoneNumber}
+            keyboardType='numeric'
+            onChangeText={setPhoneNumber}
+          />
         </View>
 
-        <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
-          {phoneLogin ? (
-            <>
-              <AntDesign name='mobile1' size={24} color='gray' />
-              <TextInput
-                autoCapitalize='none'
-                className='w-[300px] text-[18px] py-1.5'
-                placeholder='Nhập số điện thoại...'
-                value={loginInfo}
-                keyboardType='numeric'
-                onChangeText={setLoginInfo}
-              />
-            </>
-          ) : (
-            <>
-              <AntDesign name='mail' size={24} color='gray' />
-              <TextInput
-                autoCapitalize='none'
-                className='w-[300px] text-[18px] py-1.5'
-                placeholder='Nhập Email...'
-                value={loginInfo}
-                onChangeText={setLoginInfo}
-              />
-            </>
-          )}
-        </View>
-
-        <View className='mt-10'>
-          <View className='flex-row items-center gap-1 bg-gray-100 border border-gray-300 py-1 px-1 rounded-md'>
-            <AntDesign name='lock1' size={24} color='gray' />
-            <TextInput
-              className='w-[300px] text-[18px] py-1.5'
-              placeholder='Nhập mật khẩu...'
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              onSubmitEditing={handleLogin}
-            />
-            <Ionicons
-              name={showPassword ? 'eye-off' : 'eye'}
-              size={24}
-              color='gray'
-              onPress={toggleShowPassword}
-            />
-          </View>
+        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 rounded-md mt-6'>
+          <AntDesign name='lock1' size={24} color='gray' />
+          <TextInput
+            className='w-[300px] text-[18px] py-1.5'
+            placeholder='Nhập mật khẩu...'
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+            onSubmitEditing={handleLogin}
+          />
+          <Ionicons
+            name={showPassword ? 'eye-off' : 'eye'}
+            size={24}
+            color='gray'
+            onPress={toggleShowPassword}
+          />
         </View>
 
         <View className='mt-2'>
@@ -155,21 +124,19 @@ const LoginScreen = () => {
               );
             }}
           >
-            <Text className='text-blue-500 font-medium text-right'>
-              Quên mật khẩu?
-            </Text>
+            <Text className='text-blue-500 text-right'>Quên mật khẩu?</Text>
           </Pressable>
         </View>
 
-        <View className='mt-12'>
+        <View className='mt-6'>
           <Pressable
             onPress={handleLogin}
-            className='bg-primary-pink rounded-md mx-auto px-4 py-4 w-[200px]'
+            className='bg-primary-pink rounded-md mx-auto px-4 py-4 w-full'
           >
             {loading ? (
               <ActivityIndicator color={'#fff'} />
             ) : (
-              <Text className='text-white text-center text-[18px] font-bold'>
+              <Text className='text-white text-center text-[18px] font-semibold'>
                 Đăng nhập
               </Text>
             )}
@@ -179,7 +146,7 @@ const LoginScreen = () => {
             onPress={() => navigation.navigate('Register')}
             className='py-2 mt-2'
           >
-            <Text className='text-center text-gray-500'>
+            <Text className='text-center text-blue-500'>
               Chưa có tài khoản? Đăng ký ngay!
             </Text>
           </Pressable>

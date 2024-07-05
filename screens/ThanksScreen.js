@@ -6,9 +6,13 @@ import React, { useEffect } from 'react';
 const ThanksScreen = () => {
   const navigation = useNavigation();
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       navigation.replace('Main');
     }, 3000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
   return (
     <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>

@@ -64,42 +64,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// function gửi email xác thực
-const sendVerificationEmail = async (email, otp) => {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'hoanganhnguyen221299@gmail.com',
-      pass: 'mnkp clke fkjg kulj',
-    },
-  });
-
-  const mailOption = {
-    from: 'Gas Hien Phat',
-    to: email,
-    subject: 'Xác minh địa chỉ Mail',
-    text: `Mã xác minh của bạn là: ${otp}`,
-  };
-
-  try {
-    await transporter.sendMail(mailOption);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// Xác minh email
-app.post('/verify-email', async (req, res) => {
-  try {
-    const { email } = req.body;
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    sendVerificationEmail(email, otp);
-    return res.status(200).json({ otp: otp });
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 // Xác minh số điện thoại với twilio
 // const accountSid = process.env.TWILIO_ACCOUNT_SID;
 // const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -143,9 +107,9 @@ const secretKey = generateSecretKey();
 
 app.post('/login', async (req, res) => {
   try {
-    const { loginInfo, password } = req.body;
+    const { phoneNumber, password } = req.body;
 
-    const user = await User.findOne({ loginInfo });
+    const user = await User.findOne({ phoneNumber });
     if (!user) {
       return res.status(401).json({ message: 'Tài khoản không tồn tại!' });
     }

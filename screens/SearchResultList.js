@@ -1,4 +1,10 @@
-import { StyleSheet, View, SafeAreaView, FlatList } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  StatusBar,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -44,6 +50,7 @@ const SearchResultList = ({ route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: 'white' }}>
+      <StatusBar />
       <ScreenHeader text={'Kết quả tìm kiếm'} />
       <FlatList
         data={products}

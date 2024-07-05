@@ -11,6 +11,7 @@ import {
 import React, { useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
+import { StatusBar } from 'expo-status-bar';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
@@ -44,8 +45,9 @@ const VerifyScreen = ({ navigation, route }) => {
   };
   return (
     <SafeAreaView className='bg-white flex-1 items-center'>
+      <StatusBar />
       <View className='my-8'>
-        <Text className='text-center text-xl font-bold'>Xác minh OTP</Text>
+        <Text className='text-center text-[20px] font-bold'>Xác minh OTP</Text>
       </View>
 
       <View>
@@ -57,7 +59,7 @@ const VerifyScreen = ({ navigation, route }) => {
       <KeyboardAvoidingView>
         <View className='bg-gray-200 rounded-md py-1 flex my-8'>
           <TextInput
-            className='w-[300px] text-base p-2 '
+            className='w-[300px] text-[16px] p-2 '
             keyboardType='numeric'
             placeholder='Nhập mã xác minh ...'
             maxLength={6}
