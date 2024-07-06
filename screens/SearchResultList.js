@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  FlatList,
-  StatusBar,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -14,7 +8,7 @@ import NoProduct from '../components/NoProduct';
 import Loading from '../components/Loading';
 
 const SearchResultList = ({ route }) => {
-  const { input } = route?.params;
+  const { input, userId } = route?.params;
   const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -49,21 +43,14 @@ const SearchResultList = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white' }}>
+    <SafeAreaView className='bg-white flex-1'>
       <StatusBar />
       <ScreenHeader text={'Kết quả tìm kiếm'} />
       <FlatList
         data={products}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flex: 1 / 2,
-              alignItems: 'center',
-            }}
-          >
-            <ProductCard item={item} />
-          </View>
+          <ProductCard item={item} userId={userId} size={0.5} />
         )}
         numColumns={2}
         style={{ height: '100%' }}

@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Pressable,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useState } from 'react';
 import { BASE_URL } from '@env';
@@ -15,6 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const { name, loginInfo, password, address, phoneNumber, otp } =
     route?.params;
 
@@ -34,15 +36,25 @@ const VerifyScreen = ({ navigation, route }) => {
 
     const postRegister = async () => {
       try {
+        setLoading(true);
         const res = await axios.post(`${BASE_URL}/register`, info);
-        navigation.navigate('Login');
+        if (res.status === 201) {
+          setLoading(false);
+          console.log('Đăng ký thành công');
+          navigation.navigate('Login');
+        } else {
+          setLoading(false);
+          console.log('Đăng ký không thành công (VerifyScreen)');
+        }
       } catch (error) {
+        setLoading(false);
         Alert.alert('Lỗi', 'Đăng ký không thành công!');
         console.log('Lỗi (VerifyScreen): ', error);
       }
     };
     postRegister();
   };
+
   return (
     <SafeAreaView className='bg-white flex-1 items-center'>
       <StatusBar />
@@ -50,11 +62,9 @@ const VerifyScreen = ({ navigation, route }) => {
         <Text className='text-center text-[20px] font-bold'>Xác minh OTP</Text>
       </View>
 
-      <View>
-        <Text className='text-center'>
-          Vui lòng kiểm tra mã OTP được gửi đến {loginInfo}
-        </Text>
-      </View>
+      <Text className='text-center'>
+        Vui lòng kiểm tra mã OTP được gửi đến {loginInfo}
+      </Text>
 
       <KeyboardAvoidingView>
         <View className='bg-gray-200 rounded-md py-1 flex my-8'>
@@ -64,29 +74,29 @@ const VerifyScreen = ({ navigation, route }) => {
             placeholder='Nhập mã xác minh ...'
             maxLength={6}
             value={code}
-            onChangeText={(text) => setCode(text)}
+            onChangeText={setCode}
           />
         </View>
 
-        <View>
-          <Pressable
-            onPress={handleVerify}
-            className='w-[300px] bg-primary-pink rounded-md py-4'
-          >
-            <Text className='text-white text-center text-lg font-bold'>
+        <Pressable
+          onPress={handleVerify}
+          className='w-[300px] bg-primary-pink rounded-md py-4'
+        >
+          {loading ? (
+            <ActivityIndicator color={'white'} />
+          ) : (
+            <Text className='text-white text-center text-[18px] font-semibold'>
               Xác minh
             </Text>
-          </Pressable>
-        </View>
+          )}
+        </Pressable>
 
-        <View>
-          <Pressable
-            onPress={() => navigation.navigate('Login')}
-            className='mt-4'
-          >
-            <Text className='text-center text-gray-500'>Quay về đăng nhập</Text>
-          </Pressable>
-        </View>
+        <Pressable
+          onPress={() => navigation.navigate('Login')}
+          className='mt-2'
+        >
+          <Text className='text-center text-blue-500'>Quay về đăng nhập</Text>
+        </Pressable>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

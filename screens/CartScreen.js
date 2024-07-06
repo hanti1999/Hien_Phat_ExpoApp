@@ -136,12 +136,7 @@ const CartScreen = () => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: '#fff',
-        flex: 1,
-      }}
-    >
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text={'Giỏ hàng'} />
       <ScrollView className='bg-gray-100' showsVerticalScrollIndicator={false}>

@@ -46,7 +46,7 @@ const ProductsByCategoryScreen = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#fff' }}>
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text={'Sản phẩm'} />
 

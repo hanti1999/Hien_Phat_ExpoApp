@@ -81,9 +81,7 @@ const LoginScreen = () => {
       </View>
 
       <KeyboardAvoidingView>
-        <View>
-          <Text className='text-2xl font-bold text-center'>Đăng nhập</Text>
-        </View>
+        <Text className='text-2xl font-bold text-center'>Đăng nhập</Text>
 
         <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 mt-6'>
           <AntDesign name='mobile1' size={24} color='gray' />
@@ -105,7 +103,6 @@ const LoginScreen = () => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
-            onSubmitEditing={handleLogin}
           />
           <Ionicons
             name={showPassword ? 'eye-off' : 'eye'}

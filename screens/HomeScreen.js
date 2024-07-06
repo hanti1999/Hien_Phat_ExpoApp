@@ -3,7 +3,6 @@ import {
   Image,
   View,
   SafeAreaView,
-  Platform,
   ScrollView,
   Pressable,
   Alert,
@@ -98,10 +97,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView
-      className=' flex-1 bg-primary-pink'
-      style={{ paddingTop: Platform.OS == 'android' ? 0 : 0 }}
-    >
+    <SafeAreaView className='flex-1 bg-primary-pink'>
       <StatusBar />
       <ScrollView
         stickyHeaderIndices={[0]}
@@ -110,7 +106,7 @@ const HomeScreen = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <SearchBar />
+        <SearchBar userId={userId} />
 
         <HorizontalCategory userId={userId} />
 
@@ -261,7 +257,7 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View className='border-t-2 border-primary-pink my-2 relative bg-white'>
+        <View className='border-t-2 border-primary-pink my-2 bg-white'>
           <View className='px-3 pt-2'>
             <Text className='font-semibold text-primary-pink text-[16px]'>
               Thương hiệu
@@ -334,6 +330,7 @@ const HorizontalCategory = ({ userId }) => {
       data={catList}
       keyExtractor={(item) => item?._id}
       horizontal
+      style={{ backgroundColor: 'white' }}
     />
   );
 };

@@ -88,12 +88,7 @@ const ProfileScreen = () => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: '#fff',
-        flex: 1,
-      }}
-    >
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScrollView
         stickyHeaderIndices={[0]}
@@ -158,6 +153,7 @@ const ProfileScreen = () => {
             onPress={() =>
               navigation.navigate('Wishlist', {
                 wishlist: currentUser?.wishlist,
+                userId: userId,
               })
             }
             className='flex-row items-center justify-between py-3'

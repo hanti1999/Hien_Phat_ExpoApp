@@ -1,31 +1,24 @@
-import { View, SafeAreaView, StatusBar, FlatList } from 'react-native';
+import { SafeAreaView, StatusBar, FlatList } from 'react-native';
 import React from 'react';
 import ScreenHeader from '../components/ScreenHeader';
 import ProductCard from '../components/ProductCard';
 import NoProduct from '../components/NoProduct';
 
 const WishlistScreen = ({ route }) => {
-  const { wishlist } = route?.params;
+  const { wishlist, userId } = route?.params;
 
   if (wishlist.length === 0) {
     return <NoProduct text={'Chưa có sản phẩm trong danh sách ước'} />;
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text={'Danh sách yêu thích'} />
       <FlatList
         data={wishlist}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flex: 1 / 2,
-              alignItems: 'center',
-            }}
-          >
-            <ProductCard item={item} />
-          </View>
+          <ProductCard item={item} userId={userId} size={0.5} />
         )}
         numColumns={2}
         keyExtractor={(item, index) => index}

@@ -3,7 +3,6 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  Platform,
   Pressable,
   Dimensions,
   StatusBar,
@@ -122,13 +121,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        paddingTop: Platform.OS == 'android' ? 0 : 0,
-        flex: 1,
-        backgroundColor: '#fff',
-      }}
-    >
+    <SafeAreaView className='flex-1 bg-white'>
       <ScrollView
         stickyHeaderIndices={[1]}
         showsVerticalScrollIndicator={false}

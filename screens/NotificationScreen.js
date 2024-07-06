@@ -2,7 +2,6 @@ import {
   SafeAreaView,
   Text,
   View,
-  Platform,
   StatusBar,
   RefreshControl,
   FlatList,
@@ -52,13 +51,7 @@ const NotificationScreen = () => {
   }
 
   return (
-    <SafeAreaView
-      style={{
-        paddingTop: Platform.OS == 'android' ? 0 : 0,
-        backgroundColor: '#fff',
-        flex: 1,
-      }}
-    >
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text={'Thông báo'} />
 

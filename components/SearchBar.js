@@ -4,13 +4,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import React, { useState } from 'react';
 
-const SearchBar = () => {
+const SearchBar = ({ userId }) => {
   const navigation = useNavigation();
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const [input, setInput] = useState('');
 
   const searchHandler = () => {
-    navigation.navigate('SearchResult', { input: input });
+    navigation.navigate('SearchResult', { input: input, userId: userId });
   };
 
   return (

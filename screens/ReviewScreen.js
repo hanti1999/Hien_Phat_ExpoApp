@@ -124,7 +124,7 @@ const ReviewScreen = ({ route, navigation }) => {
           onChangeText={setComment}
           multiline
           placeholder='Chia sẻ trãi nghiệm của bạn'
-          className='bg-white rounded-lg p-2 border border-gray-300 mt-2 h-[70px]'
+          className='bg-white rounded-lg p-2 border border-gray-300 mt-2 min-h-[70px]'
         />
         <Pressable
           onPress={handleSendReview}

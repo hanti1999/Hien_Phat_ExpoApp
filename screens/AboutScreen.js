@@ -4,7 +4,7 @@ import ScreenHeader from '../components/ScreenHeader';
 
 const AboutScreen = () => {
   return (
-    <SafeAreaView className='bg-white'>
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text={'Thông tin công ty'} />
       <View className='px-3 py-2'>

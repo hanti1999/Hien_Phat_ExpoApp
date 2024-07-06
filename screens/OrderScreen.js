@@ -60,7 +60,7 @@ const OrderScreen = ({ route }) => {
   }
 
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text='Lịch sử đơn hàng' />
       <FlatList

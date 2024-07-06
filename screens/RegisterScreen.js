@@ -18,7 +18,7 @@ import validatePhone from '../utils/validatePhone';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [password, setPassword] = useState('88888888');
   const [confirmPass, setConfirmPass] = useState('88888888');
@@ -34,18 +34,18 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    if (validatePhone(phone)) {
+    if (validatePhone(phoneNumber)) {
       const postPhone = async () => {
         try {
-          const res = await axios.post(`${BASE_URL}/verify`, { phone });
-          const otp = res.data.otp;
-          console.log(otp);
+          // const res = await axios.post(`${BASE_URL}/verify`, { phone });
+          // const otp = res.data.otp;
+          const otp = 888888;
           navigation.navigate('Verify', {
             name: name,
-            loginInfo: phone,
+            loginInfo: phoneNumber,
             password: password,
             address: address,
-            phoneNumber: phone,
+            phoneNumber: phoneNumber,
             otp: otp,
           });
         } catch (error) {
@@ -102,9 +102,9 @@ const RegisterScreen = ({ navigation }) => {
           <TextInput
             className='w-[300px] text-[18px] py-1.5'
             placeholder='Nhập số điện thoại...'
-            value={phone}
+            value={phoneNumber}
             keyboardType='numeric'
-            onChangeText={setPhone}
+            onChangeText={setPhoneNumber}
           />
         </View>
 
@@ -163,7 +163,6 @@ const RegisterScreen = ({ navigation }) => {
               value={confirmPass}
               onChangeText={setConfirmPass}
               secureTextEntry={!showPassword}
-              onSubmitEditing={handleRegister}
             />
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}

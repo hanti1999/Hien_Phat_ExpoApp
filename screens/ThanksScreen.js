@@ -15,7 +15,7 @@ const ThanksScreen = () => {
     };
   }, []);
   return (
-    <SafeAreaView style={{ backgroundColor: 'white', flex: 1 }}>
+    <SafeAreaView className='flex-1 bg-white'>
       <LottieView
         source={require('../assets/thumbs.json')}
         style={{

@@ -60,7 +60,7 @@ const EditProfileScreen = ({ route }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ backgroundColor: '#fff', flex: 1 }}>
+    <SafeAreaView className='flex-1 bg-white'>
       <StatusBar />
       <ScreenHeader text='Sửa hồ sơ' />
       <View className='bg-gray-100 flex-1'>
