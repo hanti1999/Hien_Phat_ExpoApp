@@ -28,7 +28,11 @@ const ProductInfoScreen = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [inWishlist, setIsInWishlist] = useState();
   const [loading, setLoading] = useState(false);
-  const actualPrice = item?.price * (1 - item.discount / 100);
+  // Giá sau khuyến mãi
+  const actualPrice = item?.price * (1 - item.discount / 100); //
+  // Điểm đánh giá trung bình
+  const totalRating = item?.reviews.reduce((acc, item) => acc + item.rating, 0);
+  const averageRating = totalRating / item?.reviews.length; //
 
   const checkWishlist = async () => {
     try {
@@ -159,7 +163,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
           </View>
           <View className='flex-row justify-between items-center'>
             <View className='flex-row items-center' style={{ gap: 4 }}>
-              <Text>5</Text>
+              <Text>{averageRating}</Text>
               <FontAwesome name='star' size={14} color='#faa935' />
               <Text>({item?.reviews.length} đánh giá)</Text>
               <Text className='text-gray-400'>|</Text>

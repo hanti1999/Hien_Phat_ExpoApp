@@ -69,14 +69,14 @@ const EditProfileScreen = ({ route }) => {
           <TextInput
             value={name}
             placeholder='Nhập tên của bạn...'
-            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+            className='p-2 border-b border-gray-300 text-[16px]'
             onChangeText={setName}
           />
           <Text className='my-3 text-[16px]'>Số điện thoại:</Text>
           <TextInput
             value={phoneNumber}
             placeholder='Bạn chưa nhập số điện thoại...'
-            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+            className='p-2 border-b border-gray-300 text-[16px]'
             onChangeText={setPhoneNumber}
           />
           <Text className='my-3 text-[16px]'>Địa chỉ giao hàng:</Text>
@@ -84,12 +84,12 @@ const EditProfileScreen = ({ route }) => {
             value={address}
             multiline
             placeholder='Thêm địa chỉ giao hàng...'
-            className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
+            className='p-2 border-b border-gray-300 text-[16px]'
             onChangeText={setAddress}
           />
 
           <Text className='my-3 text-[16px]'>Mật khẩu của bạn:</Text>
-          <View className='px-2 border rounded-xl border-gray-300 flex-row items-center justify-between'>
+          <View className='px-2 border-b border-gray-300 flex-row items-center justify-between'>
             <TextInput
               value={password}
               placeholder='Thêm địa chỉ giao hàng...'
@@ -109,7 +109,7 @@ const EditProfileScreen = ({ route }) => {
           <Pressable
             onPress={handleUpdateProfile}
             disabled={loading}
-            className='w-full h-[60px] flex justify-center mt-3 bg-primary-pink rounded-xl'
+            className='w-full h-[60px] flex justify-center mt-3 bg-primary-pink rounded-xl '
           >
             {loading ? (
               <ActivityIndicator color={'white'} />

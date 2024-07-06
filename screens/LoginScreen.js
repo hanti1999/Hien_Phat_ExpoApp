@@ -128,7 +128,7 @@ const LoginScreen = () => {
         <View className='mt-6'>
           <Pressable
             onPress={handleLogin}
-            className='bg-primary-pink rounded-md mx-auto px-4 py-4 w-full'
+            className='bg-primary-pink rounded-xl mx-auto px-4 py-4 w-full'
           >
             {loading ? (
               <ActivityIndicator color={'#fff'} />

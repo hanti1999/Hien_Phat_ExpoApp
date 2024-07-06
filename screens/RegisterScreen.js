@@ -182,7 +182,7 @@ const RegisterScreen = ({ navigation }) => {
         <View className='mt-10'>
           <Pressable
             onPress={handleRegister}
-            className='w-full bg-primary-pink rounded-md mx-auto px-4 py-4'
+            className='w-full bg-primary-pink rounded-xl mx-auto px-4 py-4'
           >
             <Text className='text-white text-center text-lg font-semibold'>
               Đăng ký

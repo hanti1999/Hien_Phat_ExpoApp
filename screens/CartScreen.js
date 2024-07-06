@@ -34,7 +34,7 @@ const CartScreen = () => {
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const cartAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const navigation = useNavigation();
+  const nav = useNavigation();
   const dispatch = useDispatch();
   const { userId, setUserId } = useContext(UserType);
   const [paymentMethod, setPaymentMethod] = useState('cash');
@@ -73,9 +73,8 @@ const CartScreen = () => {
         console.log('Lỗi (catch ProfileScreen): ', error);
       }
     };
-
     fetchUser();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     setTotalAmount(cartAmount);
@@ -106,7 +105,7 @@ const CartScreen = () => {
 
       const response = await axios.post(`${BASE_URL}/order/create`, orderData);
       if (response.status === 200) {
-        navigation.navigate('Thanks');
+        nav.navigate('Thanks');
         dispatch(clearCart());
         setOrderLoading(false);
         console.log('Tạo đơn hàng thành công');
@@ -141,7 +140,14 @@ const CartScreen = () => {
       <ScreenHeader text={'Giỏ hàng'} />
       <ScrollView className='bg-gray-100' showsVerticalScrollIndicator={false}>
         <View className='bg-pink-100 py-2 px-3 mb-2'>
-          <Text className='uppercase font-bold text-xl'>Chi tiết đơn hàng</Text>
+          <View className='flex-row items-center' style={{ gap: 4 }}>
+            <View className='w-5'>
+              <FontAwesome6 name='cart-shopping' size={16} color={P_PINK} />
+            </View>
+            <Text className='uppercase font-bold text-[18px]'>
+              Chi tiết đơn hàng
+            </Text>
+          </View>
           {cartItems.map((item, index) => (
             <RenderItemToCart item={item} key={index} dispatch={dispatch} />
           ))}
@@ -177,9 +183,14 @@ const CartScreen = () => {
 
         <View className='mb-2 py-2 px-3 bg-white'>
           <View className='flex-row justify-between'>
-            <Text className='uppercase font-bold text-[20px] '>
-              Giao hàng tới
-            </Text>
+            <View className='flex-row items-center' style={{ gap: 4 }}>
+              <View className='w-5'>
+                <FontAwesome6 name='location-dot' size={18} color={P_PINK} />
+              </View>
+              <Text className='uppercase font-bold text-[18px]'>
+                Giao hàng tới
+              </Text>
+            </View>
 
             <Pressable onPress={() => setIsVisible(!isVisible)}>
               <View className='flex-row items-center' style={{ gap: 4 }}>
@@ -190,53 +201,68 @@ const CartScreen = () => {
               </View>
             </Pressable>
           </View>
-          <View>
-            {isVisible && (
-              <View>
-                <Text className='my-3 text-[16px]'>Tên người nhận:</Text>
+          {isVisible ? (
+            <View>
+              <View className='flex-row items-center' style={{ gap: 8 }}>
+                <Text className='w-[60px]'>Tên:</Text>
                 <TextInput
-                  className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
                   value={name}
                   onChangeText={setName}
-                />
-
-                <Text className='my-3 text-[16px]'>Ghi chú:</Text>
-                <TextInput
-                  value={note}
-                  onChangeText={setNote}
-                  multiline
-                  placeholder='(Không bắt buộc)'
-                  className='h-[70px] px-2 border rounded-xl border-gray-300 text-[16px]'
+                  placeholder='Nhập tên...'
+                  className='p-2 border-b border-gray-300 flex-1'
                 />
               </View>
-            )}
-            <Text className='my-3 text-[16px]'>Số điện thoại người nhận:</Text>
+              <View className='flex-row items-center' style={{ gap: 8 }}>
+                <Text className='w-[60px]'>SĐT:</Text>
+                <TextInput
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  ref={phoneRef}
+                  keyboardType='numeric'
+                  placeholder='Nhập số điện thoại...'
+                  className='p-2 border-b border-gray-300 flex-1'
+                />
+              </View>
+              <View className='flex-row items-center' style={{ gap: 8 }}>
+                <Text className='w-[60px]'>Địa chỉ:</Text>
+                <TextInput
+                  value={address}
+                  multiline
+                  onChangeText={setAddress}
+                  placeholder='Nhập số điện thoại...'
+                  className='p-2 border-b border-gray-300 flex-1'
+                />
+              </View>
+            </View>
+          ) : (
+            <View className='mt-2'>
+              <Text>{name}</Text>
+              <Text>{phoneNumber}</Text>
+              <Text>{address}</Text>
+            </View>
+          )}
+
+          <View className='flex-row items-center' style={{ gap: 8 }}>
+            <Text className='w-[60px]'>Ghi chú:</Text>
             <TextInput
-              value={phoneNumber}
-              ref={phoneRef}
-              keyboardType='numeric'
-              placeholder='Vui lòng điền số điện thoại'
-              editable={isVisible}
-              onChangeText={setPhoneNumber}
-              className='px-2 py-3 border rounded-xl border-gray-300 text-[16px]'
-              style={{ backgroundColor: isVisible ? 'white' : '#e5e7eb' }}
-            />
-            <Text className='my-3 text-[16px]'>Địa chỉ nhận hàng:</Text>
-            <TextInput
-              value={address}
-              onChangeText={setAddress}
+              value={note}
+              onChangeText={setNote}
               multiline
-              editable={isVisible}
-              className='px-2 h-[70px] border rounded-xl border-gray-300 text-[16px]'
-              style={{ backgroundColor: isVisible ? 'white' : '#e5e7eb' }}
+              placeholder='(Không bắt buộc)'
+              className='p-2 border-b border-gray-300 flex-1'
             />
           </View>
         </View>
 
         <View className='py-2 px-3 mb-2 bg-white'>
-          <Text className='uppercase font-bold text-xl'>
-            Phương thức thanh toán
-          </Text>
+          <View className='flex-row items-center' style={{ gap: 4 }}>
+            <View className='w-5'>
+              <FontAwesome6 name='money-bill-1' size={16} color={P_PINK} />
+            </View>
+            <Text className='uppercase font-bold text-[18px]'>
+              Phương thức thanh toán
+            </Text>
+          </View>
           <View>
             <Pressable
               onPress={() => setPaymentMethod('cash')}
@@ -276,18 +302,24 @@ const CartScreen = () => {
             {totalAmount.toLocaleString()}đ
           </Text>
         </View>
-        <View className='flex-row justify-between items-center mb-2'>
-          <Text className='text-primary-pink'>
-            Quý khách tiết kiệm được{' '}
-            {(cartAmount - totalAmount).toLocaleString()}
-            đ
-            <Image
-              className='w-5 h-5'
-              source={require('../assets/tulip.png')}
-            />
-          </Text>
-          <Text className=' line-through'>{cartAmount.toLocaleString()}đ</Text>
-        </View>
+        {cartAmount > totalAmount ? (
+          <View className='flex-row justify-between items-center mb-2'>
+            <Text className='text-primary-pink'>
+              Quý khách tiết kiệm được{' '}
+              {(cartAmount - totalAmount).toLocaleString()}
+              đ
+              <Image
+                className='w-5 h-5'
+                source={require('../assets/tulip.png')}
+              />
+            </Text>
+            <Text className=' line-through'>
+              {cartAmount.toLocaleString()}đ
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
         <Pressable
           onPress={handlePlaceOrder}
           style={{ gap: 8 }}
@@ -307,7 +339,7 @@ const CartScreen = () => {
         </Pressable>
 
         <Pressable
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => nav.navigate('Home')}
           className='h-[60px] flex justify-center w-full border-primary-pink border rounded-xl mt-2'
         >
           <Text className=' text-[18px] text-center'>Tiếp tục mua sắm</Text>
