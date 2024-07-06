@@ -10,8 +10,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-import * as Location from 'expo-location';
 import React, { useState, useEffect } from 'react';
+import * as Location from 'expo-location';
 import { BASE_URL } from '@env';
 import axios from 'axios';
 import validatePhone from '../utils/validatePhone';
@@ -46,7 +46,7 @@ const RegisterScreen = ({ navigation }) => {
             password: password,
             address: address,
             phoneNumber: phone,
-            otp,
+            otp: otp,
           });
         } catch (error) {
           Alert.alert('Lỗi', 'Đăng ký không thành công!');
@@ -97,7 +97,7 @@ const RegisterScreen = ({ navigation }) => {
       </View>
 
       <KeyboardAvoidingView>
-        <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1 rounded-md'>
+        <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
           <AntDesign name='mobile1' size={24} color='gray' />
           <TextInput
             className='w-[300px] text-[18px] py-1.5'
@@ -109,7 +109,7 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
             <AntDesign name='user' size={24} color='gray' />
             <TextInput
               className='w-[300px] text-[18px] py-1.5'
@@ -121,12 +121,11 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
             <Ionicons name='location-outline' size={24} color='gray' />
             <TextInput
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập địa chỉ bạn...'
-              numberOfLines={3}
               multiline
               value={address}
               onChangeText={setAddress}
@@ -135,9 +134,10 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput
+              autoCapitalize='none'
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập mật khẩu...'
               value={password}
@@ -154,9 +154,10 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1 rounded-md'>
+          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
             <AntDesign name='lock1' size={24} color='gray' />
             <TextInput
+              autoCapitalize='none'
               className='w-[300px] text-[18px] py-1.5'
               placeholder='Nhập lại mật khẩu...'
               value={confirmPass}

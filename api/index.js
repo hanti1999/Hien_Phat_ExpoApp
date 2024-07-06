@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const dotenv = require('dotenv');
-const nodemailer = require('nodemailer');
 
 const app = express();
 const port = 8000;

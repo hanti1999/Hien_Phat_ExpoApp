@@ -85,10 +85,9 @@ const LoginScreen = () => {
           <Text className='text-2xl font-bold text-center'>Đăng nhập</Text>
         </View>
 
-        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 rounded-md mt-6'>
+        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 mt-6'>
           <AntDesign name='mobile1' size={24} color='gray' />
           <TextInput
-            autoCapitalize='none'
             className='w-[300px] text-[18px] py-1.5'
             placeholder='Nhập số điện thoại...'
             value={phoneNumber}
@@ -97,9 +96,10 @@ const LoginScreen = () => {
           />
         </View>
 
-        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 rounded-md mt-6'>
+        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 mt-6'>
           <AntDesign name='lock1' size={24} color='gray' />
           <TextInput
+            autoCapitalize='none'
             className='w-[300px] text-[18px] py-1.5'
             placeholder='Nhập mật khẩu...'
             value={password}
