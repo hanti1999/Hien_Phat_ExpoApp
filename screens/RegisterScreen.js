@@ -6,14 +6,12 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
-  Alert,
   StatusBar,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
-import { BASE_URL } from '@env';
-import axios from 'axios';
 import validatePhone from '../utils/validatePhone';
 
 const RegisterScreen = ({ navigation }) => {
@@ -30,7 +28,7 @@ const RegisterScreen = ({ navigation }) => {
 
   const handleRegister = () => {
     if (password != confirmPass) {
-      Alert.alert('Lỗi', 'Mật khẩu không giống nhau');
+      Toast.show({ type: 'error', text1: 'Mật khẩu không giống nhau' });
       return;
     }
 
@@ -49,13 +47,13 @@ const RegisterScreen = ({ navigation }) => {
             otp: otp,
           });
         } catch (error) {
-          Alert.alert('Lỗi', 'Đăng ký không thành công!');
+          Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
           console.log(error);
         }
       };
       postPhone();
     } else {
-      Alert.alert('Lỗi!', 'Số điện thoại không hợp lệ!');
+      Toast.show({ type: 'error', text1: 'Số điện thoại không hợp lệ' });
     }
   };
 

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import StackNavigator from './navigation/StackNavigator';
 import { UserContext } from './userContext';
 import { store } from './redux/store';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           </View>
         </UserContext>
       </Provider>
+      <Toast visibilityTime={2000} topOffset={80} />
     </>
   );
 }

@@ -7,6 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { addToCart } from '../redux/slices/CartReducer';
@@ -28,9 +29,16 @@ const ProductCard = ({ item, userId, size }) => {
       })
     );
     setLoading(true);
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setLoading(false);
+      Toast.show({
+        text1: 'Đã thêm sản phẩm vào giỏ hàng',
+      });
     }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   };
 
   const navToInfo = () => {

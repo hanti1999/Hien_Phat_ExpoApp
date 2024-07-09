@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import Toast from 'react-native-toast-message';
 import { BASE_URL } from '@env';
 import axios from 'axios';
 
@@ -59,14 +60,13 @@ const LoginScreen = () => {
           setLoading(false);
           setPassword('');
           navigation.replace('Main');
-          console.log('Đăng nhập thành công');
         } else {
           setLoading(false);
-          console.log('Đăng nhập không thành công');
+          Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
         }
       } catch (error) {
         setLoading(false);
-        Alert.alert('Lỗi!', 'Tài khoản hoặc mật khẩu sai!');
+        Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
         console.log('Lỗi! (LoginScreen): ', error);
       }
     };

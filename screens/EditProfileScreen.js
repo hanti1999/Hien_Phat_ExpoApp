@@ -6,9 +6,9 @@ import {
   TextInput,
   Pressable,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 import { Ionicons } from '@expo/vector-icons';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -36,15 +36,23 @@ const EditProfileScreen = ({ route }) => {
       const res = await axios.post(`${BASE_URL}/profile/update`, userData);
       if (res.status === 200) {
         setLoading(false);
-        Alert.alert('Thông báo', 'Cập nhật thông tin thành công!');
-        console.log('Cập nhật thông tin thành công');
+        Toast.show({
+          text1: 'Cập nhật thông tin thành công!',
+        });
       } else {
         setLoading(false);
-        console.log('Cập nhật thông tin không thành công (EditProfileScreen)');
+        Toast.show({
+          type: 'error',
+          text1: 'Cập nhật thông tin không thành công!',
+        });
       }
     } catch (error) {
       setLoading(false);
       console.log('Lỗi (EditProfileScreen)', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Cập nhật thông tin không thành công!',
+      });
     }
   };
 

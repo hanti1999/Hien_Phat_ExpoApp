@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
 import React, { useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -24,7 +25,6 @@ const ReviewScreen = ({ route, navigation }) => {
   const [serviceRating, setServiceRating] = useState([1, 2, 3, 4, 5]);
   const [loading, setLoading] = useState(false);
   const [comment, setComment] = useState('');
-  const [name, setName] = useState('');
 
   const handleSendReview = async () => {
     const commentData = {
@@ -42,15 +42,16 @@ const ReviewScreen = ({ route, navigation }) => {
       );
       if (res.status === 200) {
         setLoading(false);
-        navigation.navigate('Thanks');
-        console.log(res.data.message);
+        Toast.show({ text1: 'Gửi đánh giá thành công' });
+        navigation.goBack();
       } else {
         setLoading(false);
-        console.log('Gửi đánh giá không thành công');
+        Toast.show({ type: 'error', text1: 'Gửi đánh giá không thành công' });
       }
     } catch (error) {
       setLoading(false);
       console.log('Gửi đánh giá không thành công (ReviewScreen)', error);
+      Toast.show({ type: 'error', text1: 'Gửi đánh giá không thành công' });
     }
   };
 

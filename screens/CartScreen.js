@@ -229,7 +229,7 @@ const CartScreen = () => {
                   value={address}
                   multiline
                   onChangeText={setAddress}
-                  placeholder='Nhập số điện thoại...'
+                  placeholder='Nhập địa chỉ...'
                   className='p-2 border-b border-gray-300 flex-1'
                 />
               </View>

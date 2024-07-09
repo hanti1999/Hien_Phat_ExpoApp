@@ -10,6 +10,7 @@ import {
   StatusBar,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import Toast from 'react-native-toast-message';
 import { BASE_URL } from '@env';
 import moment from 'moment';
 import axios from 'axios';
@@ -136,18 +137,20 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
 
       setLoading(true);
       if (res.status === 200) {
-        const result = res.data.message;
-        console.log(result);
         setModalVisible(!modalVisible);
+        Toast.show({ text1: 'Hủy đơn hàng thành công' });
         setLoading(false);
         fetchOrders();
       } else {
-        console.log('Hủy đơn không thành công');
+        setModalVisible(!modalVisible);
+        Toast.show({ type: 'error', text1: 'Hủy đơn hàng không thành công' });
         setLoading(false);
       }
     } catch (error) {
-      console.log('Lỗi (OrderScreen):', error);
+      setModalVisible(!modalVisible);
       setLoading(false);
+      console.log('Lỗi (OrderScreen):', error);
+      Toast.show({ type: 'error', text1: 'Hủy đơn hàng không thành công' });
     }
   };
 

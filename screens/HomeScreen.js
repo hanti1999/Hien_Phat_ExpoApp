@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
-  Alert,
   StatusBar,
   FlatList,
   ActivityIndicator,
@@ -15,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import { jwtDecode } from 'jwt-decode';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -168,7 +168,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <Pressable onPress={() => Alert.alert('Thông báo', 'Clicked')}>
+          <Pressable onPress={() => Toast.show({ text1: 'Đang phát triển' })}>
             <Image
               className='w-full h-[60px]'
               source={require('../assets/sale8-3.jpg')}
@@ -201,7 +201,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <Pressable onPress={() => Alert.alert('Thông báo', 'Clicked')}>
+          <Pressable onPress={() => Toast.show({ text1: 'Đang phát triển' })}>
             <Image
               className='w-full h-[140px]'
               source={require('../assets/DonTetSaleHet_MayLocNuoc.png')}

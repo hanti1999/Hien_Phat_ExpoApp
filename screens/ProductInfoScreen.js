@@ -14,6 +14,7 @@ import {
 import { SliderBox } from 'react-native-image-slider-box';
 import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
+import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { BASE_URL } from '@env';
 import moment from 'moment';
@@ -65,9 +66,16 @@ const ProductInfoScreen = ({ route, navigation }) => {
       })
     );
     setIsLoading(true);
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsLoading(false);
+      Toast.show({
+        text1: 'Đã thêm sản phẩm vào giỏ hàng',
+      });
     }, 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   };
 
   const navigateToReview = () => {
@@ -83,14 +91,22 @@ const ProductInfoScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         console.log(res.data.message);
         setLoading(false);
+        Toast.show({ text1: 'Đã thêm sản phẩm vào wishlist' });
         checkWishlist();
       } else {
         setLoading(false);
-        console.log('Lỗi không thêm được wishlist');
+        Toast.show({
+          type: 'error',
+          text1: 'Thêm sản phẩm vào wishlist không thành công',
+        });
       }
     } catch (error) {
       setLoading(false);
       console.log('Lỗi không thêm được wishlist', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Thêm sản phẩm vào wishlist không thành công',
+      });
     }
   };
 
@@ -103,14 +119,22 @@ const ProductInfoScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         console.log(res.data.message);
         checkWishlist();
+        Toast.show({ text1: 'Đã xóa sản phẩm khỏi wishlist' });
         setLoading(false);
       } else {
         setLoading(false);
-        console.log('Lỗi không xóa được wishlist');
+        Toast.show({
+          type: 'error',
+          text1: 'Xóa sản phẩm khỏi wishlist không thành công',
+        });
       }
     } catch (error) {
       setLoading(false);
       console.log('Lỗi không xóa được wishlist', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Xóa sản phẩm khỏi wishlist không thành công',
+      });
     }
   };
 
