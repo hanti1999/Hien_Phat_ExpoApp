@@ -31,9 +31,7 @@ const ProductCard = ({ item, userId, size }) => {
     setLoading(true);
     const timeout = setTimeout(() => {
       setLoading(false);
-      Toast.show({
-        text1: 'Đã thêm sản phẩm vào giỏ hàng',
-      });
+      Toast.show({ type: 'success', text1: 'Đã thêm sản phẩm vào giỏ hàng' });
     }, 1000);
 
     return () => {

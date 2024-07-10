@@ -31,7 +31,14 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
-  const navigation = useNavigation();
+
+  const developing = () => {
+    Toast.show({
+      type: 'info',
+      text1: 'Tính năng đang Phát triển',
+      text2: 'Vui lòng thử lại sau',
+    });
+  };
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -168,7 +175,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <Pressable onPress={() => Toast.show({ text1: 'Đang phát triển' })}>
+          <Pressable onPress={developing}>
             <Image
               className='w-full h-[60px]'
               source={require('../assets/sale8-3.jpg')}
@@ -201,7 +208,7 @@ const HomeScreen = () => {
         </View>
 
         <View>
-          <Pressable onPress={() => Toast.show({ text1: 'Đang phát triển' })}>
+          <Pressable onPress={developing}>
             <Image
               className='w-full h-[140px]'
               source={require('../assets/DonTetSaleHet_MayLocNuoc.png')}

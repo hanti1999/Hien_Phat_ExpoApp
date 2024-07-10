@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   StatusBar,
   Pressable,
-  Alert,
   Linking,
   Modal,
   ScrollView,
@@ -19,6 +18,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -65,7 +65,7 @@ const ProfileScreen = () => {
     if (canOpenURL) {
       await Linking.openURL('https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7');
     } else {
-      Alert.alert(`Không thể mở URL`);
+      Toast.show({ type: 'error', text1: 'Không thể mở URL' });
     }
   };
 
@@ -75,7 +75,7 @@ const ProfileScreen = () => {
     if (canOpenURL) {
       await Linking.openURL('https://zalo.me/0986359498');
     } else {
-      Alert.alert(`Không thể mở URL`);
+      Toast.show({ type: 'error', text1: 'Không thể mở URL' });
     }
   };
 
@@ -110,7 +110,7 @@ const ProfileScreen = () => {
             <Text className='font-semibold'>
               {currentUser?.points?.toLocaleString()} điểm
             </Text>
-            <Text className='text-gray-500'>{currentUser?.loginInfo}</Text>
+            <Text className='text-gray-500'>{currentUser?.phoneNumber}</Text>
           </View>
         </View>
 

@@ -10,7 +10,7 @@ const SeeMoreCard = ({ categoryId, userId }) => {
       onPress={() =>
         navigation.navigate('ProductByCategory', { categoryId, userId })
       }
-      className='h-[320px] w-[180px]'
+      className='h-[340px] w-[180px]'
     >
       <View className='w-full h-full justify-center items-center'>
         <Text className='text-blue-400'>Xem Thêm</Text>

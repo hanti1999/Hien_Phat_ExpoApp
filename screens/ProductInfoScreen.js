@@ -68,9 +68,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
     setIsLoading(true);
     const timeout = setTimeout(() => {
       setIsLoading(false);
-      Toast.show({
-        text1: 'Đã thêm sản phẩm vào giỏ hàng',
-      });
+      Toast.show({ text1: 'Đã thêm sản phẩm vào giỏ hàng' });
     }, 1000);
 
     return () => {
@@ -91,22 +89,16 @@ const ProductInfoScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         console.log(res.data.message);
         setLoading(false);
-        Toast.show({ text1: 'Đã thêm sản phẩm vào wishlist' });
+        Toast.show({ text1: 'Đã thêm vào danh sách ước' });
         checkWishlist();
       } else {
         setLoading(false);
-        Toast.show({
-          type: 'error',
-          text1: 'Thêm sản phẩm vào wishlist không thành công',
-        });
+        Toast.show({ type: 'error', text1: 'Thêm không thành công' });
       }
     } catch (error) {
       setLoading(false);
       console.log('Lỗi không thêm được wishlist', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Thêm sản phẩm vào wishlist không thành công',
-      });
+      Toast.show({ type: 'error', text1: 'Thêm không thành công' });
     }
   };
 
@@ -119,22 +111,16 @@ const ProductInfoScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         console.log(res.data.message);
         checkWishlist();
-        Toast.show({ text1: 'Đã xóa sản phẩm khỏi wishlist' });
+        Toast.show({ text1: 'Đã xóa khỏi danh sách ước' });
         setLoading(false);
       } else {
         setLoading(false);
-        Toast.show({
-          type: 'error',
-          text1: 'Xóa sản phẩm khỏi wishlist không thành công',
-        });
+        Toast.show({ type: 'error', text1: 'Xoá không thành công' });
       }
     } catch (error) {
       setLoading(false);
       console.log('Lỗi không xóa được wishlist', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Xóa sản phẩm khỏi wishlist không thành công',
-      });
+      Toast.show({ type: 'error', text1: 'Xoá không thành công' });
     }
   };
 

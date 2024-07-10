@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Pressable,
-  Image,
-} from 'react-native';
+import { Text, View, SafeAreaView, Pressable, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import ScreenHeader from './ScreenHeader';
@@ -23,7 +16,6 @@ const NoProduct = ({ text }) => {
         <Text className='text-[#ff725e] text-[12px]'>
           Image by storyset on Freepik
         </Text>
-
         <Text className='font-semibold text-[18px] my-10'>{text}</Text>
         <Pressable
           onPress={() => navigation.navigate('Home')}
@@ -39,5 +31,3 @@ const NoProduct = ({ text }) => {
 };
 
 export default NoProduct;
-
-const styles = StyleSheet.create({});

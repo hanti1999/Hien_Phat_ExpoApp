@@ -36,23 +36,15 @@ const EditProfileScreen = ({ route }) => {
       const res = await axios.post(`${BASE_URL}/profile/update`, userData);
       if (res.status === 200) {
         setLoading(false);
-        Toast.show({
-          text1: 'Cập nhật thông tin thành công!',
-        });
+        Toast.show({ text1: 'Cập nhật thông tin thành công' });
       } else {
         setLoading(false);
-        Toast.show({
-          type: 'error',
-          text1: 'Cập nhật thông tin không thành công!',
-        });
+        Toast.show({ type: 'error', text1: 'Cập nhật không thành công' });
       }
     } catch (error) {
       setLoading(false);
       console.log('Lỗi (EditProfileScreen)', error);
-      Toast.show({
-        type: 'error',
-        text1: 'Cập nhật thông tin không thành công!',
-      });
+      Toast.show({ type: 'error', text1: 'Cập nhật không thành công' });
     }
   };
 

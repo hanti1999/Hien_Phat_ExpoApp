@@ -5,12 +5,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  loginInfo: {
+  phoneNumber: {
     type: String,
     required: true,
     unique: true,
   },
-  phoneNumber: String,
   password: {
     type: String,
     required: true,

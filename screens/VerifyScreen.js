@@ -6,9 +6,9 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Pressable,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import React, { useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -17,18 +17,16 @@ import { StatusBar } from 'expo-status-bar';
 const VerifyScreen = ({ navigation, route }) => {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const { name, loginInfo, password, address, phoneNumber, otp } =
-    route?.params;
+  const { name, password, address, phoneNumber, otp } = route?.params;
 
   const handleVerify = () => {
     if (code != otp) {
-      Alert.alert('Lỗi', 'Mã xác minh không trùng khớp!');
+      Toast.show({ type: 'error', text1: 'Mã xác minh không trùng khớp' });
       return;
     }
 
     const info = {
       name: name,
-      loginInfo: loginInfo,
       password: password,
       address: address,
       phoneNumber: phoneNumber,
@@ -40,15 +38,15 @@ const VerifyScreen = ({ navigation, route }) => {
         const res = await axios.post(`${BASE_URL}/register`, info);
         if (res.status === 201) {
           setLoading(false);
-          console.log('Đăng ký thành công');
+          Toast.show({ text1: 'Đăng ký thành công' });
           navigation.navigate('Login');
         } else {
           setLoading(false);
-          console.log('Đăng ký không thành công (VerifyScreen)');
+          Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
         }
       } catch (error) {
         setLoading(false);
-        Alert.alert('Lỗi', 'Đăng ký không thành công!');
+        Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
         console.log('Lỗi (VerifyScreen): ', error);
       }
     };
@@ -63,7 +61,7 @@ const VerifyScreen = ({ navigation, route }) => {
       </View>
 
       <Text className='text-center'>
-        Vui lòng kiểm tra mã OTP được gửi đến {loginInfo}
+        Vui lòng kiểm tra mã OTP được gửi đến {phoneNumber}
       </Text>
 
       <KeyboardAvoidingView>

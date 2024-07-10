@@ -42,14 +42,13 @@ const User = require('./models/user');
 // Đăng ký tài khoản
 app.post('/register', async (req, res) => {
   try {
-    const { name, loginInfo, password, address, phoneNumber } = req.body;
-    const existingUser = await User.findOne({ loginInfo });
+    const { name, password, address, phoneNumber } = req.body;
+    const existingUser = await User.findOne({ phoneNumber });
     if (existingUser) {
       return res.status(400).json({ message: 'Tài khoản này đã được dùng' });
     }
     const newUser = new User({
       name,
-      loginInfo,
       password,
       address,
       phoneNumber,

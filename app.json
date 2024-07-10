@@ -2,7 +2,6 @@
   "expo": {
     "name": "Hien_Phat_ExpoApp",
     "slug": "Hien_Phat_ExpoApp",
-    "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

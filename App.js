@@ -1,12 +1,20 @@
-import { View, Pressable, Linking, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  Pressable,
+  Linking,
+  StyleSheet,
+  Platform,
+  Dimensions,
+} from 'react-native';
+import StackNavigator from './navigation/StackNavigator';
+import Toast from 'react-native-toast-message';
 import { AntDesign } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
-import StackNavigator from './navigation/StackNavigator';
 import { UserContext } from './userContext';
 import { store } from './redux/store';
-import Toast from 'react-native-toast-message';
 
 export default function App() {
+  const width = Dimensions.get('window').width;
   return (
     <>
       <Provider store={store}>
@@ -18,8 +26,8 @@ export default function App() {
             </OpenURLButton>
           </View>
         </UserContext>
+        <Toast visibilityTime={2000} topOffset={60} />
       </Provider>
-      <Toast visibilityTime={2000} topOffset={80} />
     </>
   );
 }

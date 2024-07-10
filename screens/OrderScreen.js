@@ -143,14 +143,14 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
         fetchOrders();
       } else {
         setModalVisible(!modalVisible);
-        Toast.show({ type: 'error', text1: 'Hủy đơn hàng không thành công' });
+        Toast.show({ type: 'error', text1: 'Hủy đơn không thành công' });
         setLoading(false);
       }
     } catch (error) {
       setModalVisible(!modalVisible);
       setLoading(false);
       console.log('Lỗi (OrderScreen):', error);
-      Toast.show({ type: 'error', text1: 'Hủy đơn hàng không thành công' });
+      Toast.show({ type: 'error', text1: 'Hủy đơn không thành công' });
     }
   };
 

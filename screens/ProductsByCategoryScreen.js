@@ -1,4 +1,4 @@
-import { View, SafeAreaView, StatusBar, FlatList } from 'react-native';
+import { SafeAreaView, StatusBar, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';

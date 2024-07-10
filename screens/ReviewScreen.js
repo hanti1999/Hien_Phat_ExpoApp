@@ -46,6 +46,7 @@ const ReviewScreen = ({ route, navigation }) => {
         navigation.goBack();
       } else {
         setLoading(false);
+        Toast.error('Gửi đánh giá không thành công');
         Toast.show({ type: 'error', text1: 'Gửi đánh giá không thành công' });
       }
     } catch (error) {

@@ -40,7 +40,6 @@ const RegisterScreen = ({ navigation }) => {
           const otp = 888888;
           navigation.navigate('Verify', {
             name: name,
-            loginInfo: phoneNumber,
             password: password,
             address: address,
             phoneNumber: phoneNumber,
