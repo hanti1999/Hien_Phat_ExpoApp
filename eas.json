@@ -1,0 +1,22 @@
+{
+  "cli": {
+    "version": ">= 10.1.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "BASE_URL": "http://192.168.2.14:8000"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Hien_Phat_ExpoApp",
-    "slug": "Hien_Phat_ExpoApp",
+    "name": "Hiền Phát",
+    "slug": "HienPhat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nthanh99.HienPhat"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1a1022ad-d248-4b03-929d-5e8c215e51fd"
+      }
     }
   }
 }

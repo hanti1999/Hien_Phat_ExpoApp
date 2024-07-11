@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Alert,
-  StatusBar,
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
@@ -15,7 +14,8 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
-import { BASE_URL } from '@env';
+import { StatusBar } from 'expo-status-bar';
+import { BASE_URL } from '../config';
 import axios from 'axios';
 
 const LoginScreen = () => {
@@ -74,7 +74,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView className='flex-1 items-center bg-white'>
+    <SafeAreaView className='flex-1 items-center bg-white px-2'>
       <StatusBar />
       <View className='my-8'>
         <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
