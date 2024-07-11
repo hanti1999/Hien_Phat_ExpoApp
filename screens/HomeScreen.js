@@ -9,6 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
@@ -174,14 +175,12 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View>
-          <Pressable onPress={developing}>
-            <Image
-              className='w-full h-[60px]'
-              source={require('../assets/sale8-3.jpg')}
-            />
-          </Pressable>
-        </View>
+        <Pressable onPress={developing}>
+          <Image
+            className='w-full h-[60px]'
+            source={require('../assets/sale8-3.jpg')}
+          />
+        </Pressable>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Bếp điện'} />
@@ -207,14 +206,12 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View>
-          <Pressable onPress={developing}>
-            <Image
-              className='w-full h-[140px]'
-              source={require('../assets/DonTetSaleHet_MayLocNuoc.png')}
-            />
-          </Pressable>
-        </View>
+        <Pressable onPress={developing}>
+          <Image
+            className='w-full h-[140px]'
+            source={require('../assets/DonTetSaleHet_MayLocNuoc.png')}
+          />
+        </Pressable>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Gia dụng'} />

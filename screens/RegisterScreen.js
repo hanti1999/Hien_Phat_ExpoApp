@@ -5,8 +5,8 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  Pressable,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
@@ -177,20 +177,23 @@ const RegisterScreen = ({ navigation }) => {
         </View>
 
         <View className='mt-10'>
-          <Pressable
+          <TouchableOpacity
             onPress={handleRegister}
             className='w-full bg-primary-pink rounded-xl mx-auto px-4 py-4'
           >
             <Text className='text-white text-center text-lg font-semibold'>
               Đăng ký
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable onPress={() => navigation.goBack()} className='py-2 mt-2'>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            className='py-2 mt-2'
+          >
             <Text className='text-center text-blue-500'>
               Đã có tài khoản? Đăng nhập ngay!
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

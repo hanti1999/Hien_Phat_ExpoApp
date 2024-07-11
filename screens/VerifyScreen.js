@@ -5,8 +5,8 @@ import {
   SafeAreaView,
   TextInput,
   KeyboardAvoidingView,
-  Pressable,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import React, { useState } from 'react';
@@ -76,7 +76,7 @@ const VerifyScreen = ({ navigation, route }) => {
           />
         </View>
 
-        <Pressable
+        <TouchableOpacity
           onPress={handleVerify}
           className='w-[300px] bg-primary-pink rounded-md py-4'
         >
@@ -87,14 +87,14 @@ const VerifyScreen = ({ navigation, route }) => {
               Xác minh
             </Text>
           )}
-        </Pressable>
+        </TouchableOpacity>
 
-        <Pressable
+        <TouchableOpacity
           onPress={() => navigation.navigate('Login')}
           className='mt-2'
         >
           <Text className='text-center text-blue-500'>Quay về đăng nhập</Text>
-        </Pressable>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

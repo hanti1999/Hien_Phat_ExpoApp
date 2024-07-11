@@ -8,6 +8,7 @@ import {
   Modal,
   ScrollView,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
 import {
   FontAwesome,
@@ -272,25 +273,25 @@ const LogoutButton = () => {
               Bạn muốn đăng xuất?
             </Text>
             <View style={{ gap: 4 }} className='flex-row items-center'>
-              <Pressable
+              <TouchableOpacity
                 className='rounded-xl w-32 h-10 justify-center border-primary-pink border'
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text className='text-center text-[16px]'>Hủy</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
                 onPress={handleLogout}
               >
                 <Text className='text-center text-[16px] text-white'>
                   Đồng ý
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-      <Pressable onPress={() => setModalVisible(!modalVisible)}>
+      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
         <View
           className='flex-row items-center justify-center py-3'
           style={{ gap: 10 }}
@@ -298,7 +299,7 @@ const LogoutButton = () => {
           <Ionicons name='log-out-outline' size={26} color='red' />
           <Text className='text-red-500 font-semibold text-lg'>Đăng xuất</Text>
         </View>
-      </Pressable>
+      </TouchableOpacity>
     </>
   );
 };

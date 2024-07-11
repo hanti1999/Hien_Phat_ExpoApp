@@ -1,4 +1,10 @@
-import { Text, View, SafeAreaView, Pressable, Image } from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import ScreenHeader from './ScreenHeader';
@@ -17,14 +23,14 @@ const NoProduct = ({ text }) => {
           Image by storyset on Freepik
         </Text>
         <Text className='font-semibold text-[18px] my-10'>{text}</Text>
-        <Pressable
+        <TouchableOpacity
           onPress={() => navigation.navigate('Home')}
           className='py-3 h-[48px] w-full bg-primary-pink rounded-xl'
         >
           <Text className='text-white text-[18px] text-center'>
             Tiếp tục mua hàng
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

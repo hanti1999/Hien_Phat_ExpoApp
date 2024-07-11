@@ -8,6 +8,7 @@ import {
   FlatList,
   RefreshControl,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
@@ -173,13 +174,13 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
               Bạn muốn hủy đơn?
             </Text>
             <View style={{ gap: 4 }} className='flex-row items-center'>
-              <Pressable
+              <TouchableOpacity
                 className='rounded-xl w-32 h-10 justify-center border-primary-pink border'
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text className='text-center text-[16px]'>Không</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
                 onPress={handleUpdateOrder}
               >
@@ -190,19 +191,19 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
                     Đồng ý
                   </Text>
                 )}
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-      <Pressable
+      <TouchableOpacity
         className='border border-red-500 rounded-xl py-1 mt-1 w-32 flex justify-center'
         onPress={() => setModalVisible(!modalVisible)}
       >
         <Text className='text-red-500 font-semibold text-center'>
           Hủy đơn hàng
         </Text>
-      </Pressable>
+      </TouchableOpacity>
     </>
   );
 };

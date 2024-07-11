@@ -1,10 +1,11 @@
 import {
   Text,
   View,
-  Pressable,
   Image,
   ActivityIndicator,
+  TouchableOpacity,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
@@ -77,7 +78,7 @@ const ProductCard = ({ item, userId, size }) => {
         </View>
 
         <View>
-          <Pressable
+          <TouchableOpacity
             onPress={() => addItemToCart(item)}
             className=' bg-primary-pink h-[48px] flex items-center justify-center'
           >
@@ -88,7 +89,7 @@ const ProductCard = ({ item, userId, size }) => {
                 sắm ngay nào!
               </Text>
             )}
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </Pressable>

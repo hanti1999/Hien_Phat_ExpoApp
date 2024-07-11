@@ -3,7 +3,6 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  Pressable,
   Image,
   StatusBar,
   TextInput,
@@ -11,6 +10,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Switch,
+  TouchableOpacity,
 } from 'react-native';
 import {
   FontAwesome6,
@@ -192,14 +192,14 @@ const CartScreen = () => {
               </Text>
             </View>
 
-            <Pressable onPress={() => setIsVisible(!isVisible)}>
+            <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
               <View className='flex-row items-center' style={{ gap: 4 }}>
                 <Text style={{ color: 'blue', fontSize: 16 }}>
                   Sửa thông tin
                 </Text>
                 <FontAwesome6 name='pencil' size={16} color='blue' />
               </View>
-            </Pressable>
+            </TouchableOpacity>
           </View>
           {isVisible ? (
             <View>
@@ -264,7 +264,7 @@ const CartScreen = () => {
             </Text>
           </View>
           <View>
-            <Pressable
+            <TouchableOpacity
               onPress={() => setPaymentMethod('cash')}
               style={{ gap: 8 }}
               className='flex-row border border-gray-300 rounded-xl p-2 items-center mt-2'
@@ -277,9 +277,9 @@ const CartScreen = () => {
               <Text className='text-[16px]'>
                 Thanh toán tiền mặt khi nhận hàng
               </Text>
-            </Pressable>
+            </TouchableOpacity>
 
-            <Pressable
+            <TouchableOpacity
               onPress={() => setPaymentMethod('card')}
               style={{ gap: 8 }}
               className='flex-row border border-gray-300 rounded-xl p-2 items-center mt-2'
@@ -290,7 +290,7 @@ const CartScreen = () => {
                 <FontAwesome6 name='circle' size={20} color={P_PINK} />
               )}
               <Text className='text-[16px]'>Thanh toán chuyển khoản</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -320,7 +320,7 @@ const CartScreen = () => {
         ) : (
           <></>
         )}
-        <Pressable
+        <TouchableOpacity
           onPress={handlePlaceOrder}
           style={{ gap: 8 }}
           disabled={orderLoading}
@@ -336,14 +336,14 @@ const CartScreen = () => {
               <FontAwesome6 name='smile-wink' size={20} color='white' />
             </>
           )}
-        </Pressable>
+        </TouchableOpacity>
 
-        <Pressable
+        <TouchableOpacity
           onPress={() => nav.navigate('Home')}
           className='h-[60px] flex justify-center w-full border-primary-pink border rounded-xl mt-2'
         >
           <Text className=' text-[18px] text-center'>Tiếp tục mua sắm</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -380,14 +380,14 @@ const RenderItemToCart = ({ item, dispatch }) => {
         <Text className='font-bold text-[16px] mb-2'>
           = {(item?.quantity * item?.price)?.toLocaleString()}đ
         </Text>
-        <Pressable
+        <TouchableOpacity
           onPress={handleProduct}
           className='flex-row items-center'
           style={{ gap: 4 }}
         >
           <Fontisto name='trash' size={20} color={P_PINK} />
           <Text className='text-primary-pink text-[16px]'>Xoá sản phẩm</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

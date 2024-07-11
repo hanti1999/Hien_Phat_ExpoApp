@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, FlatList, StatusBar } from 'react-native';
+import { SafeAreaView, FlatList, StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '@env';
 import axios from 'axios';
@@ -60,5 +60,3 @@ const SearchResultList = ({ route }) => {
 };
 
 export default SearchResultList;
-
-const styles = StyleSheet.create({});

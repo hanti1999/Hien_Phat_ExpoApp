@@ -5,10 +5,10 @@ import {
   Image,
   KeyboardAvoidingView,
   TextInput,
-  Pressable,
   Alert,
   StatusBar,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
@@ -113,7 +113,7 @@ const LoginScreen = () => {
         </View>
 
         <View className='mt-2'>
-          <Pressable
+          <TouchableOpacity
             onPress={() => {
               Alert.alert(
                 'Thông báo',
@@ -122,11 +122,11 @@ const LoginScreen = () => {
             }}
           >
             <Text className='text-blue-500 text-right'>Quên mật khẩu?</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View className='mt-6'>
-          <Pressable
+          <TouchableOpacity
             onPress={handleLogin}
             className='bg-primary-pink rounded-xl mx-auto px-4 py-4 w-full'
           >
@@ -137,16 +137,16 @@ const LoginScreen = () => {
                 Đăng nhập
               </Text>
             )}
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity
             onPress={() => navigation.navigate('Register')}
             className='py-2 mt-2'
           >
             <Text className='text-center text-blue-500'>
               Chưa có tài khoản? Đăng ký ngay!
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

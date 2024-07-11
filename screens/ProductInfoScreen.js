@@ -3,13 +3,13 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  Pressable,
   Dimensions,
   StatusBar,
   Alert,
   Linking,
   ActivityIndicator,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box';
 import React, { useState, useEffect } from 'react';
@@ -180,21 +180,21 @@ const ProductInfoScreen = ({ route, navigation }) => {
               <Text>Đã bán: {item?.sold}</Text>
             </View>
             {inWishlist ? (
-              <Pressable onPress={removeWishlist} disabled={loading}>
+              <TouchableOpacity onPress={removeWishlist} disabled={loading}>
                 {loading ? (
                   <ActivityIndicator />
                 ) : (
                   <FontAwesome name='heart' size={24} color='#fb77c5' />
                 )}
-              </Pressable>
+              </TouchableOpacity>
             ) : (
-              <Pressable onPress={addWishlist} disabled={loading}>
+              <TouchableOpacity onPress={addWishlist} disabled={loading}>
                 {loading ? (
                   <ActivityIndicator />
                 ) : (
                   <FontAwesome name='heart-o' size={24} color='#fb77c5' />
                 )}
-              </Pressable>
+              </TouchableOpacity>
             )}
           </View>
         </View>
@@ -215,19 +215,19 @@ const ProductInfoScreen = ({ route, navigation }) => {
         <View className='py-2 px-3 mb-2 bg-pink-300'>
           <Text className='text-[16px] font-semibold mb-2'>Bài đánh giá</Text>
           <Reviews reviews={item?.reviews} />
-          <Pressable
+          <TouchableOpacity
             onPress={navigateToReview}
             className='bg-white w-[200px] rounded-full p-2 mt-2'
           >
             <Text className='text-[16px] text-center'>
               Viết đánh giá của bạn
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
       <View className='flex-row justify-evenly bg-white py-4'>
-        <Pressable
+        <TouchableOpacity
           className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-[60px] items-center justify-center'
           onPress={openZalo582}
         >
@@ -235,8 +235,8 @@ const ProductInfoScreen = ({ route, navigation }) => {
             Tư vấn
             <Text className='font-bold'> Zalo</Text>
           </Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={addItemToCart}
           className='bg-primary-pink rounded-lg flex-1 mx-2 items-center h-[60px] justify-center'
           disabled={isLoading}
@@ -246,7 +246,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
           ) : (
             <Text className='text-white text-[18px] '>Mua ngay</Text>
           )}
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

@@ -88,7 +88,7 @@ const EditProfileScreen = ({ route }) => {
             onChangeText={setAddress}
           />
 
-          <Text className='my-3 text-[16px]'>Mật khẩu của bạn:</Text>
+          <Text className='my-3 text-[16px]'>Mật khẩu:</Text>
           <View className='px-2 border-b border-gray-300 flex-row items-center justify-between'>
             <TextInput
               value={password}

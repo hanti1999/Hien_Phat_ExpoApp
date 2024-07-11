@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
-  Pressable,
   ActivityIndicator,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -128,7 +127,7 @@ const ReviewScreen = ({ route, navigation }) => {
           placeholder='Chia sẻ trãi nghiệm của bạn'
           className='bg-white rounded-lg p-2 border border-gray-300 mt-2 min-h-[70px]'
         />
-        <Pressable
+        <TouchableOpacity
           onPress={handleSendReview}
           className='h-[42px] mt-6 rounded-full bg-blue-500 flex justify-center items-center'
         >
@@ -139,7 +138,7 @@ const ReviewScreen = ({ route, navigation }) => {
               Gửi đánh giá
             </Text>
           )}
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
