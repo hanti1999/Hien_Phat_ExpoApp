@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { StatusBar } from 'expo-status-bar';
-import { BASE_URL } from '../config';
+import { BASE_URL } from '@env';
 import axios from 'axios';
 
 const LoginScreen = () => {
@@ -53,7 +53,7 @@ const LoginScreen = () => {
     const postUser = async () => {
       setLoading(true);
       try {
-        const res = await axios.post(`${BASE_URL}/login`, user);
+        const res = await axios.post(`${BASE_URL}login`, user);
         if (res.status === 200) {
           const token = res.data.token;
           AsyncStorage.setItem('authToken', token);

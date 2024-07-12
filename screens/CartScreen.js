@@ -55,7 +55,7 @@ const CartScreen = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/profile/${userId}`);
+        const res = await axios.get(`${BASE_URL}profile/${userId}`);
         const user = res.data.user;
         if (res.status === 200) {
           setAddress(user?.address);
@@ -103,7 +103,7 @@ const CartScreen = () => {
         usePoint: usePoint,
       };
 
-      const response = await axios.post(`${BASE_URL}/order/create`, orderData);
+      const response = await axios.post(`${BASE_URL}order/create`, orderData);
       if (response.status === 200) {
         nav.navigate('Thanks');
         dispatch(clearCart());

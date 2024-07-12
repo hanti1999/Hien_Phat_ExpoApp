@@ -15,7 +15,7 @@ const SearchResultList = ({ route }) => {
   useEffect(() => {
     const searchProduct = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/product/search?q=${input}`);
+        const res = await axios.get(`${BASE_URL}product/search?q=${input}`);
 
         if (res.status === 200) {
           const data = res.data.products;

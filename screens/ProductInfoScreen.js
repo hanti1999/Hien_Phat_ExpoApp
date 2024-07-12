@@ -38,7 +38,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
   const checkWishlist = async () => {
     try {
       const res = await axios.get(
-        `${BASE_URL}/wishlist/check/${item?._id}/${userId}`
+        `${BASE_URL}wishlist/check/${item?._id}/${userId}`
       );
       if (res.status === 200) {
         const result = res.data.isProductInWishlist;
@@ -84,7 +84,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${BASE_URL}/wishlist/add/${item?._id}/${userId}`
+        `${BASE_URL}wishlist/add/${item?._id}/${userId}`
       );
       if (res.status === 200) {
         console.log(res.data.message);
@@ -106,7 +106,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
     try {
       setLoading(true);
       const res = await axios.delete(
-        `${BASE_URL}/wishlist/delete/${item?._id}/${userId}`
+        `${BASE_URL}wishlist/delete/${item?._id}/${userId}`
       );
       if (res.status === 200) {
         console.log(res.data.message);

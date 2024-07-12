@@ -43,7 +43,7 @@ const ProfileScreen = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/profile/${userId}`);
+      const res = await axios.get(`${BASE_URL}profile/${userId}`);
       if (res.status === 200) {
         const user = res.data.user;
         setCurrentUser(user);

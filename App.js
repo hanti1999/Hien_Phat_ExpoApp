@@ -1,11 +1,4 @@
-import {
-  View,
-  Pressable,
-  Linking,
-  StyleSheet,
-  Platform,
-  Dimensions,
-} from 'react-native';
+import { View, Pressable, Linking, StyleSheet, Platform } from 'react-native';
 import StackNavigator from './navigation/StackNavigator';
 import Toast from 'react-native-toast-message';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,7 +7,6 @@ import { UserContext } from './userContext';
 import { store } from './redux/store';
 
 export default function App() {
-  const width = Dimensions.get('window').width;
   return (
     <>
       <Provider store={store}>

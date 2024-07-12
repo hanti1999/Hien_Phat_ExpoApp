@@ -31,7 +31,6 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
-  const nav = useNavigation();
 
   const developing = () => {
     Toast.show({
@@ -64,7 +63,7 @@ const HomeScreen = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/product`);
+      const res = await axios.get(`${BASE_URL}product`);
       if (res.status === 200) {
         const data = res?.data?.products;
         setProduct(data);
@@ -142,7 +141,7 @@ const HomeScreen = () => {
         </View>
 
         <FlatList
-          data={sale.slice(0, 6)}
+          data={sale?.slice(0, 6)}
           style={{ backgroundColor: 'white', paddingHorizontal: 4 }}
           renderItem={({ item }) => (
             <ProductCard userId={userId} item={item} size={0.45} />
@@ -155,7 +154,7 @@ const HomeScreen = () => {
           <ProductTitle text={'Bếp gas'} />
 
           <FlatList
-            data={bepGas.slice(0, 6)}
+            data={bepGas?.slice(0, 6)}
             style={{
               backgroundColor: 'white',
               paddingHorizontal: 4,
@@ -194,7 +193,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
-            data={bepDien.slice(0, 6)}
+            data={bepDien?.slice(0, 6)}
             horizontal
           />
 
@@ -225,7 +224,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
-            data={giaDung.slice(0, 6)}
+            data={giaDung?.slice(0, 6)}
             horizontal
           />
 
@@ -249,7 +248,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
-            data={gas.slice(0, 6)}
+            data={gas?.slice(0, 6)}
             horizontal
           />
 
@@ -281,7 +280,7 @@ const HorizontalCategory = ({ userId }) => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/category`);
+        const res = await axios.get(`${BASE_URL}category`);
 
         if (res.status === 200) {
           const cat = res.data.category;
@@ -346,7 +345,7 @@ const HorizontalBrand = ({ userId }) => {
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/brand`);
+        const res = await axios.get(`${BASE_URL}brand`);
         if (res.status === 200) {
           setBrandList(res?.data.brand);
           console.log('Fetch brand thành công!');
@@ -356,6 +355,7 @@ const HorizontalBrand = ({ userId }) => {
           setLoading(false);
         }
       } catch (error) {
+        setLoading(false);
         console.log('Fetch brand không thành công (HomeScreen)');
       }
     };

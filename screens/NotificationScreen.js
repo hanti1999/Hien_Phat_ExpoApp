@@ -27,7 +27,7 @@ const NotificationScreen = () => {
 
   const fetchNotification = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/notification`);
+      const res = await axios.get(`${BASE_URL}notification`);
       if (res.status === 200) {
         const notification = res.data?.notification;
         setNotification(notification);

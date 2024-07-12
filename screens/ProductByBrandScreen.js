@@ -15,7 +15,7 @@ const ProductByBrandScreen = ({ route }) => {
   useEffect(() => {
     const fetchProductById = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/product/brand/${brandId}`);
+        const res = await axios.get(`${BASE_URL}product/brand/${brandId}`);
 
         if (res.status === 200) {
           const data = res?.data.products;

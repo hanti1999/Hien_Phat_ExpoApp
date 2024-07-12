@@ -27,7 +27,7 @@ const OrderScreen = ({ route }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/orders/${userId}`);
+      const res = await axios.get(`${BASE_URL}orders/${userId}`);
       const orders = res.data?.orders;
       if (res.status === 200) {
         setOrders(orders);
@@ -134,7 +134,7 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
 
   const handleUpdateOrder = async () => {
     try {
-      const res = await axios.patch(`${BASE_URL}/order/${id}/cancel`);
+      const res = await axios.patch(`${BASE_URL}order/${id}/cancel`);
 
       setLoading(true);
       if (res.status === 200) {

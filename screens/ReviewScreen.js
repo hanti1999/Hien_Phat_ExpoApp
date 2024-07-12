@@ -36,7 +36,7 @@ const ReviewScreen = ({ route, navigation }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${BASE_URL}/review/create/${productId}/${userId}`,
+        `${BASE_URL}review/create/${productId}/${userId}`,
         commentData
       );
       if (res.status === 200) {

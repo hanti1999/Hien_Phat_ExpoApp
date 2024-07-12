@@ -16,7 +16,7 @@ const ProductsByCategoryScreen = ({ route }) => {
     const fetchProductById = async () => {
       try {
         const res = await axios.get(
-          `${BASE_URL}/product/category/${categoryId}`
+          `${BASE_URL}product/category/${categoryId}`
         );
 
         if (res.status === 200) {
