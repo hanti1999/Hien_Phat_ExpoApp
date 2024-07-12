@@ -9,7 +9,6 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
-  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
@@ -21,17 +20,18 @@ import { BASE_URL } from '@env';
 import axios from 'axios';
 import ProductTitle from '../components/ProductTitle';
 import ProductCard from '../components/ProductCard';
-import SeeMoreCard from '../components/SeeMoreCard';
 import SearchBar from '../components/SearchBar';
 import Loading from '../components/Loading';
 import slider from '../assets/data/slider';
 import { UserType } from '../userContext';
+import SeeMoreCard from '../components/SeeMoreCard';
 
 const HomeScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
+  const nav = useNavigation();
 
   const developing = () => {
     Toast.show({
@@ -166,12 +166,11 @@ const HomeScreen = () => {
             )}
             keyExtractor={(item) => item?._id}
             horizontal
-            ListFooterComponent={
-              <SeeMoreCard
-                categoryId='6666d75349ada55e0903d7ec'
-                userId={userId}
-              />
-            }
+          />
+          <SeeMoreCard
+            userId={userId}
+            categoryId={'6666d75349ada55e0903d7ec'}
+            extraText={'Bếp gas'}
           />
         </View>
 
@@ -197,12 +196,12 @@ const HomeScreen = () => {
             keyExtractor={(item) => item?._id}
             data={bepDien.slice(0, 6)}
             horizontal
-            ListFooterComponent={
-              <SeeMoreCard
-                categoryId='6667cd3d026b92076ff622a5'
-                userId={userId}
-              />
-            }
+          />
+
+          <SeeMoreCard
+            userId={userId}
+            categoryId={'6667cd3d026b92076ff622a5'}
+            extraText={'Bếp điện'}
           />
         </View>
 
@@ -228,12 +227,12 @@ const HomeScreen = () => {
             keyExtractor={(item) => item?._id}
             data={giaDung.slice(0, 6)}
             horizontal
-            ListFooterComponent={
-              <SeeMoreCard
-                categoryId='6667cd99026b92076ff622a7'
-                userId={userId}
-              />
-            }
+          />
+
+          <SeeMoreCard
+            userId={userId}
+            categoryId={'6667cd99026b92076ff622a7'}
+            extraText={'Gia dụng'}
           />
         </View>
 
@@ -252,12 +251,12 @@ const HomeScreen = () => {
             keyExtractor={(item) => item?._id}
             data={gas.slice(0, 6)}
             horizontal
-            ListFooterComponent={
-              <SeeMoreCard
-                categoryId='6667cf05026b92076ff622af'
-                userId={userId}
-              />
-            }
+          />
+
+          <SeeMoreCard
+            userId={userId}
+            categoryId={'6667cf05026b92076ff622af'}
+            extraText={'Gas'}
           />
         </View>
 

@@ -45,54 +45,45 @@ const ProductCard = ({ item, userId, size }) => {
   };
 
   return (
-    <Pressable
-      onPress={navToInfo}
-      className='max-h-[340px] mx-1 my-1'
-      disabled={isLoading}
+    <View
+      className='m-1 border border-gray-200 rounded-md overflow-hidden'
       style={{ width: width * size - 8 }}
     >
-      <View className='border h-full flex justify-between border-gray-200 bg-pink-100 rounded-md overflow-hidden'>
-        <View>
-          <Image className='w-full h-[180px]' source={{ uri: item?.image }} />
-          <View className='p-1.5 h-[100px] justify-between'>
-            <Text numberOfLines={2}>{item?.title}</Text>
-            {item?.discount > 0 && (
-              <View className='flex-row items-center' style={{ gap: 4 }}>
-                <View className='px-1 py-0.5 rounded bg-red-500'>
-                  <Text className='text-white '>-{item?.discount}%</Text>
-                </View>
-                <Text className='line-through text-gray-500'>
-                  {item?.price?.toLocaleString()}
-                </Text>
-              </View>
-            )}
-            <View className='flex-row justify-between items-center'>
-              <Text className='font-semibold text-red-500 text-[18px]'>
-                {actualPrice?.toLocaleString()}đ
-              </Text>
-              <Text className='text-gray-500 text-[12px]'>
-                Đã bán: {item?.sold}
-              </Text>
+      <Pressable onPress={navToInfo}>
+        <Image className='aspect-square' source={{ uri: item?.image }} />
+        <View className='p-1.5 h-[120px] justify-between bg-pink-100'>
+          <Text numberOfLines={2}>{item?.title}</Text>
+          <View className='flex-row items-center' style={{ gap: 4 }}>
+            <View className='p-px rounded bg-red-500'>
+              <Text className='text-white '>-{item?.discount}%</Text>
             </View>
+            <Text className='line-through text-gray-500'>
+              {item?.price?.toLocaleString()}
+            </Text>
           </View>
+          <Text className='font-semibold text-red-500 text-[18px]'>
+            {actualPrice?.toLocaleString()}đ
+          </Text>
+          <Text className='text-gray-500 text-[12px]'>
+            Đã bán: {item?.sold}
+          </Text>
         </View>
 
-        <View>
-          <TouchableOpacity
-            onPress={() => addItemToCart(item)}
-            className=' bg-primary-pink h-[48px] flex items-center justify-center'
-          >
-            {isLoading ? (
-              <ActivityIndicator color='#fff' />
-            ) : (
-              <Text className=' text-white text-[16px] font-medium uppercase'>
-                sắm ngay nào!
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Pressable>
+        <TouchableOpacity
+          onPress={() => addItemToCart(item)}
+          disabled={isLoading}
+          className=' bg-primary-pink h-[48px] flex items-center rounded-bl-md rounded-br-md justify-center'
+        >
+          {isLoading ? (
+            <ActivityIndicator color='#fff' />
+          ) : (
+            <Text className=' text-white text-[16px] font-medium uppercase'>
+              sắm ngay nào!
+            </Text>
+          )}
+        </TouchableOpacity>
+      </Pressable>
+    </View>
   );
 };
 

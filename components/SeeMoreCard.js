@@ -1,24 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
-import { Text, View, Pressable } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import React from 'react';
 
-const SeeMoreCard = ({ categoryId, userId }) => {
+const SeeMoreCard = ({ categoryId, userId, extraText }) => {
   const navigation = useNavigation();
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={() =>
         navigation.navigate('ProductByCategory', { categoryId, userId })
       }
-      className='h-[340px] w-[180px]'
+      className='flex-row items-center justify-center py-2'
     >
-      <View className='w-full h-full justify-center items-center'>
-        <Text className='text-blue-400'>Xem Thêm</Text>
-        <View className=' bg-gray-100 w-10 h-10 rounded-full justify-center mt-2 items-center'>
-          <Entypo name='chevron-right' size={24} color='#60a5fa' />
-        </View>
-      </View>
-    </Pressable>
+      <Text className='text-[#60a5fa]'>Xem thêm</Text>
+      <Text className='text-[#60a5fa] font-semibold pl-1'>{extraText}</Text>
+      <Entypo name='chevron-right' size={24} color='#60a5fa' />
+    </TouchableOpacity>
   );
 };
 

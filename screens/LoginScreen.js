@@ -74,19 +74,19 @@ const LoginScreen = () => {
   };
 
   return (
-    <SafeAreaView className='flex-1 items-center bg-white px-2'>
+    <SafeAreaView className='flex-1 items-center bg-white'>
       <StatusBar />
-      <View className='my-8'>
+      <View className='my-8 items-center'>
         <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
       </View>
 
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView className='px-4'>
         <Text className='text-2xl font-bold text-center'>Đăng nhập</Text>
 
-        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 mt-6'>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 mt-6 w-full'>
           <AntDesign name='mobile1' size={24} color='gray' />
           <TextInput
-            className='w-[300px] text-[18px] py-1.5'
+            className='ml-1 flex-1 text-[18px] py-1.5'
             placeholder='Nhập số điện thoại...'
             value={phoneNumber}
             keyboardType='numeric'
@@ -94,11 +94,11 @@ const LoginScreen = () => {
           />
         </View>
 
-        <View className='flex-row items-center gap-1 border-b border-gray-300 p-1 mt-6'>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 mt-6 w-full'>
           <AntDesign name='lock1' size={24} color='gray' />
           <TextInput
             autoCapitalize='none'
-            className='w-[300px] text-[18px] py-1.5'
+            className='ml-1 flex-1 text-[18px] py-1.5'
             placeholder='Nhập mật khẩu...'
             value={password}
             onChangeText={setPassword}
@@ -112,7 +112,7 @@ const LoginScreen = () => {
           />
         </View>
 
-        <View className='mt-2'>
+        <View className='mt-2 items-end'>
           <TouchableOpacity
             onPress={() => {
               Alert.alert(
@@ -121,7 +121,7 @@ const LoginScreen = () => {
               );
             }}
           >
-            <Text className='text-blue-500 text-right'>Quên mật khẩu?</Text>
+            <Text className='text-blue-500'>Quên mật khẩu?</Text>
           </TouchableOpacity>
         </View>
 
@@ -139,14 +139,16 @@ const LoginScreen = () => {
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Register')}
-            className='py-2 mt-2'
-          >
-            <Text className='text-center text-blue-500'>
-              Chưa có tài khoản? Đăng ký ngay!
-            </Text>
-          </TouchableOpacity>
+          <View className='mt-2 items-center'>
+            <TouchableOpacity
+              className='py-2'
+              onPress={() => navigation.navigate('Register')}
+            >
+              <Text className='text-center text-blue-500'>
+                Chưa có tài khoản? Đăng ký ngay!
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

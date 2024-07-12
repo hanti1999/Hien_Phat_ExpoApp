@@ -86,18 +86,18 @@ const RegisterScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView className='flex-1 items-center bg-white px-2'>
+    <SafeAreaView className='flex-1 items-center bg-white'>
       <StatusBar />
       <View className='my-8 flex-row items-center' style={{ gap: 20 }}>
         <Image className='w-24 h-24' source={require('../assets/logoHp.png')} />
         <Text className='text-2xl font-bold'>Đăng ký</Text>
       </View>
 
-      <KeyboardAvoidingView>
-        <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
+      <KeyboardAvoidingView className='px-4'>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 w-full'>
           <AntDesign name='mobile1' size={24} color='gray' />
           <TextInput
-            className='w-[300px] text-[18px] py-1.5'
+            className='ml-1 flex-1 text-[18px] py-1.5'
             placeholder='Nhập số điện thoại...'
             value={phoneNumber}
             keyboardType='numeric'
@@ -105,69 +105,61 @@ const RegisterScreen = ({ navigation }) => {
           />
         </View>
 
-        <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
-            <AntDesign name='user' size={24} color='gray' />
-            <TextInput
-              className='w-[300px] text-[18px] py-1.5'
-              placeholder='Nhập tên của bạn...'
-              value={name}
-              onChangeText={setName}
-            />
-          </View>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 w-full mt-5'>
+          <AntDesign name='user' size={24} color='gray' />
+          <TextInput
+            className='ml-1 flex-1 text-[18px] py-1.5'
+            placeholder='Nhập tên của bạn...'
+            value={name}
+            onChangeText={setName}
+          />
         </View>
 
-        <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
-            <Ionicons name='location-outline' size={24} color='gray' />
-            <TextInput
-              className='w-[300px] text-[18px] py-1.5'
-              placeholder='Nhập địa chỉ bạn...'
-              multiline
-              value={address}
-              onChangeText={setAddress}
-            />
-          </View>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 w-full mt-5'>
+          <Ionicons name='location-outline' size={24} color='gray' />
+          <TextInput
+            className='ml-1 flex-1 text-[18px] py-1.5'
+            placeholder='Nhập địa chỉ bạn...'
+            multiline
+            value={address}
+            onChangeText={setAddress}
+          />
         </View>
 
-        <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
-            <AntDesign name='lock1' size={24} color='gray' />
-            <TextInput
-              autoCapitalize='none'
-              className='w-[300px] text-[18px] py-1.5'
-              placeholder='Nhập mật khẩu...'
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-            />
-            <Ionicons
-              name={showPassword ? 'eye-off' : 'eye'}
-              size={24}
-              color='gray'
-              onPress={toggleShowPassword}
-            />
-          </View>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 w-full mt-5'>
+          <AntDesign name='lock1' size={24} color='gray' />
+          <TextInput
+            autoCapitalize='none'
+            className='ml-1 flex-1 text-[18px] py-1.5'
+            placeholder='Nhập mật khẩu...'
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <Ionicons
+            name={showPassword ? 'eye-off' : 'eye'}
+            size={24}
+            color='gray'
+            onPress={toggleShowPassword}
+          />
         </View>
 
-        <View className='mt-5'>
-          <View className='flex-row items-center gap-1 border-b border-gray-300 py-1 px-1'>
-            <AntDesign name='lock1' size={24} color='gray' />
-            <TextInput
-              autoCapitalize='none'
-              className='w-[300px] text-[18px] py-1.5'
-              placeholder='Nhập lại mật khẩu...'
-              value={confirmPass}
-              onChangeText={setConfirmPass}
-              secureTextEntry={!showPassword}
-            />
-            <Ionicons
-              name={showPassword ? 'eye-off' : 'eye'}
-              size={24}
-              color='gray'
-              onPress={toggleShowPassword}
-            />
-          </View>
+        <View className='flex-row items-center border-b border-gray-300 pb-1 w-full mt-5'>
+          <AntDesign name='lock1' size={24} color='gray' />
+          <TextInput
+            autoCapitalize='none'
+            className='ml-1 flex-1 text-[18px] py-1.5'
+            placeholder='Nhập lại mật khẩu...'
+            value={confirmPass}
+            onChangeText={setConfirmPass}
+            secureTextEntry={!showPassword}
+          />
+          <Ionicons
+            name={showPassword ? 'eye-off' : 'eye'}
+            size={24}
+            color='gray'
+            onPress={toggleShowPassword}
+          />
         </View>
 
         <View className='mt-2'>
@@ -186,14 +178,16 @@ const RegisterScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            className='py-2 mt-2'
-          >
-            <Text className='text-center text-blue-500'>
-              Đã có tài khoản? Đăng nhập ngay!
-            </Text>
-          </TouchableOpacity>
+          <View className='mt-2 items-center'>
+            <TouchableOpacity
+              className='py-2'
+              onPress={() => navigation.goBack()}
+            >
+              <Text className='text-blue-500'>
+                Đã có tài khoản? Đăng nhập ngay!
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
