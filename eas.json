@@ -8,11 +8,14 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API": "@EXPO_PUBLIC_API"
+      }
     },
     "production": {
       "env": {
-        "BASE_URL": "@BASE_URL"
+        "EXPO_PUBLIC_API": "@EXPO_PUBLIC_API"
       }
     }
   },

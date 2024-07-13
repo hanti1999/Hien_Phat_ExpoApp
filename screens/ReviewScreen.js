@@ -10,7 +10,7 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
 import React, { useState } from 'react';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 
@@ -36,7 +36,7 @@ const ReviewScreen = ({ route, navigation }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${BASE_URL}review/create/${productId}/${userId}`,
+        `${EXPO_PUBLIC_API}/review/create/${productId}/${userId}`,
         commentData
       );
       if (res.status === 200) {
@@ -130,6 +130,7 @@ const ReviewScreen = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={handleSendReview}
           className='h-[42px] mt-6 rounded-full bg-blue-500 flex justify-center items-center'
+          disabled={loading}
         >
           {loading ? (
             <ActivityIndicator color={'white'} />

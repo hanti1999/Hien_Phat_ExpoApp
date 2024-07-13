@@ -21,7 +21,7 @@ import {
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import { removeFromCart, clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
@@ -55,7 +55,7 @@ const CartScreen = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}profile/${userId}`);
+        const res = await axios.get(`${EXPO_PUBLIC_API}/profile/${userId}`);
         const user = res.data.user;
         if (res.status === 200) {
           setAddress(user?.address);
@@ -103,8 +103,11 @@ const CartScreen = () => {
         usePoint: usePoint,
       };
 
-      const response = await axios.post(`${BASE_URL}order/create`, orderData);
-      if (response.status === 200) {
+      const res = await axios.post(
+        `${EXPO_PUBLIC_API}/order/create`,
+        orderData
+      );
+      if (res.status === 200) {
         nav.navigate('Thanks');
         dispatch(clearCart());
         setOrderLoading(false);

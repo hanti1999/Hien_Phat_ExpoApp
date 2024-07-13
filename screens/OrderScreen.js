@@ -2,7 +2,6 @@ import {
   Text,
   SafeAreaView,
   View,
-  Pressable,
   ActivityIndicator,
   Modal,
   FlatList,
@@ -12,7 +11,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import moment from 'moment';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
@@ -27,7 +26,7 @@ const OrderScreen = ({ route }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}orders/${userId}`);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/orders/${userId}`);
       const orders = res.data?.orders;
       if (res.status === 200) {
         setOrders(orders);
@@ -134,7 +133,7 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
 
   const handleUpdateOrder = async () => {
     try {
-      const res = await axios.patch(`${BASE_URL}order/${id}/cancel`);
+      const res = await axios.patch(`${EXPO_PUBLIC_API}/order/${id}/cancel`);
 
       setLoading(true);
       if (res.status === 200) {
@@ -183,6 +182,7 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
               <TouchableOpacity
                 className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
                 onPress={handleUpdateOrder}
+                disabled={loading}
               >
                 {loading ? (
                   <ActivityIndicator />

@@ -11,7 +11,7 @@ import {
 import Toast from 'react-native-toast-message';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 
 const VerifyScreen = ({ navigation, route }) => {
@@ -35,7 +35,7 @@ const VerifyScreen = ({ navigation, route }) => {
     const postRegister = async () => {
       try {
         setLoading(true);
-        const res = await axios.post(`${BASE_URL}register`, info);
+        const res = await axios.post(`${EXPO_PUBLIC_API}/register`, info);
         if (res.status === 201) {
           setLoading(false);
           Toast.show({ text1: 'Đăng ký thành công' });
@@ -78,6 +78,7 @@ const VerifyScreen = ({ navigation, route }) => {
 
         <TouchableOpacity
           onPress={handleVerify}
+          disabled={loading}
           className='w-[300px] bg-primary-pink rounded-md py-4'
         >
           {loading ? (

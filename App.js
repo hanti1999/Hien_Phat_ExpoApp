@@ -1,4 +1,10 @@
-import { View, Pressable, Linking, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Linking,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import StackNavigator from './navigation/StackNavigator';
 import Toast from 'react-native-toast-message';
 import { AntDesign } from '@expo/vector-icons';
@@ -26,12 +32,12 @@ export default function App() {
 
 const OpenURLButton = ({ phoneNumber, children }) => {
   return (
-    <Pressable
+    <TouchableOpacity
       className='w-full h-full rounded-full flex items-center justify-center'
       onPress={() => Linking.openURL(`tel:${phoneNumber}`)}
     >
       {children}
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

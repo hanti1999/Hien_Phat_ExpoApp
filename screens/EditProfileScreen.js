@@ -4,13 +4,13 @@ import {
   SafeAreaView,
   StatusBar,
   TextInput,
-  Pressable,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { Ionicons } from '@expo/vector-icons';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 
@@ -33,7 +33,10 @@ const EditProfileScreen = ({ route }) => {
         address: address,
         password: password,
       };
-      const res = await axios.post(`${BASE_URL}profile/update`, userData);
+      const res = await axios.post(
+        `${EXPO_PUBLIC_API}/profile/update`,
+        userData
+      );
       if (res.status === 200) {
         setLoading(false);
         Toast.show({ text1: 'Cập nhật thông tin thành công' });
@@ -106,7 +109,7 @@ const EditProfileScreen = ({ route }) => {
             />
           </View>
 
-          <Pressable
+          <TouchableOpacity
             onPress={handleUpdateProfile}
             disabled={loading}
             className='w-full h-[60px] flex justify-center mt-3 bg-primary-pink rounded-xl '
@@ -118,7 +121,7 @@ const EditProfileScreen = ({ route }) => {
                 Cập nhật
               </Text>
             )}
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

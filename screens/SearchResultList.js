@@ -1,6 +1,6 @@
 import { SafeAreaView, FlatList, StatusBar } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 import ProductCard from '../components/ProductCard';
@@ -15,7 +15,9 @@ const SearchResultList = ({ route }) => {
   useEffect(() => {
     const searchProduct = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}product/search?q=${input}`);
+        const res = await axios.get(
+          `${EXPO_PUBLIC_API}/product/search?q=${input}`
+        );
 
         if (res.status === 200) {
           const data = res.data.products;

@@ -1,6 +1,6 @@
 import { SafeAreaView, StatusBar, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
 import ProductCard from '../components/ProductCard';
@@ -16,7 +16,7 @@ const ProductsByCategoryScreen = ({ route }) => {
     const fetchProductById = async () => {
       try {
         const res = await axios.get(
-          `${BASE_URL}product/category/${categoryId}`
+          `${EXPO_PUBLIC_API}/product/category/${categoryId}`
         );
 
         if (res.status === 200) {

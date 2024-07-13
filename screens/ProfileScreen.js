@@ -21,7 +21,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import { clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
@@ -43,7 +43,7 @@ const ProfileScreen = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}profile/${userId}`);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/profile/${userId}`);
       if (res.status === 200) {
         const user = res.data.user;
         setCurrentUser(user);
@@ -225,11 +225,11 @@ const ProfileScreen = () => {
               <Text className='text-gray-500'>
                 Tích Chu (desginer - manager)
               </Text>
-              <Pressable onPress={openZalo498}>
+              <TouchableOpacity onPress={openZalo498}>
                 <Text className=' text-blue-400 underline'>
                   N.T.Hoàng Anh (developer)
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

@@ -16,7 +16,7 @@ import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { jwtDecode } from 'jwt-decode';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ProductTitle from '../components/ProductTitle';
 import ProductCard from '../components/ProductCard';
@@ -63,7 +63,7 @@ const HomeScreen = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}product`);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/product`);
       if (res.status === 200) {
         const data = res?.data?.products;
         setProduct(data);
@@ -280,7 +280,7 @@ const HorizontalCategory = ({ userId }) => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}category`);
+        const res = await axios.get(`${EXPO_PUBLIC_API}/category`);
 
         if (res.status === 200) {
           const cat = res.data.category;
@@ -345,7 +345,7 @@ const HorizontalBrand = ({ userId }) => {
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}brand`);
+        const res = await axios.get(`${EXPO_PUBLIC_API}/brand`);
         if (res.status === 200) {
           setBrandList(res?.data.brand);
           console.log('Fetch brand thành công!');

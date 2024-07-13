@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
-import { BASE_URL } from '@env';
+import { EXPO_PUBLIC_API } from '@env';
 import moment from 'moment';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
@@ -27,7 +27,7 @@ const NotificationScreen = () => {
 
   const fetchNotification = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}notification`);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/notification`);
       if (res.status === 200) {
         const notification = res.data?.notification;
         setNotification(notification);
