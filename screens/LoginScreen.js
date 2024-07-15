@@ -14,7 +14,6 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
-import { StatusBar } from 'expo-status-bar';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 
@@ -75,7 +74,6 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
-      <StatusBar />
       <View className='my-8 items-center'>
         <Image className='w-32 h-32' source={require('../assets/logoHp.png')} />
       </View>

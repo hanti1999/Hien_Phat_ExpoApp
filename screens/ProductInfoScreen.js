@@ -4,7 +4,6 @@ import {
   ScrollView,
   SafeAreaView,
   Dimensions,
-  StatusBar,
   Alert,
   Linking,
   ActivityIndicator,
@@ -141,7 +140,6 @@ const ProductInfoScreen = ({ route, navigation }) => {
         showsVerticalScrollIndicator={false}
         className='bg-gray-100'
       >
-        <StatusBar />
         <ScreenHeader text={'Chi tiết sản phẩm'} />
 
         <SliderBox

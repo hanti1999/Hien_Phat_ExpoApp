@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
-  StatusBar,
   ActivityIndicator,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
@@ -57,7 +56,6 @@ const ReviewScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView className='bg-white flex-1'>
-      <StatusBar />
       <ScreenHeader text={'Trở lại'} />
       <View className='py-2 px-3'>
         <View className='my-4 flex-row'>

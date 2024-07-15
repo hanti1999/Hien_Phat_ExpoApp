@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
-  StatusBar,
   TextInput,
   Alert,
   ActivityIndicator,
@@ -139,7 +138,6 @@ const CartScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <StatusBar />
       <ScreenHeader text={'Giỏ hàng'} />
       <ScrollView className='bg-gray-100' showsVerticalScrollIndicator={false}>
         <View className='bg-pink-100 py-2 px-3 mb-2'>

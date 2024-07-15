@@ -1,4 +1,4 @@
-import { SafeAreaView, StatusBar, FlatList } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import React from 'react';
 import ScreenHeader from '../components/ScreenHeader';
 import ProductCard from '../components/ProductCard';
@@ -13,7 +13,6 @@ const WishlistScreen = ({ route }) => {
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <StatusBar />
       <ScreenHeader text={'Danh sách yêu thích'} />
       <FlatList
         data={wishlist}

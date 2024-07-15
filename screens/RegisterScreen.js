@@ -12,7 +12,6 @@ import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
 import validatePhone from '../utils/validatePhone';
-import { StatusBar } from 'expo-status-bar';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -87,7 +86,6 @@ const RegisterScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView className='flex-1 items-center bg-white'>
-      <StatusBar />
       <View className='my-8 flex-row items-center' style={{ gap: 20 }}>
         <Image className='w-24 h-24' source={require('../assets/logoHp.png')} />
         <Text className='text-2xl font-bold'>Đăng ký</Text>

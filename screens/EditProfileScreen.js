@@ -2,7 +2,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  StatusBar,
   TextInput,
   ActivityIndicator,
   TouchableOpacity,
@@ -64,7 +63,6 @@ const EditProfileScreen = ({ route }) => {
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <StatusBar />
       <ScreenHeader text='Sửa hồ sơ' />
       <View className='bg-gray-100 flex-1'>
         <View className='px-3 pb-2 bg-white'>

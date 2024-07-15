@@ -1,4 +1,4 @@
-import { SafeAreaView, StatusBar, FlatList } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
@@ -47,7 +47,6 @@ const ProductByBrandScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: '#fff' }}>
-      <StatusBar />
       <ScreenHeader text={'Sản phẩm'} />
 
       <FlatList

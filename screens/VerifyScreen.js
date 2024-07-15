@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
@@ -55,7 +54,6 @@ const VerifyScreen = ({ navigation, route }) => {
 
   return (
     <SafeAreaView className='bg-white flex-1 items-center px-2'>
-      <StatusBar />
       <View className='my-8'>
         <Text className='text-center text-[20px] font-bold'>Xác minh OTP</Text>
       </View>

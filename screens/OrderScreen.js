@@ -6,7 +6,6 @@ import {
   Modal,
   FlatList,
   RefreshControl,
-  StatusBar,
   TouchableOpacity,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
@@ -62,7 +61,6 @@ const OrderScreen = ({ route }) => {
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <StatusBar />
       <ScreenHeader text='Lịch sử đơn hàng' />
       <FlatList
         data={orders}

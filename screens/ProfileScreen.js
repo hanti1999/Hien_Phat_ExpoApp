@@ -2,7 +2,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  StatusBar,
   Pressable,
   Linking,
   Modal,
@@ -90,7 +89,6 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <StatusBar />
       <ScrollView
         stickyHeaderIndices={[0]}
         className='bg-gray-100 flex-1'

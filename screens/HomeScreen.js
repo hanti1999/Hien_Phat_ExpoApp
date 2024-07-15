@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   ScrollView,
   Pressable,
-  StatusBar,
   FlatList,
   ActivityIndicator,
   RefreshControl,
@@ -14,31 +13,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
 import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
 import { jwtDecode } from 'jwt-decode';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ProductTitle from '../components/ProductTitle';
+import SeeMoreCard from '../components/SeeMoreCard';
 import ProductCard from '../components/ProductCard';
 import SearchBar from '../components/SearchBar';
 import Loading from '../components/Loading';
 import slider from '../assets/data/slider';
 import { UserType } from '../userContext';
-import SeeMoreCard from '../components/SeeMoreCard';
 
 const HomeScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
-
-  const developing = () => {
-    Toast.show({
-      type: 'info',
-      text1: 'Tính năng đang Phát triển',
-      text2: 'Vui lòng thử lại sau',
-    });
-  };
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -105,7 +95,6 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView className='flex-1 bg-primary-pink'>
-      <StatusBar />
       <ScrollView
         stickyHeaderIndices={[0]}
         className='bg-gray-100'
@@ -173,12 +162,10 @@ const HomeScreen = () => {
           />
         </View>
 
-        <Pressable onPress={developing}>
-          <Image
-            className='w-full h-[60px]'
-            source={require('../assets/sale8-3.jpg')}
-          />
-        </Pressable>
+        <Image
+          className='w-full h-[60px]'
+          source={require('../assets/sale8-3.jpg')}
+        />
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Bếp điện'} />
@@ -204,12 +191,10 @@ const HomeScreen = () => {
           />
         </View>
 
-        <Pressable onPress={developing}>
-          <Image
-            className='w-full h-[140px]'
-            source={require('../assets/DonTetSaleHet_MayLocNuoc.png')}
-          />
-        </Pressable>
+        <Image
+          className='w-full h-[140px]'
+          source={require('../assets/DonTetSaleHet_MayLocNuoc.png')}
+        />
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
           <ProductTitle text={'Gia dụng'} />

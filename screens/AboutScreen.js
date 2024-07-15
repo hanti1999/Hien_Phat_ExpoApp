@@ -1,11 +1,10 @@
-import { Text, View, SafeAreaView, StatusBar, Image } from 'react-native';
+import { Text, View, SafeAreaView, Image } from 'react-native';
 import React from 'react';
 import ScreenHeader from '../components/ScreenHeader';
 
 const AboutScreen = () => {
   return (
     <SafeAreaView className='flex-1 bg-white'>
-      <StatusBar />
       <ScreenHeader text={'Thông tin công ty'} />
       <View className='px-3 py-2'>
         <Image className='w-24 h-24' source={require('../assets/logoHp.png')} />

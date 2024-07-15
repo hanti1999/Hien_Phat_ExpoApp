@@ -1,4 +1,4 @@
-import { SafeAreaView, FlatList, StatusBar } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
@@ -46,7 +46,6 @@ const SearchResultList = ({ route }) => {
 
   return (
     <SafeAreaView className='bg-white flex-1'>
-      <StatusBar />
       <ScreenHeader text={'Kết quả tìm kiếm'} />
       <FlatList
         data={products}
