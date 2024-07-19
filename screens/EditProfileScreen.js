@@ -32,10 +32,7 @@ const EditProfileScreen = ({ route }) => {
         address: address,
         password: password,
       };
-      const res = await axios.post(
-        `${EXPO_PUBLIC_API}/profile/update`,
-        userData
-      );
+      const res = await axios.post(`${EXPO_PUBLIC_API}/user/update`, userData);
       if (res.status === 200) {
         setLoading(false);
         Toast.show({ text1: 'Cập nhật thông tin thành công' });
