@@ -34,7 +34,7 @@ const VerifyScreen = ({ navigation, route }) => {
     const postRegister = async () => {
       try {
         setLoading(true);
-        const res = await axios.post(`${EXPO_PUBLIC_API}/register`, info);
+        const res = await axios.post(`${EXPO_PUBLIC_API}/auth/register`, info);
         if (res.status === 201) {
           setLoading(false);
           Toast.show({ text1: 'Đăng ký thành công' });

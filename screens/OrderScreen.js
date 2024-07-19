@@ -25,7 +25,7 @@ const OrderScreen = ({ route }) => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`${EXPO_PUBLIC_API}/orders/${userId}`);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/order/${userId}`);
       const orders = res.data?.orders;
       if (res.status === 200) {
         setOrders(orders);

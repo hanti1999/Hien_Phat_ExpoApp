@@ -52,7 +52,7 @@ const LoginScreen = () => {
     const postUser = async () => {
       setLoading(true);
       try {
-        const res = await axios.post(`${EXPO_PUBLIC_API}/login`, user);
+        const res = await axios.post(`${EXPO_PUBLIC_API}/auth/login`, user);
         if (res.status === 200) {
           const token = res.data.token;
           AsyncStorage.setItem('authToken', token);
