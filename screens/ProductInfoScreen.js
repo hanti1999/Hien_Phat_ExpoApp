@@ -141,12 +141,12 @@ const ProductInfoScreen = ({ route, navigation }) => {
         className='bg-gray-100'
       >
         <ScreenHeader text={'Chi tiết sản phẩm'} />
+        <View />
 
         <SliderBox
           images={item?.carouselImages}
           dotColor='#302671'
           inactiveDotColor='#333'
-          ImageComponentStyle={width}
           sliderBoxHeight={width}
         />
 

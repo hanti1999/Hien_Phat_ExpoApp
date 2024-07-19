@@ -54,7 +54,7 @@ const CartScreen = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${EXPO_PUBLIC_API}/profile/${userId}`);
+        const res = await axios.get(`${EXPO_PUBLIC_API}/user/${userId}`);
         const user = res.data.user;
         if (res.status === 200) {
           setAddress(user?.address);
