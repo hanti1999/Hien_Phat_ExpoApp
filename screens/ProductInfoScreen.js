@@ -9,8 +9,9 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  Image,
 } from 'react-native';
-import { SliderBox } from 'react-native-image-slider-box';
+import { Carousel } from 'react-native-basic-carousel';
 import React, { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import Toast from 'react-native-toast-message';
@@ -136,18 +137,24 @@ const ProductInfoScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView className='flex-1 bg-white'>
       <ScrollView
-        stickyHeaderIndices={[1]}
+        stickyHeaderIndices={[0]}
         showsVerticalScrollIndicator={false}
         className='bg-gray-100'
       >
         <ScreenHeader text={'Chi tiết sản phẩm'} />
-        <View />
-
-        <SliderBox
-          images={item?.carouselImages}
-          dotColor='#302671'
-          inactiveDotColor='#333'
-          sliderBoxHeight={width}
+        <Carousel
+          data={item?.carouselImages}
+          renderItem={({ item, index }) => (
+            <Image
+              key={index}
+              source={{ uri: item }}
+              style={{ height: width }}
+            />
+          )}
+          itemWidth={width}
+          pagination={true}
+          paginationType='circle'
+          paginationColor='#302671'
         />
 
         <View className='py-2 px-3 mb-2 bg-pink-100'>

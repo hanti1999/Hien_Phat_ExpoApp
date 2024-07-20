@@ -8,11 +8,12 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState, useContext } from 'react';
-import { SliderBox } from 'react-native-image-slider-box';
 import { useNavigation } from '@react-navigation/native';
+import { Carousel } from 'react-native-basic-carousel';
 import { jwtDecode } from 'jwt-decode';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
@@ -29,6 +30,7 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProduct] = useState();
+  const width = Dimensions.get('window').width;
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -47,7 +49,6 @@ const HomeScreen = () => {
         console.log('Lỗi (catch HomeScreen - authToken): ', error);
       }
     };
-
     fetchUserId();
   }, []);
 
@@ -103,16 +104,21 @@ const HomeScreen = () => {
         }
       >
         <SearchBar userId={userId} />
-
         <HorizontalCategory userId={userId} />
-
-        <SliderBox
-          images={slider}
+        <Carousel
+          data={slider}
+          renderItem={({ item, index }) => (
+            <Image
+              key={index}
+              source={item}
+              style={{
+                height: 0.5625 * width,
+                aspectRatio: '16/9',
+              }}
+            />
+          )}
+          itemWidth={width}
           autoplay
-          circleLoop
-          dotColor={'#302671'}
-          inactiveDotColor='#333'
-          ImageComponentStyle={{ width: '100%' }}
         />
 
         <View className='flex-row items-center justify-between bg-white py-1'>
