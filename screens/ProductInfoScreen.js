@@ -89,7 +89,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         console.log(res.data.message);
         setLoading(false);
-        Toast.show({ text1: 'Đã thêm vào danh sách ước' });
+        Toast.show({ text1: 'Đã thêm vào sản phẩm yêu thích' });
         checkWishlist();
       } else {
         setLoading(false);
@@ -111,7 +111,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
       if (res.status === 200) {
         console.log(res.data.message);
         checkWishlist();
-        Toast.show({ text1: 'Đã xóa khỏi danh sách ước' });
+        Toast.show({ text1: 'Đã xóa khỏi sản phẩm yêu thích' });
         setLoading(false);
       } else {
         setLoading(false);
