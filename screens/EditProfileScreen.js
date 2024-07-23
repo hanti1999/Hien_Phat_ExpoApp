@@ -23,16 +23,19 @@ const EditProfileScreen = ({ route }) => {
   const [name, setName] = useState('');
 
   const handleUpdateProfile = async () => {
-    setLoading(true);
+    const userData = {
+      name: name,
+      phoneNumber: phoneNumber,
+      address: address,
+      password: password,
+    };
+
     try {
-      const userData = {
-        userId: currentUser._id,
-        name: name,
-        phoneNumber: phoneNumber,
-        address: address,
-        password: password,
-      };
-      const res = await axios.post(`${EXPO_PUBLIC_API}/user/update`, userData);
+      setLoading(true);
+      const res = await axios.patch(
+        `${EXPO_PUBLIC_API}/user/update/${currentUser._id}`,
+        userData
+      );
       if (res.status === 200) {
         setLoading(false);
         Toast.show({ text1: 'Cập nhật thông tin thành công' });
