@@ -6,11 +6,14 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
+import { ACCESS_TOKEN } from '@env';
+import axios from 'axios';
 import validatePhone from '../utils/validatePhone';
 
 const RegisterScreen = ({ navigation }) => {
@@ -20,38 +23,66 @@ const RegisterScreen = ({ navigation }) => {
   const [password, setPassword] = useState('88888888');
   const [confirmPass, setConfirmPass] = useState('88888888');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (password != confirmPass) {
       Toast.show({ type: 'error', text1: 'Mật khẩu không giống nhau' });
       return;
     }
 
-    if (validatePhone(phoneNumber)) {
-      const postPhone = async () => {
-        try {
-          // const res = await axios.post(`${EXPO_PUBLIC_API}/auth/verify`, { phone });
-          // const otp = res.data.otp;
-          const otp = 888888;
-          navigation.navigate('Verify', {
-            name: name,
-            password: password,
-            address: address,
-            phoneNumber: phoneNumber,
-            otp: otp,
-          });
-        } catch (error) {
-          Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
-          console.log(error);
-        }
-      };
-      postPhone();
-    } else {
+    if (validatePhone(phoneNumber) === false) {
       Toast.show({ type: 'error', text1: 'Số điện thoại không hợp lệ' });
+      return;
+    }
+
+    if (address === '') {
+      Toast.show({ type: 'error', text1: 'Vui lòng nhập địa chỉ' });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const otp = generateOTP();
+      const formatedPhone = phoneNumber.replace('0', '84');
+      const zaloApi = 'https://business.openapi.zalo.me/message/template';
+      const data = {
+        phone: formatedPhone,
+        template_id: '353435',
+        template_data: { opt: otp },
+      };
+      const config = {
+        headers: { access_token: ACCESS_TOKEN },
+      };
+      const res = await axios.post(zaloApi, data, config);
+
+      if (res.data.error === 0) {
+        console.log('Gửi OTP thành công');
+        setLoading(false);
+
+        navigation.navigate('Verify', {
+          name: name,
+          password: password,
+          address: address,
+          phoneNumber: phoneNumber,
+          otp: otp,
+        });
+      } else {
+        setLoading(false);
+        Toast.show({
+          type: 'error',
+          text1: `${res.data.message} (${res.data.error})`,
+        });
+        console.log(`${res.data.message} (${res.data.error})`);
+      }
+    } catch (error) {
+      setLoading(false);
+      Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
+      console.log(error);
     }
   };
 
@@ -79,7 +110,9 @@ const RegisterScreen = ({ navigation }) => {
         setAddress(`${reverseGeocode[0]?.formattedAddress}`);
       }
 
-      console.log('Đã lấy được địa chỉ:', reverseGeocode);
+      console.log('Đã lấy được địa chỉ');
+      Toast.show({ text1: 'Đã tự điền địa chỉ' });
+      // console.log(reverseGeocode);
     };
     getPermissions();
   }, []);
@@ -169,11 +202,16 @@ const RegisterScreen = ({ navigation }) => {
         <View className='mt-10'>
           <TouchableOpacity
             onPress={handleRegister}
+            disabled={loading}
             className='w-full bg-primary-pink rounded-xl mx-auto px-4 py-4'
           >
-            <Text className='text-white text-center text-lg font-semibold'>
-              Đăng ký
-            </Text>
+            {loading ? (
+              <ActivityIndicator color={'#fff'} />
+            ) : (
+              <Text className='text-white text-center text-[18px] font-semibold'>
+                Đăng ký
+              </Text>
+            )}
           </TouchableOpacity>
 
           <View className='mt-2 items-center'>
@@ -190,6 +228,19 @@ const RegisterScreen = ({ navigation }) => {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
+};
+
+const generateOTP = () => {
+  const length = 6;
+  const characters = '0123456789';
+  let otp = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    otp += characters[randomIndex];
+  }
+
+  return otp;
 };
 
 export default RegisterScreen;

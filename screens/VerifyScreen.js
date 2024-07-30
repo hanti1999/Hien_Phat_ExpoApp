@@ -59,7 +59,7 @@ const VerifyScreen = ({ navigation, route }) => {
       </View>
 
       <Text className='text-center'>
-        Vui lòng kiểm tra mã OTP được gửi đến {phoneNumber}
+        Vui lòng kiểm tra mã OTP được gửi đến Zalo {phoneNumber}
       </Text>
 
       <KeyboardAvoidingView>
