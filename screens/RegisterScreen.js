@@ -53,7 +53,7 @@ const RegisterScreen = ({ navigation }) => {
       const data = {
         phone: formatedPhone,
         template_id: '353435',
-        template_data: { opt: otp },
+        template_data: { otp: otp },
       };
       const config = {
         headers: { access_token: ACCESS_TOKEN },

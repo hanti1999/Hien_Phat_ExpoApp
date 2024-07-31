@@ -63,7 +63,7 @@ const VerifyScreen = ({ navigation, route }) => {
       </Text>
 
       <KeyboardAvoidingView>
-        <View className='bg-gray-200 rounded-md py-1 flex my-8'>
+        <View className='border-b border-gray-300 py-1 flex my-8'>
           <TextInput
             className='w-[300px] text-[16px] p-2 '
             keyboardType='numeric'
