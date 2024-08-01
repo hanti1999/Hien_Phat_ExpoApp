@@ -12,7 +12,12 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import * as Location from 'expo-location';
-import { ACCESS_TOKEN } from '@env';
+import {
+  ZALO_AUTH_CODE,
+  ZALO_APP_ID,
+  ZALO_CODE_VERIFIER,
+  ZALO_APP_SECRET_KEY,
+} from '@env';
 import axios from 'axios';
 import validatePhone from '../utils/validatePhone';
 
@@ -24,61 +29,104 @@ const RegisterScreen = ({ navigation }) => {
   const [confirmPass, setConfirmPass] = useState('88888888');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
+  const [refresToken, setRefreshToken] = useState('');
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const getAccessToken = async () => {
+    const api = 'https://oauth.zaloapp.com/v4/oa/access_token';
+    const data = new URLSearchParams({
+      code: ZALO_AUTH_CODE,
+      app_id: ZALO_APP_ID,
+      grant_type: 'authorization_code',
+      code_verifier: ZALO_CODE_VERIFIER,
+    });
+    const config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        secret_key: ZALO_APP_SECRET_KEY,
+      },
+    };
+    const res = await axios.post(api, data, config);
+    setAccessToken(res.data.access_token);
+    setRefreshToken(res.data.refresh_token);
+    console.log('Đã lấy được access token: ', res.data.access_token);
+  };
+
+  const getOtp = async () => {
+    const otp = generateOTP();
+    const formatedPhone = phoneNumber.replace('0', '84');
+    const api = 'https://business.openapi.zalo.me/message/template';
+    const data = {
+      phone: formatedPhone,
+      template_id: '353435',
+      template_data: { otp: otp },
+    };
+    const config = {
+      headers: { access_token: accessToken },
+    };
+    const apiRes = await axios.post(api, data, config);
+
+    if (apiRes.data.error === 0) {
+      setLoading(false);
+      console.log('Gửi OTP thành công: ', otp);
+      navigation.navigate('Verify', {
+        name: name,
+        password: password,
+        address: address,
+        phoneNumber: phoneNumber,
+        otp: otp,
+      });
+    } else if (apiRes.data.error === -124) {
+      setLoading(false);
+      Toast.show({
+        type: 'error',
+        text1: `Có lỗi! vui lòng thử lại lần nữa`,
+      });
+      console.log('access token hết hạn, đang lấy token mới');
+      const api = 'https://oauth.zaloapp.com/v4/oa/access_token';
+      const data = new URLSearchParams({
+        refresh_token: refresToken,
+        app_id: ZALO_APP_ID,
+        grant_type: 'refresh_token',
+      });
+      const config = {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          secret_key: ZALO_APP_SECRET_KEY,
+        },
+      };
+      const res = await axios.post(api, data, config);
+      console.log('Đã tạo token mới: ', res.data.access_token);
+    } else {
+      setLoading(false);
+      Toast.show({
+        type: 'error',
+        text1: `${apiRes.data.message} (${apiRes.data.error})`,
+      });
+      console.log(`${apiRes.data.message} (${apiRes.data.error})`);
+    }
   };
 
   const handleRegister = async () => {
     if (password != confirmPass) {
       Toast.show({ type: 'error', text1: 'Mật khẩu không giống nhau' });
       return;
-    }
-
-    if (validatePhone(phoneNumber) === false) {
+    } else if (validatePhone(phoneNumber) === false) {
       Toast.show({ type: 'error', text1: 'Số điện thoại không hợp lệ' });
       return;
-    }
-
-    if (address === '') {
+    } else if (address === '') {
       Toast.show({ type: 'error', text1: 'Vui lòng nhập địa chỉ' });
       return;
     }
 
     try {
       setLoading(true);
-      const otp = generateOTP();
-      const formatedPhone = phoneNumber.replace('0', '84');
-      const zaloApi = 'https://business.openapi.zalo.me/message/template';
-      const data = {
-        phone: formatedPhone,
-        template_id: '353435',
-        template_data: { otp: otp },
-      };
-      const config = {
-        headers: { access_token: ACCESS_TOKEN },
-      };
-      const res = await axios.post(zaloApi, data, config);
-
-      if (res.data.error === 0) {
-        console.log('Gửi OTP thành công');
-        setLoading(false);
-
-        navigation.navigate('Verify', {
-          name: name,
-          password: password,
-          address: address,
-          phoneNumber: phoneNumber,
-          otp: otp,
-        });
-      } else {
-        setLoading(false);
-        Toast.show({
-          type: 'error',
-          text1: `${res.data.message} (${res.data.error})`,
-        });
-        console.log(`${res.data.message} (${res.data.error})`);
-      }
+      getAccessToken();
+      getOtp();
     } catch (error) {
       setLoading(false);
       Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
