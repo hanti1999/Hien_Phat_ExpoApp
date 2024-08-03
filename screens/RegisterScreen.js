@@ -33,15 +33,16 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   const getAccessToken = async () => {
-    // get access token from node server
-    setLoading(true);
+    // lấy access token từ node server
     try {
-      const res = await axios.get(`${EXPO_PUBLIC_API}/token/`);
+      setLoading(true);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/token`);
       if (res.status === 200) {
         setLoading(false);
         setAccessToken(res.data.token[0].access_token);
         setRefreshToken(res.data.token[0].refresh_token);
         setTokenId(res.data.token[0]._id);
+        console.log('Lấy access token thành công');
       } else {
         console.log('Lấy access token không thành công');
         setLoading(false);
@@ -55,13 +56,12 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   const getNewToken = async () => {
-    // get new acccess token from Zalo server
+    // dùng refresh token để lấy access token mới từ server zalo
     const api = 'https://oauth.zaloapp.com/v4/oa/access_token';
-    const data = new URLSearchParams({
-      refresh_token: refreshToken,
-      app_id: ZALO_APP_ID,
-      grant_type: 'refresh_token',
-    });
+    const data = new URLSearchParams();
+    data.append('refresh_token', refreshToken);
+    data.append('app_id', ZALO_APP_ID);
+    data.append('grant_type', 'refresh_token');
     const config = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -69,31 +69,44 @@ const RegisterScreen = ({ navigation }) => {
       },
     };
     const res = await axios.post(api, data, config);
-    if (res.data.error < 0) {
-      console.log(res.data);
+    if (res?.data.error < 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Vui lòng thử lại sau nữa',
+      });
+      console.log(res?.data);
       setLoading(false);
       return;
-    }
-
-    // update access token in node server
-    const api2 = `${EXPO_PUBLIC_API}/token/update/${tokenId}`;
-    const data2 = {
-      access_token: res.data.access_token,
-      refresh_token: res.data.refresh_token,
-    };
-    const res2 = await axios.patch(api2, data2);
-
-    if (res2.status === 200) {
-      setLoading(false);
-      console.log(res2.data.message);
     } else {
-      setLoading(false);
-      console.log('update access token mới không thành công');
+      const access_token = res?.data?.access_token;
+      const refresh_token = res?.data?.refresh_token;
+      // Lưu access token lên node server cho người dùng sau
+      const api = `${EXPO_PUBLIC_API}/token/update/${tokenId}`;
+      const data = {
+        access_token: access_token,
+        refresh_token: refresh_token,
+      };
+      const res = await axios.patch(api, data);
+      if (res.status === 200) {
+        setLoading(false);
+        console.log(res.data.message);
+        Toast.show({
+          type: 'error',
+          text1: 'Vui lòng thử lại lần nữa',
+        });
+      } else {
+        setLoading(false);
+        console.log('update access token mới không thành công');
+        Toast.show({
+          type: 'error',
+          text1: 'Vui lòng thử lại sau',
+        });
+      }
     }
   };
 
   const getOtp = async () => {
-    setLoading(true);
+    // Lấy OTP từ Zalo
     const otp = generateOTP();
     const formatedPhone = phoneNumber.replace('0', '84');
     const api = 'https://business.openapi.zalo.me/message/template';
@@ -105,9 +118,8 @@ const RegisterScreen = ({ navigation }) => {
     const config = {
       headers: { access_token: accessToken },
     };
-    const res = await axios.post(api, data, config);
-
-    if (res.data.error === 0) {
+    const otpRes = await axios.post(api, data, config);
+    if (otpRes.data.error === 0) {
       setLoading(false);
       console.log('Gửi OTP thành công:', otp);
       navigation.navigate('Verify', {
@@ -117,20 +129,16 @@ const RegisterScreen = ({ navigation }) => {
         phoneNumber: phoneNumber,
         otp: otp,
       });
-    } else if (res.data.error === -124) {
-      Toast.show({
-        type: 'error',
-        text1: `Có lỗi! vui lòng thử lại lần nữa`,
-      });
-      console.log('Access token đã hết hạn, đang lấy token mới (-124)');
+    } else if (otpRes.data.error === -124) {
+      console.log(otpRes.data);
       getNewToken();
     } else {
       setLoading(false);
       Toast.show({
         type: 'error',
-        text1: `${apiRes.data.message} (${apiRes.data.error})`,
+        text1: `${otpRes.data.message} (${otpRes.data.error})`,
       });
-      console.log(`${apiRes.data.message} (${apiRes.data.error})`);
+      console.log(`${otpRes.data.message} (${otpRes.data.error})`);
     }
   };
 
