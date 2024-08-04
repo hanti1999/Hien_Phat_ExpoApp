@@ -40,12 +40,12 @@ const RegisterScreen = ({ navigation }) => {
         setToken(res.data.token[0]);
         console.log('(hàng 41) Lấy token thành công');
       } else {
-        console.log('Lấy token không thành công');
+        console.error('(hàng 43) Lấy token không thành công');
         setLoading(false);
         return;
       }
     } catch (error) {
-      console.log('Lấy access token không thành công', error);
+      console.error('(hàng 48) Lấy token không thành công', error);
       setLoading(false);
       return;
     }
@@ -76,7 +76,7 @@ const RegisterScreen = ({ navigation }) => {
         otp: otp,
       });
     } else if (res.data.error === -124) {
-      console.log('(hàng 79) Access token hết hạn', res.data);
+      console.error('(hàng 79) Access token hết hạn', res.data);
       Toast.show({ type: 'info', text1: 'Vui lòng chờ trong giây lát' });
       getNewToken();
     } else {
@@ -85,7 +85,7 @@ const RegisterScreen = ({ navigation }) => {
         type: 'error',
         text1: `${res.data.message} (${res.data.error})`,
       });
-      console.log(`(hàng 88) ${res.data.message} (${res.data.error})`);
+      console.error(`(hàng 88) Lỗi: ${res.data.message} (${res.data.error})`);
     }
   };
 
@@ -105,11 +105,8 @@ const RegisterScreen = ({ navigation }) => {
     };
     const res = await axios.post(api, data, config);
     if (res?.data.error < 0) {
-      Toast.show({
-        type: 'error',
-        text1: 'Vui lòng thử lại sau',
-      });
-      console.log('(hàng 112) Lỗi:', res?.data);
+      Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
+      console.error('(hàng 112) Lỗi:', res?.data);
       setLoading(false);
       return;
     } else {
@@ -135,19 +132,13 @@ const RegisterScreen = ({ navigation }) => {
         Toast.show({ text1: 'Vui lòng thử lại lần nữa' });
       } else {
         setLoading(false);
-        console.log('(hàng 138) Cập nhật token mới không thành công');
-        Toast.show({
-          type: 'error',
-          text1: 'Vui lòng thử lại sau',
-        });
+        console.error('(hàng 138) Cập nhật token mới không thành công');
+        Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
       }
     } catch (error) {
-      console.log('(hàng 145) Cập nhật token mới không thành công', error);
+      console.error('(hàng 145) Cập nhật token mới không thành công', error);
       setLoading(false);
-      Toast.show({
-        type: 'error',
-        text1: 'Vui lòng thử lại sau',
-      });
+      Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
     }
   };
 
@@ -168,7 +159,7 @@ const RegisterScreen = ({ navigation }) => {
     } catch (error) {
       setLoading(false);
       Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -181,7 +172,7 @@ const RegisterScreen = ({ navigation }) => {
       let { status } = await Location.requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
-        console.log('Người dùng từ chối quyền truy cập');
+        console.error('Người dùng từ chối quyền truy cập');
         return;
       }
 

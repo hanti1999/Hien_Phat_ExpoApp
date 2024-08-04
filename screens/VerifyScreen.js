@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   ActivityIndicator,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import React, { useState } from 'react';
@@ -61,6 +62,12 @@ const VerifyScreen = ({ navigation, route }) => {
       <Text className='text-center'>
         Vui lòng kiểm tra mã OTP được gửi đến Zalo {phoneNumber}
       </Text>
+
+      <TouchableOpacity onPress={() => Linking.openURL(`https://zaloapp.com/`)}>
+        <Text className='text-blue-500 underline text-center text-lg'>
+          Ấn để mở Zalo
+        </Text>
+      </TouchableOpacity>
 
       <KeyboardAvoidingView>
         <View className='border-b border-gray-300 py-1 flex my-8'>
