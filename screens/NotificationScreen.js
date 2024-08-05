@@ -34,10 +34,10 @@ const NotificationScreen = () => {
         console.log('Fetch thông báo thành công');
       } else {
         setLoading(false);
-        console.log('Fetch thông báo không thành công');
+        console.error('Fetch thông báo không thành công');
       }
     } catch (error) {
-      console.log('Lỗi (NotificationScreen)', error);
+      console.error('Lỗi (NotificationScreen)', error);
     }
   };
 

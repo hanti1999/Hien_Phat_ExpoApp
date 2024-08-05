@@ -33,11 +33,11 @@ const OrderScreen = ({ route }) => {
         console.log('Fetch lịch sử đơn hàng thành công');
       } else {
         setLoading(false);
-        console.log('Fetch đơn hàng không thành công');
+        console.error('Fetch đơn hàng không thành công');
       }
     } catch (error) {
       setLoading(false);
-      console.log('Đơn hàng trống!', error);
+      console.error('Đơn hàng trống!', error);
     }
   };
 
@@ -147,7 +147,7 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
     } catch (error) {
       setModalVisible(!modalVisible);
       setLoading(false);
-      console.log('Lỗi (OrderScreen):', error);
+      console.error('Lỗi (OrderScreen):', error);
       Toast.show({ type: 'error', text1: 'Hủy đơn không thành công' });
     }
   };

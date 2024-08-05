@@ -106,16 +106,16 @@ const RegisterScreen = ({ navigation }) => {
     const res = await axios.post(api, data, config);
     if (res?.data.error < 0) {
       Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
-      console.error('(hàng 112) Lỗi:', res?.data);
+      console.error('(hàng 109) Lỗi:', res?.data);
       setLoading(false);
       return;
     } else {
-      console.log('(hàng 116) Đã nhận token mới');
-      uploadAccessTokenToNode(res.data);
+      console.log('(hàng 113) Đã nhận token mới');
+      updateNewTokenToNode(res.data);
     }
   };
 
-  const uploadAccessTokenToNode = async (props) => {
+  const updateNewTokenToNode = async (props) => {
     try {
       setLoading(true);
       // Lưu access token lên node server cho người dùng sau
@@ -123,6 +123,7 @@ const RegisterScreen = ({ navigation }) => {
       const data = {
         access_token: props.access_token,
         refresh_token: props.refresh_token,
+        updateAt: Date.now(),
       };
       const res = await axios.patch(api, data);
       if (res.status === 200) {
@@ -132,11 +133,11 @@ const RegisterScreen = ({ navigation }) => {
         Toast.show({ text1: 'Vui lòng thử lại lần nữa' });
       } else {
         setLoading(false);
-        console.error('(hàng 138) Cập nhật token mới không thành công');
+        console.error('(hàng 136) Cập nhật token mới không thành công');
         Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
       }
     } catch (error) {
-      console.error('(hàng 145) Cập nhật token mới không thành công', error);
+      console.error('(hàng 140) Cập nhật token mới không thành công', error);
       setLoading(false);
       Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
     }

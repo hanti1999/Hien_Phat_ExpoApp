@@ -19,38 +19,34 @@ const VerifyScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const { name, password, address, phoneNumber, otp } = route?.params;
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     if (code != otp) {
       Toast.show({ type: 'error', text1: 'Mã xác minh không trùng khớp' });
       return;
     }
 
-    const info = {
-      name: name,
-      password: password,
-      address: address,
-      phoneNumber: phoneNumber,
-    };
-
-    const postRegister = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.post(`${EXPO_PUBLIC_API}/auth/register`, info);
-        if (res.status === 201) {
-          setLoading(false);
-          Toast.show({ text1: 'Đăng ký thành công' });
-          navigation.navigate('Login');
-        } else {
-          setLoading(false);
-          Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
-        }
-      } catch (error) {
+    try {
+      setLoading(true);
+      const info = {
+        name: name,
+        password: password,
+        address: address,
+        phoneNumber: phoneNumber,
+      };
+      const res = await axios.post(`${EXPO_PUBLIC_API}/auth/register`, info);
+      if (res.status === 201) {
         setLoading(false);
-        Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
-        console.log('Lỗi (VerifyScreen): ', error);
+        Toast.show({ text1: 'Đăng ký thành công' });
+        navigation.navigate('Login');
+      } else {
+        setLoading(false);
+        Toast.error({ type: 'error', text1: 'Đăng ký không thành công' });
       }
-    };
-    postRegister();
+    } catch (error) {
+      setLoading(false);
+      Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
+      console.error('Lỗi (VerifyScreen): ', error);
+    }
   };
 
   return (

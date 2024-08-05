@@ -44,33 +44,29 @@ const LoginScreen = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
-    const user = {
-      phoneNumber: phoneNumber,
-      password: password,
-    };
-
-    const postUser = async () => {
+  const handleLogin = async () => {
+    try {
       setLoading(true);
-      try {
-        const res = await axios.post(`${EXPO_PUBLIC_API}/auth/login`, user);
-        if (res.status === 200) {
-          const token = res.data.token;
-          AsyncStorage.setItem('authToken', token);
-          setLoading(false);
-          setPassword('');
-          navigation.replace('Main');
-        } else {
-          setLoading(false);
-          Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
-        }
-      } catch (error) {
+      const data = {
+        phoneNumber: phoneNumber,
+        password: password,
+      };
+      const res = await axios.post(`${EXPO_PUBLIC_API}/auth/login`, data);
+      if (res.status === 200) {
+        const token = res.data.token;
+        AsyncStorage.setItem('authToken', token);
+        setLoading(false);
+        setPassword('');
+        navigation.replace('Main');
+      } else {
         setLoading(false);
         Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
-        console.log('Lỗi! (LoginScreen): ', error);
       }
-    };
-    postUser();
+    } catch (error) {
+      setLoading(false);
+      Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
+      console.log('Lỗi! (LoginScreen): ', error);
+    }
   };
 
   return (

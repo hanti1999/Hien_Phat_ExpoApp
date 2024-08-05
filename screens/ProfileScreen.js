@@ -8,6 +8,7 @@ import {
   ScrollView,
   RefreshControl,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {
   FontAwesome,
@@ -50,10 +51,11 @@ const ProfileScreen = () => {
         console.log('Fetch thông tin người dùng thành công');
       } else {
         setLoading(false);
-        console.log('Fetch thông tin người dùng không thành công');
+        console.error('Fetch thông tin người dùng không thành công');
       }
     } catch (error) {
-      console.log('Lỗi (catch ProfileScreen): ', error);
+      setLoading(false);
+      console.error('Lỗi (catch ProfileScreen): ', error);
     }
   };
 
@@ -101,9 +103,16 @@ const ProfileScreen = () => {
           style={{ gap: 12 }}
           className='py-2 px-3 flex-row items-center bg-white'
         >
-          <View className='bg-primary-pink flex justify-center items-center w-20 h-20 rounded-full'>
-            <FontAwesome name='user-o' size={40} color='white' />
-          </View>
+          {currentUser?.image != '' ? (
+            <Image
+              className='w-20 h-20 rounded-full border border-primary-pink'
+              source={{ uri: currentUser?.image }}
+            />
+          ) : (
+            <View className='bg-primary-pink flex justify-center items-center w-20 h-20 rounded-full'>
+              <FontAwesome name='user-o' size={40} color='white' />
+            </View>
+          )}
           <View>
             <Text className='text-xl font-semibold'>{currentUser?.name}</Text>
             <Text className='font-semibold'>

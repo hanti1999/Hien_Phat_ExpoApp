@@ -25,18 +25,17 @@ const ReviewScreen = ({ route, navigation }) => {
   const [comment, setComment] = useState('');
 
   const handleSendReview = async () => {
-    const commentData = {
-      comment: comment,
-      rating: defaultOverallRating,
-      productRating: defaultProductRating,
-      serviceRating: defaultServiceRating,
-    };
-
     try {
       setLoading(true);
+      const data = {
+        comment: comment,
+        rating: defaultOverallRating,
+        productRating: defaultProductRating,
+        serviceRating: defaultServiceRating,
+      };
       const res = await axios.post(
         `${EXPO_PUBLIC_API}/review/create/${productId}/${userId}`,
-        commentData
+        data
       );
       if (res.status === 200) {
         setLoading(false);

@@ -23,15 +23,14 @@ const EditProfileScreen = ({ route }) => {
   const [name, setName] = useState('');
 
   const handleUpdateProfile = async () => {
-    const userData = {
-      name: name,
-      phoneNumber: phoneNumber,
-      address: address,
-      password: password,
-    };
-
     try {
       setLoading(true);
+      const userData = {
+        name: name,
+        phoneNumber: phoneNumber,
+        address: address,
+        password: password,
+      };
       const res = await axios.patch(
         `${EXPO_PUBLIC_API}/user/update/${currentUser._id}`,
         userData
@@ -66,31 +65,33 @@ const EditProfileScreen = ({ route }) => {
       <ScreenHeader text='Sửa hồ sơ' />
       <View className='bg-gray-100 flex-1'>
         <View className='px-3 pb-2 bg-white'>
-          <Text className='my-3 text-[16px]'>Họ và tên:</Text>
+          <Text className='my-3 font-semibold text-[16px]'>Họ và tên:</Text>
           <TextInput
             value={name}
             placeholder='Nhập tên của bạn...'
-            className='p-2 border-b border-gray-300 text-[16px]'
+            className='py-2 border-b border-gray-300 text-[16px]'
             onChangeText={setName}
           />
-          <Text className='my-3 text-[16px]'>Số điện thoại:</Text>
+          <Text className='my-3 font-semibold text-[16px]'>Số điện thoại:</Text>
           <TextInput
             value={phoneNumber}
             placeholder='Bạn chưa nhập số điện thoại...'
-            className='p-2 border-b border-gray-300 text-[16px]'
+            className='py-2 border-b border-gray-300 text-[16px]'
             onChangeText={setPhoneNumber}
           />
-          <Text className='my-3 text-[16px]'>Địa chỉ giao hàng:</Text>
+          <Text className='my-3 font-semibold text-[16px]'>
+            Địa chỉ giao hàng:
+          </Text>
           <TextInput
             value={address}
             multiline
             placeholder='Thêm địa chỉ giao hàng...'
-            className='p-2 border-b border-gray-300 text-[16px]'
+            className='py-2 border-b border-gray-300 text-[16px]'
             onChangeText={setAddress}
           />
 
-          <Text className='my-3 text-[16px]'>Mật khẩu:</Text>
-          <View className='px-2 border-b border-gray-300 flex-row items-center justify-between'>
+          <Text className='my-3 font-semibold text-[16px]'>Mật khẩu:</Text>
+          <View className='border-b border-gray-300 flex-row items-center justify-between'>
             <TextInput
               value={password}
               placeholder='Thêm địa chỉ giao hàng...'

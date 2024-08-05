@@ -89,7 +89,7 @@ const CartScreen = () => {
       return;
     }
     try {
-      const orderData = {
+      const data = {
         userId: userId,
         name: name,
         phoneNumber: phoneNumber,
@@ -101,11 +101,7 @@ const CartScreen = () => {
         cartPoints: cartPoints,
         usePoint: usePoint,
       };
-
-      const res = await axios.post(
-        `${EXPO_PUBLIC_API}/order/create`,
-        orderData
-      );
+      const res = await axios.post(`${EXPO_PUBLIC_API}/order/create`, data);
       if (res.status === 200) {
         nav.navigate('Thanks');
         dispatch(clearCart());
