@@ -100,6 +100,7 @@ const CartScreen = () => {
         paymentMethod: paymentMethod,
         cartPoints: cartPoints,
         usePoint: usePoint,
+        usedPoints: usePoint === true ? userPoints : 0,
       };
       const res = await axios.post(`${EXPO_PUBLIC_API}/order/create`, data);
       if (res.status === 200) {
