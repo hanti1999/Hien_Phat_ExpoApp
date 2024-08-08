@@ -10,6 +10,7 @@ import {
   Dimensions,
   Switch,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {
   FontAwesome6,
@@ -47,31 +48,40 @@ const CartScreen = () => {
   const [address, setAddress] = useState('');
   const [name, setName] = useState('');
   const [note, setNote] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+
   const phoneRef = useRef(null);
   let cartPoints = Math.round((totalAmount * 1) / 100);
   let voucher = 0;
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get(`${EXPO_PUBLIC_API}/user/${userId}`);
-        const user = res.data.user;
-        if (res.status === 200) {
-          setAddress(user?.address);
-          setName(user?.name);
-          setPhoneNumber(user?.phoneNumber);
-          setUserPoints(user?.points);
-          setLoading(false);
-          console.log('Fetch thông tin người dùng thành công');
-        } else {
-          setLoading(false);
-          console.log('Fetch thông tin người dùng không thành công');
-        }
-      } catch (error) {
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(`${EXPO_PUBLIC_API}/user/${userId}`);
+      const user = res.data.user;
+      if (res.status === 200) {
+        setAddress(user?.address);
+        setName(user?.name);
+        setPhoneNumber(user?.phoneNumber);
+        setUserPoints(user?.points);
         setLoading(false);
-        console.log('Lỗi (catch ProfileScreen): ', error);
+        console.log('Fetch thông tin người dùng thành công');
+      } else {
+        setLoading(false);
+        console.log('Fetch thông tin người dùng không thành công');
       }
-    };
+    } catch (error) {
+      setLoading(false);
+      console.log('Lỗi (catch ProfileScreen): ', error);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchUser();
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -136,7 +146,13 @@ const CartScreen = () => {
   return (
     <SafeAreaView className='flex-1 bg-white'>
       <ScreenHeader text={'Giỏ hàng'} />
-      <ScrollView className='bg-gray-100' showsVerticalScrollIndicator={false}>
+      <ScrollView
+        className='bg-gray-100'
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View className='bg-pink-100 py-2 px-3 mb-2'>
           <View className='flex-row items-center' style={{ gap: 4 }}>
             <View className='w-5'>
