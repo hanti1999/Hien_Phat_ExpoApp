@@ -5,15 +5,18 @@ import {
   RefreshControl,
   FlatList,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { EXPO_PUBLIC_API } from '@env';
 import moment from 'moment';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
+import NoProduct from '../components/NoProduct';
 import Loading from '../components/Loading';
+import { UserType } from '../userContext';
 
 const NotificationScreen = () => {
+  const { userId, setUserId } = useContext(UserType);
   const [refreshing, setRefreshing] = useState(false);
   const [notification, setNotification] = useState();
   const [loading, setLoading] = useState(true);
@@ -26,9 +29,9 @@ const NotificationScreen = () => {
 
   const fetchNotification = async () => {
     try {
-      const res = await axios.get(`${EXPO_PUBLIC_API}/notification`);
+      const res = await axios.get(`${EXPO_PUBLIC_API}/user/${userId}`);
       if (res.status === 200) {
-        const notification = res.data?.notification;
+        const notification = res.data?.user.notification;
         setNotification(notification);
         setLoading(false);
         console.log('Fetch thông báo thành công');
@@ -47,6 +50,10 @@ const NotificationScreen = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (notification.length === 0) {
+    return <NoProduct text={'Tạm chưa có thông báo'} />;
   }
 
   return (
@@ -70,16 +77,7 @@ const renderItem = ({ item }) => {
   return (
     <View className='bg-white py-2 px-3 mb-2'>
       <Text className='font-semibold uppercase text-[16px]'>{item?.title}</Text>
-      <FlatList
-        data={item?.content}
-        keyExtractor={(item, index) => index}
-        renderItem={({ item }) => (
-          <View style={{ gap: 4, flexDirection: 'row', alignItems: 'center' }}>
-            <AntDesign name='minus' size={14} color='black' />
-            <Text className='text-[16px]'>{item}</Text>
-          </View>
-        )}
-      />
+      <Text className='text-[16px]'>{item?.subTitle}</Text>
       <View className='mt-4'>
         <Text className='text-gray-500 text-[14px]'>
           {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}

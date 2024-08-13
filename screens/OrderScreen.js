@@ -26,7 +26,7 @@ const OrderScreen = ({ route }) => {
   const fetchOrders = async () => {
     try {
       const res = await axios.get(`${EXPO_PUBLIC_API}/order/${userId}`);
-      const orders = res.data?.orders;
+      const orders = res.data?.orders.reverse();
       if (res.status === 200) {
         setOrders(orders);
         setLoading(false);
@@ -85,9 +85,25 @@ const RenderOrders = ({ item, fetchOrders }) => {
         data={item?.products}
         keyExtractor={(item, index) => index}
         renderItem={({ item }) => (
-          <Text style={{ marginLeft: 10, fontSize: 16 }}>
-            {item.quantity} x {item.title}
-          </Text>
+          // <Text style={{ marginLeft: 10, fontSize: 16 }}>
+          //   {item.quantity} x {item.title} x {item?.price.toLocaleString()}
+          // </Text>
+          <View className='border'>
+            <View className='w-full p-1'>
+              <Text>{item.title}</Text>
+            </View>
+            <View className='flex-row'>
+              <View className='w-[20%] p-1'>
+                <Text>{item.quantity}</Text>
+              </View>
+              <View className='w-[30%] p-1'>
+                <Text>{item?.price.toLocaleString()}</Text>
+              </View>
+              <View className='w-[50%] p-1'>
+                <Text>{(item?.price * item?.quantity)?.toLocaleString()}</Text>
+              </View>
+            </View>
+          </View>
         )}
       />
       <Text className='text-[16px]'>

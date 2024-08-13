@@ -57,8 +57,8 @@ const CartScreen = () => {
   const fetchUser = async () => {
     try {
       const res = await axios.get(`${EXPO_PUBLIC_API}/user/${userId}`);
-      const user = res.data.user;
       if (res.status === 200) {
+        const user = res.data.user;
         setAddress(user?.address);
         setName(user?.name);
         setPhoneNumber(user?.phoneNumber);
