@@ -77,7 +77,11 @@ const renderItem = ({ item }) => {
   return (
     <View className='bg-white py-2 px-3 mb-2'>
       <Text className='font-semibold uppercase text-[16px]'>{item?.title}</Text>
-      <Text className='text-[16px]'>{item?.subTitle}</Text>
+      <Text className='text-[15px]'>
+        Vào phần <Text className='underline'>Tài khoản</Text>
+        <AntDesign name='arrowright' size={16} color='black' />
+        <Text className='underline'>Đơn hàng của bạn</Text> để xem chi tiết
+      </Text>
       <View className='mt-4'>
         <Text className='text-gray-500 text-[14px]'>
           {moment(item?.createAt).format('DD/MM/YYYY HH:mm')}

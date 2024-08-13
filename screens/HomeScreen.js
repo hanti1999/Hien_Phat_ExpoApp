@@ -338,7 +338,7 @@ const HorizontalBrand = ({ userId }) => {
       try {
         const res = await axios.get(`${EXPO_PUBLIC_API}/brand`);
         if (res.status === 200) {
-          setBrandList(res?.data.brand);
+          setBrandList(res?.data.brand.reverse());
           console.log('Fetch brand thành công!');
           setLoading(false);
         } else {
