@@ -51,7 +51,7 @@ const CartScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const phoneRef = useRef(null);
-  let cartPoints = Math.round((totalAmount * 1) / 100);
+  let cartPoints = Math.round((totalAmount * 0.8) / 100);
   let voucher = 0;
 
   const fetchUser = async () => {

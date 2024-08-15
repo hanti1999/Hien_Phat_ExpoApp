@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { EXPO_PUBLIC_API } from '@env';
 import moment from 'moment';
 import axios from 'axios';
@@ -68,7 +69,7 @@ const OrderScreen = ({ route }) => {
         renderItem={({ item }) => (
           <RenderOrders fetchOrders={fetchOrders} item={item} />
         )}
-        style={{ backgroundColor: '#f9fafb' }}
+        style={{ backgroundColor: '#fff' }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -79,64 +80,74 @@ const OrderScreen = ({ route }) => {
 
 const RenderOrders = ({ item, fetchOrders }) => {
   return (
-    <View className='py-2 px-3 mb-2 bg-white '>
-      <Text className='text-[16px]'>Sản phẩm ({item?.products.length}):</Text>
+    <View className='py-2 px-3 mb-3 bg-pink-100'>
+      <Text className='text-[16px] text-gray-500 font-semibold italic'>
+        <AntDesign name='calendar' size={16} color='black' />
+        Thời gian: {moment(item.createAt).format('DD/MM/YYYY _ HH:mm')}
+      </Text>
+      <Text className='text-[17px] my-1 italic font-semibold'>
+        <AntDesign name='shoppingcart' size={16} color='black' />
+        Đơn hàng: ({item?.products.length})
+      </Text>
       <FlatList
         data={item?.products}
         keyExtractor={(item, index) => index}
         renderItem={({ item }) => (
-          // <Text style={{ marginLeft: 10, fontSize: 16 }}>
-          //   {item.quantity} x {item.title} x {item?.price.toLocaleString()}
-          // </Text>
-          <View className='border'>
-            <View className='w-full p-1'>
-              <Text>{item.title}</Text>
+          <View className='flex-row border-2 border-gray-500'>
+            <View className='p-1 flex-1'>
+              <View className='flex-row items-center'>
+                <AntDesign name='star' size={12} />
+                <Text className='text-[16px] italic font-semibold text-pink-500'>
+                  {item.title}
+                </Text>
+              </View>
             </View>
-            <View className='flex-row'>
-              <View className='w-[20%] p-1'>
-                <Text>{item.quantity}</Text>
-              </View>
-              <View className='w-[30%] p-1'>
-                <Text>{item?.price.toLocaleString()}</Text>
-              </View>
-              <View className='w-[50%] p-1'>
-                <Text>{(item?.price * item?.quantity)?.toLocaleString()}</Text>
-              </View>
+            <View className='p-1'>
+              <Text className='text-right font-semibold'>
+                x {item.quantity}
+              </Text>
+              <Text className='text-right italic'>
+                ({item?.price.toLocaleString()})
+              </Text>
+              <Text className='text-right font-semibold text-[16px]'>
+                {(item?.price * item?.quantity)?.toLocaleString()} đ
+              </Text>
             </View>
           </View>
         )}
       />
-      <Text className='text-[16px]'>
-        Trạng thái:{' '}
-        <Text
-          style={{
-            color: item?.status != 'Đã hủy' ? '#3b82f6' : '#fc0303',
-            fontWeight: 700,
-          }}
-        >
-          {item?.status}
-        </Text>
-      </Text>
-      <Text className='text-[16px]'>
-        Tổng:{' '}
-        <Text className='font-bold text-blue-500'>
-          {item?.totalPrice.toLocaleString()}
-        </Text>
-      </Text>
-      <Text className='text-[16px]'>
-        Tích điểm:{' '}
-        <Text className='font-bold text-blue-500'>
-          {item?.points.toLocaleString()}
-        </Text>
-      </Text>
+      <View className='flex-row' style={{ gap: 4 }}>
+        <View>
+          <Text className='text-[16px]'>Trạng thái</Text>
+          <Text className='text-[16px]'>Tổng</Text>
+          <Text>Tích điểm</Text>
+        </View>
+        <View>
+          <Text className='text-[16px]'>:</Text>
+          <Text className='text-[16px]'>:</Text>
+          <Text>:</Text>
+        </View>
+        <View>
+          <Text
+            style={{
+              color: item?.status != 'Đã hủy' ? '#3b82f6' : '#fc0303',
+              fontWeight: 700,
+              fontSize: 16,
+            }}
+          >
+            {item?.status}
+          </Text>
+          <Text className='font-bold text-[16px]'>
+            {item?.totalPrice.toLocaleString()} (vnđ)
+          </Text>
+          <Text>{item?.points.toLocaleString()}</Text>
+        </View>
+      </View>
       {item.status === 'Đã giao' || item.status === 'Đã hủy' ? (
         <></>
       ) : (
         <UpdateOrderButton fetchOrders={fetchOrders} id={item._id} />
       )}
-      <Text className='text-[16px] mt-2 text-gray-500'>
-        Thời gian: {moment(item.createAt).format('DD/MM/YYYY HH:mm')}
-      </Text>
     </View>
   );
 };
