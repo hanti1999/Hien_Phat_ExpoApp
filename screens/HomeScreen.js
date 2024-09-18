@@ -86,7 +86,9 @@ const HomeScreen = () => {
     (product) => product.category.name === 'Gia dụng'
   );
 
-  let gas = products?.filter((product) => product.category.name === 'Gas');
+  let phuKien = products?.filter(
+    (product) => product.category.name === 'Phụ kiện'
+  );
 
   let sale = products?.filter((product) => product.discount > 10);
 
@@ -142,6 +144,7 @@ const HomeScreen = () => {
             <ProductCard userId={userId} item={item} size={0.45} />
           )}
           keyExtractor={(item) => item?._id}
+          showsHorizontalScrollIndicator={false}
           horizontal
         />
 
@@ -159,6 +162,7 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
+            showsHorizontalScrollIndicator={false}
             horizontal
           />
           <SeeMoreCard
@@ -187,6 +191,7 @@ const HomeScreen = () => {
             )}
             keyExtractor={(item) => item?._id}
             data={bepDien?.slice(0, 6)}
+            showsHorizontalScrollIndicator={false}
             horizontal
           />
 
@@ -216,6 +221,7 @@ const HomeScreen = () => {
             )}
             keyExtractor={(item) => item?._id}
             data={giaDung?.slice(0, 6)}
+            showsHorizontalScrollIndicator={false}
             horizontal
           />
 
@@ -227,7 +233,7 @@ const HomeScreen = () => {
         </View>
 
         <View className='border-t-2 border-primary-pink mt-5 relative bg-white'>
-          <ProductTitle text={'Gas'} />
+          <ProductTitle text={'Phụ kiện'} />
 
           <FlatList
             style={{
@@ -239,14 +245,15 @@ const HomeScreen = () => {
               <ProductCard userId={userId} item={item} size={0.45} />
             )}
             keyExtractor={(item) => item?._id}
-            data={gas?.slice(0, 6)}
+            data={phuKien?.slice(0, 6)}
+            showsHorizontalScrollIndicator={false}
             horizontal
           />
 
           <SeeMoreCard
             userId={userId}
-            categoryId={'6667cf05026b92076ff622af'}
-            extraText={'Gas'}
+            categoryId={'6667cdc6026b92076ff622ab'}
+            extraText={'Phụ kiện'}
           />
         </View>
 

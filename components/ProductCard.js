@@ -53,7 +53,13 @@ const ProductCard = ({ item, userId, size }) => {
         <Image className='aspect-square' source={{ uri: item?.image }} />
         <View className='p-1.5 h-[120px] justify-between bg-pink-100'>
           <Text numberOfLines={2}>{item?.title}</Text>
-          <View className='flex-row items-center' style={{ gap: 4 }}>
+          <View
+            className='flex-row items-center'
+            style={{
+              gap: 4,
+              display: item?.discount == 0 ? `none` : 'auto',
+            }}
+          >
             <View className='p-px rounded bg-red-500'>
               <Text className='text-white '>-{item?.discount}%</Text>
             </View>
