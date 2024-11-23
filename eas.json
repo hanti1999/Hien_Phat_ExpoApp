@@ -5,22 +5,25 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
       "env": {
         "EXPO_PUBLIC_API": "@EXPO_PUBLIC_API",
         "ZALO_APP_ID": "@ZALO_APP_ID",
-        "ZALO_APP_SECRET_KEY":"@ZALO_APP_SECRET_KEY"
-      }
+        "ZALO_APP_SECRET_KEY": "@ZALO_APP_SECRET_KEY"
+      },
+      "channel": "preview"
     },
     "production": {
       "env": {
         "EXPO_PUBLIC_API": "@EXPO_PUBLIC_API",
         "ZALO_APP_ID": "@ZALO_APP_ID",
-        "ZALO_APP_SECRET_KEY":"@ZALO_APP_SECRET_KEY"
-      }
+        "ZALO_APP_SECRET_KEY": "@ZALO_APP_SECRET_KEY"
+      },
+      "channel": "production"
     }
   },
   "submit": {
