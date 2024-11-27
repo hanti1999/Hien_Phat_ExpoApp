@@ -116,15 +116,14 @@ const CartScreen = () => {
       if (res.status === 200) {
         nav.navigate('Thanks');
         dispatch(clearCart());
-        setOrderLoading(false);
         console.log('Tạo đơn hàng thành công');
       } else {
-        setOrderLoading(false);
         console.log('Tạo đơn hàng không thành công');
       }
     } catch (error) {
-      setOrderLoading(false);
       console.log('Lỗi (CartScreen): ', error);
+    } finally {
+      setOrderLoading(false);
     }
   };
 

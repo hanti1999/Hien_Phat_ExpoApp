@@ -6,9 +6,9 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 import ScreenHeader from '../components/ScreenHeader';
@@ -16,11 +16,11 @@ import ScreenHeader from '../components/ScreenHeader';
 const EditProfileScreen = ({ route }) => {
   const { currentUser } = route?.params;
   const [showPassword, setShowPassword] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
-  const [password, setPassword] = useState('');
-  const [address, setAddress] = useState('');
-  const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(currentUser?.phoneNumber);
+  const [password, setPassword] = useState(currentUser?.password);
+  const [address, setAddress] = useState(currentUser?.address);
+  const [name, setName] = useState(currentUser?.name);
 
   const handleUpdateProfile = async () => {
     try {
@@ -31,34 +31,20 @@ const EditProfileScreen = ({ route }) => {
         address: address,
         password: password,
       };
-      const res = await axios.patch(
-        `${EXPO_PUBLIC_API}/user/update/${currentUser._id}`,
-        userData
-      );
+      const url = `${EXPO_PUBLIC_API}/user/update/${currentUser._id}`;
+      const res = await axios.patch(url, userData);
       if (res.status === 200) {
-        setLoading(false);
         Toast.show({ text1: 'Cập nhật thông tin thành công' });
       } else {
-        setLoading(false);
         Toast.show({ type: 'error', text1: 'Cập nhật không thành công' });
       }
     } catch (error) {
-      setLoading(false);
       console.log('Lỗi (EditProfileScreen)', error);
       Toast.show({ type: 'error', text1: 'Cập nhật không thành công' });
+    } finally {
+      setLoading(false);
     }
   };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  useEffect(() => {
-    setName(currentUser?.name);
-    setAddress(currentUser?.address);
-    setPhoneNumber(currentUser?.phoneNumber);
-    setPassword(currentUser?.password);
-  }, []);
 
   return (
     <SafeAreaView className='flex-1 bg-white'>
@@ -104,7 +90,7 @@ const EditProfileScreen = ({ route }) => {
               name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color='gray'
-              onPress={toggleShowPassword}
+              onPress={() => setShowPassword(!showPassword)}
             />
           </View>
 

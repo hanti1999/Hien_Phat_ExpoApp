@@ -8,9 +8,9 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { EXPO_PUBLIC_API } from '@env';
 import moment from 'moment';
 import axios from 'axios';
@@ -30,15 +30,14 @@ const OrderScreen = ({ route }) => {
       const orders = res.data?.orders.reverse();
       if (res.status === 200) {
         setOrders(orders);
-        setLoading(false);
         console.log('Fetch lịch sử đơn hàng thành công');
       } else {
-        setLoading(false);
         console.error('Fetch đơn hàng không thành công');
       }
     } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(false);
-      console.error('Đơn hàng trống!', error);
     }
   };
 
@@ -162,20 +161,17 @@ const UpdateOrderButton = ({ id, fetchOrders }) => {
 
       setLoading(true);
       if (res.status === 200) {
-        setModalVisible(!modalVisible);
         Toast.show({ text1: 'Hủy đơn hàng thành công' });
-        setLoading(false);
         fetchOrders();
       } else {
-        setModalVisible(!modalVisible);
         Toast.show({ type: 'error', text1: 'Hủy đơn không thành công' });
-        setLoading(false);
       }
     } catch (error) {
-      setModalVisible(!modalVisible);
-      setLoading(false);
       console.error('Lỗi (OrderScreen):', error);
       Toast.show({ type: 'error', text1: 'Hủy đơn không thành công' });
+    } finally {
+      setModalVisible(!modalVisible);
+      setLoading(false);
     }
   };
 

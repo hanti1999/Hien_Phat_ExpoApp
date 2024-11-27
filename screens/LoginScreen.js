@@ -55,17 +55,16 @@ const LoginScreen = () => {
       if (res.status === 200) {
         const token = res.data.token;
         AsyncStorage.setItem('authToken', token);
-        setLoading(false);
         setPassword('');
         navigation.replace('Main');
       } else {
-        setLoading(false);
         Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
       }
     } catch (error) {
-      setLoading(false);
       Toast.show({ type: 'error', text1: 'Tài khoản hoặc mật khẩu sai' });
       console.log('Lỗi! (LoginScreen): ', error);
+    } finally {
+      setLoading(false);
     }
   };
 

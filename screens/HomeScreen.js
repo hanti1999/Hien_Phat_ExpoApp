@@ -58,15 +58,13 @@ const HomeScreen = () => {
       if (res.status === 200) {
         const data = res?.data?.products;
         setProduct(data);
-        setLoading(false);
-        console.log('Fetch sản phẩm thành công');
       } else {
-        setLoading(false);
-        console.log('Lỗi!, không fetch được sản phẩm');
+        console.error('Lỗi!, không fetch được sản phẩm');
       }
     } catch (error) {
+      console.error('Lỗi HomeScreen - fet Products', error);
+    } finally {
       setLoading(false);
-      console.log('Lỗi HomeScreen - fet Products', error);
     }
   };
 
@@ -283,15 +281,13 @@ const HorizontalCategory = ({ userId }) => {
         if (res.status === 200) {
           const cat = res.data.category;
           setCatList(cat);
-          setLoading(false);
-          console.log('Fetch category thành công');
         } else {
-          setLoading(false);
           console.log('Lỗi, fetch category không thành công');
         }
       } catch (error) {
-        setLoading(false);
         console.log('Lỗi Horizontal category', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -346,15 +342,13 @@ const HorizontalBrand = ({ userId }) => {
         const res = await axios.get(`${EXPO_PUBLIC_API}/brand`);
         if (res.status === 200) {
           setBrandList(res?.data.brand.reverse());
-          console.log('Fetch brand thành công!');
-          setLoading(false);
         } else {
           console.log('Fetch brand không thành công (HomeScreen)');
-          setLoading(false);
         }
       } catch (error) {
-        setLoading(false);
         console.log('Fetch brand không thành công (HomeScreen)');
+      } finally {
+        setLoading(false);
       }
     };
 
