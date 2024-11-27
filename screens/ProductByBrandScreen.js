@@ -15,22 +15,19 @@ const ProductByBrandScreen = ({ route }) => {
   useEffect(() => {
     const fetchProductById = async () => {
       try {
-        const res = await axios.get(
-          `${EXPO_PUBLIC_API}/product/brand/${brandId}`
-        );
+        const url = `${EXPO_PUBLIC_API}/product/brand/${brandId}`;
+        const res = await axios.get(url);
 
         if (res.status === 200) {
           const data = res?.data.products;
           setProducts(data);
-          setLoading(false);
-          console.log('Fetch sản phẩm thành công');
         } else {
-          setLoading(false);
           console.log('Fetch sản phẩm không thành công');
         }
       } catch (error) {
+        console.log('Lỗi (ProductByCategorySceen)', error);
+      } finally {
         setLoading(false);
-        console.log('Lỗi ProductByCategorySceen', error);
       }
     };
 

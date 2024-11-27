@@ -37,13 +37,11 @@ const ProductInfoScreen = ({ route, navigation }) => {
 
   const checkWishlist = async () => {
     try {
-      const res = await axios.get(
-        `${EXPO_PUBLIC_API}/wishlist/check/${item?._id}/${userId}`
-      );
+      const url = `${EXPO_PUBLIC_API}/wishlist/check/${item?._id}/${userId}`;
+      const res = await axios.get(url);
       if (res.status === 200) {
         const result = res.data.isProductInWishlist;
         setIsInWishlist(result);
-        console.log('Check wishlist thành công!');
       } else {
         console.log('Lỗi check wishlist');
       }
@@ -83,44 +81,38 @@ const ProductInfoScreen = ({ route, navigation }) => {
   const addWishlist = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(
-        `${EXPO_PUBLIC_API}/wishlist/add/${item?._id}/${userId}`
-      );
+      const url = `${EXPO_PUBLIC_API}/wishlist/add/${item?._id}/${userId}`;
+      const res = await axios.post(url);
       if (res.status === 200) {
-        console.log(res.data.message);
-        setLoading(false);
         Toast.show({ text1: 'Đã thêm vào sản phẩm yêu thích' });
         checkWishlist();
       } else {
-        setLoading(false);
         Toast.show({ type: 'error', text1: 'Thêm không thành công' });
       }
     } catch (error) {
-      setLoading(false);
       console.log('Lỗi không thêm được wishlist', error);
       Toast.show({ type: 'error', text1: 'Thêm không thành công' });
+    } finally {
+      setLoading(false);
     }
   };
 
   const removeWishlist = async () => {
     try {
       setLoading(true);
-      const res = await axios.delete(
-        `${EXPO_PUBLIC_API}/wishlist/delete/${item?._id}/${userId}`
-      );
+      const url = `${EXPO_PUBLIC_API}/wishlist/delete/${item?._id}/${userId}`;
+      const res = await axios.delete(url);
       if (res.status === 200) {
-        console.log(res.data.message);
         checkWishlist();
         Toast.show({ text1: 'Đã xóa khỏi sản phẩm yêu thích' });
-        setLoading(false);
       } else {
-        setLoading(false);
         Toast.show({ type: 'error', text1: 'Xoá không thành công' });
       }
     } catch (error) {
-      setLoading(false);
       console.log('Lỗi không xóa được wishlist', error);
       Toast.show({ type: 'error', text1: 'Xoá không thành công' });
+    } finally {
+      setLoading(false);
     }
   };
 

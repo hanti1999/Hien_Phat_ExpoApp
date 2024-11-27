@@ -15,22 +15,19 @@ const SearchResultList = ({ route }) => {
   useEffect(() => {
     const searchProduct = async () => {
       try {
-        const res = await axios.get(
-          `${EXPO_PUBLIC_API}/product/search?q=${input}`
-        );
+        const url = `${EXPO_PUBLIC_API}/product/search?q=${input}`;
+        const res = await axios.get(url);
 
         if (res.status === 200) {
           const data = res.data.products;
           setProducts(data);
-          setLoading(false);
-          console.log('Tìm kiếm sản phẩm thành công!');
         } else {
-          setLoading(false);
           console.log('Tìm kiếm không thành công!');
         }
       } catch (error) {
-        setLoading(false);
         console.log('Lỗi (SearchResultList)', error);
+      } finally {
+        setLoading(false);
       }
     };
     searchProduct();

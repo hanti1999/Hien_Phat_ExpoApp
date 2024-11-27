@@ -63,15 +63,13 @@ const CartScreen = () => {
         setName(user?.name);
         setPhoneNumber(user?.phoneNumber);
         setUserPoints(user?.points);
-        setLoading(false);
-        console.log('Fetch thông tin người dùng thành công');
       } else {
-        setLoading(false);
         console.log('Fetch thông tin người dùng không thành công');
       }
     } catch (error) {
-      setLoading(false);
       console.log('Lỗi (catch ProfileScreen): ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -116,7 +114,6 @@ const CartScreen = () => {
       if (res.status === 200) {
         nav.navigate('Thanks');
         dispatch(clearCart());
-        console.log('Tạo đơn hàng thành công');
       } else {
         console.log('Tạo đơn hàng không thành công');
       }

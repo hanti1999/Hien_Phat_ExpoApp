@@ -47,15 +47,13 @@ const ProfileScreen = () => {
       if (res.status === 200) {
         const user = res.data.user;
         setCurrentUser(user);
-        setLoading(false);
-        console.log('Fetch thông tin người dùng thành công');
       } else {
-        setLoading(false);
         console.error('Fetch thông tin người dùng không thành công');
       }
     } catch (error) {
-      setLoading(false);
       console.error('Lỗi (catch ProfileScreen): ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -257,7 +255,6 @@ const LogoutButton = () => {
 
   const clearAuthToken = async () => {
     await AsyncStorage.removeItem('authToken');
-    console.log('auth token cleared');
     navigation.replace('Login');
   };
 

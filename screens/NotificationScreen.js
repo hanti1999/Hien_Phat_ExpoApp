@@ -33,14 +33,13 @@ const NotificationScreen = () => {
       if (res.status === 200) {
         const notification = res.data?.user.notification;
         setNotification(notification);
-        setLoading(false);
-        console.log('Fetch thông báo thành công');
       } else {
-        setLoading(false);
         console.error('Fetch thông báo không thành công');
       }
     } catch (error) {
       console.error('Lỗi (NotificationScreen)', error);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -27,25 +27,24 @@ const VerifyScreen = ({ navigation, route }) => {
 
     try {
       setLoading(true);
-      const info = {
+      const data = {
         name: name,
         password: password,
         address: address,
         phoneNumber: phoneNumber,
       };
-      const res = await axios.post(`${EXPO_PUBLIC_API}/auth/register`, info);
+      const res = await axios.post(`${EXPO_PUBLIC_API}/auth/register`, data);
       if (res.status === 201) {
-        setLoading(false);
         Toast.show({ text1: 'Đăng ký thành công' });
         navigation.navigate('Login');
       } else {
-        setLoading(false);
         Toast.error({ type: 'error', text1: 'Đăng ký không thành công' });
       }
     } catch (error) {
-      setLoading(false);
       Toast.show({ type: 'error', text1: 'Đăng ký không thành công' });
       console.error('Lỗi (VerifyScreen): ', error);
+    } finally {
+      setLoading(false);
     }
   };
 

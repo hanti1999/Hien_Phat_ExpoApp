@@ -36,18 +36,14 @@ const RegisterScreen = ({ navigation }) => {
       setLoading(true);
       const res = await axios.get(`${EXPO_PUBLIC_API}/token`);
       if (res.status === 200) {
-        setLoading(false);
         setToken(res.data.token[0]);
-        console.log('(hàng 41) Lấy token thành công');
       } else {
-        console.error('(hàng 43) Lấy token không thành công');
-        setLoading(false);
-        return;
+        console.error('(hàng 42) Lấy token không thành công');
       }
     } catch (error) {
-      console.error('(hàng 48) Lấy token không thành công', error);
+      console.error('(hàng 45) Lấy token không thành công', error);
+    } finally {
       setLoading(false);
-      return;
     }
   };
 
@@ -76,7 +72,7 @@ const RegisterScreen = ({ navigation }) => {
         otp: otp,
       });
     } else if (res.data.error === -124) {
-      console.error('(hàng 79) Access token hết hạn', res.data);
+      console.error('(hàng 75) Access token hết hạn', res.data);
       Toast.show({ type: 'info', text1: 'Vui lòng chờ trong giây lát' });
       getNewToken();
     } else {
@@ -85,7 +81,7 @@ const RegisterScreen = ({ navigation }) => {
         type: 'error',
         text1: `${res.data.message} (${res.data.error})`,
       });
-      console.error(`(hàng 88) Lỗi: ${res.data.message} (${res.data.error})`);
+      console.error(`(hàng 84) Lỗi: ${res.data.message} (${res.data.error})`);
     }
   };
 
@@ -106,11 +102,11 @@ const RegisterScreen = ({ navigation }) => {
     const res = await axios.post(api, data, config);
     if (res?.data.error < 0) {
       Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
-      console.error('(hàng 109) Lỗi:', res?.data);
+      console.error('(hàng 105) Lỗi:', res?.data);
       setLoading(false);
       return;
     } else {
-      console.log('(hàng 113) Đã nhận token mới');
+      console.log('(hàng 109) Đã nhận token mới');
       updateNewTokenToNode(res.data);
     }
   };
@@ -127,19 +123,17 @@ const RegisterScreen = ({ navigation }) => {
       };
       const res = await axios.patch(api, data);
       if (res.status === 200) {
-        setLoading(false);
-        console.log('Cập nhật token mới lên node server thành công');
         getAccessToken();
         Toast.show({ text1: 'Vui lòng thử lại lần nữa' });
       } else {
-        setLoading(false);
-        console.error('(hàng 136) Cập nhật token mới không thành công');
+        console.error('(hàng 134) Cập nhật token mới không thành công');
         Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
       }
     } catch (error) {
-      console.error('(hàng 140) Cập nhật token mới không thành công', error);
-      setLoading(false);
+      console.error('(hàng 138) Cập nhật token mới không thành công', error);
       Toast.show({ type: 'error', text1: 'Vui lòng thử lại sau' });
+    } finally {
+      setLoading(false);
     }
   };
 

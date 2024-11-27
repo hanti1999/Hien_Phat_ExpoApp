@@ -1,5 +1,6 @@
 {
   "expo": {
+    "newArchEnabled": true,
     "name": "Hiền Phát",
     "slug": "HienPhat",
     "version": "1.0.0",

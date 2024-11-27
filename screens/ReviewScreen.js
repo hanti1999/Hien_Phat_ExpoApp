@@ -33,23 +33,20 @@ const ReviewScreen = ({ route, navigation }) => {
         productRating: defaultProductRating,
         serviceRating: defaultServiceRating,
       };
-      const res = await axios.post(
-        `${EXPO_PUBLIC_API}/review/create/${productId}/${userId}`,
-        data
-      );
+      const url = `${EXPO_PUBLIC_API}/review/create/${productId}/${userId}`;
+      const res = await axios.post(url, data);
       if (res.status === 200) {
-        setLoading(false);
         Toast.show({ text1: 'Gửi đánh giá thành công' });
         navigation.goBack();
       } else {
-        setLoading(false);
         Toast.error('Gửi đánh giá không thành công');
         Toast.show({ type: 'error', text1: 'Gửi đánh giá không thành công' });
       }
     } catch (error) {
-      setLoading(false);
       console.log('Gửi đánh giá không thành công (ReviewScreen)', error);
       Toast.show({ type: 'error', text1: 'Gửi đánh giá không thành công' });
+    } finally {
+      setLoading(false);
     }
   };
 
