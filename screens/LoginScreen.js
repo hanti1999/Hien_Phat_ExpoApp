@@ -124,7 +124,7 @@ const LoginScreen = () => {
           <TouchableOpacity
             onPress={handleLogin}
             disabled={loading}
-            className='bg-primary-pink rounded-xl mx-auto px-4 py-4 w-full'
+            className='bg-primary-pink rounded-full mx-auto px-4 py-4 w-full'
           >
             {loading ? (
               <ActivityIndicator color={'#fff'} />

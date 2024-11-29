@@ -17,8 +17,8 @@ import { UserType } from '../userContext';
 
 const NotificationScreen = () => {
   const { userId, setUserId } = useContext(UserType);
-  const [refreshing, setRefreshing] = useState(false);
   const [notification, setNotification] = useState();
+  const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const onRefresh = async () => {

@@ -15,9 +15,9 @@ import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
 
 const VerifyScreen = ({ navigation, route }) => {
-  const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
   const { name, password, address, phoneNumber, otp } = route?.params;
+  const [loading, setLoading] = useState(false);
+  const [code, setCode] = useState('');
 
   const handleVerify = async () => {
     if (code != otp) {

@@ -1,25 +1,24 @@
-import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
+import ProductByBrandScreen from '../screens/ProductByBrandScreen';
 import NotificationScreen from '../screens/NotificationScreen';
 import ProductInfoScreen from '../screens/ProductInfoScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
+import SearchResultList from '../screens/SearchResultList';
+import WishlistScreen from '../screens/WishlistScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ReviewScreen from '../screens/ReviewScreen';
+import ThanksScreen from '../screens/ThanksScreen';
 import VerifySceen from '../screens/VerifyScreen';
 import LoginScreen from '../screens/LoginScreen';
+import OrderScreen from '../screens/OrderScreen';
+import AboutScreen from '../screens/AboutScreen';
 import HomeScreen from '../screens/HomeScreen';
 import CartScreen from '../screens/CartScreen';
-import OrderScreen from '../screens/OrderScreen';
-import ThanksScreen from '../screens/ThanksScreen';
-import EditProfileScreen from '../screens/EditProfileScreen';
-import ProductsByCategoryScreen from '../screens/ProductsByCategoryScreen';
-import SearchResultList from '../screens/SearchResultList';
-import ReviewScreen from '../screens/ReviewScreen';
-import ProductByBrandScreen from '../screens/ProductByBrandScreen';
-import WishlistScreen from '../screens/WishlistScreen';
-import AboutScreen from '../screens/AboutScreen';
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();

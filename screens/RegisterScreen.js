@@ -17,11 +17,11 @@ import axios from 'axios';
 import validatePhone from '../utils/validatePhone';
 
 const RegisterScreen = ({ navigation }) => {
-  const [name, setName] = useState('');
+  const [confirmPass, setConfirmPass] = useState('88888888');
+  const [password, setPassword] = useState('88888888');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [password, setPassword] = useState('88888888');
-  const [confirmPass, setConfirmPass] = useState('88888888');
+  const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState({});
@@ -185,8 +185,6 @@ const RegisterScreen = ({ navigation }) => {
       } else {
         setAddress(`${reverseGeocode[0]?.formattedAddress}`);
       }
-
-      console.log('Đã lấy được địa chỉ');
       Toast.show({ text1: 'Đã tự điền địa chỉ' });
       // console.log(reverseGeocode);
     };
@@ -279,7 +277,7 @@ const RegisterScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={handleRegister}
             disabled={loading}
-            className='w-full bg-primary-pink rounded-xl mx-auto px-4 py-4'
+            className='w-full bg-primary-pink rounded-full mx-auto px-4 py-4'
           >
             {loading ? (
               <ActivityIndicator color={'#fff'} />

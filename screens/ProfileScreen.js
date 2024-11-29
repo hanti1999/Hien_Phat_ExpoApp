@@ -31,8 +31,8 @@ import { UserType } from '../userContext';
 const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [refreshing, setRefreshing] = useState(false);
-  const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState();
   const navigation = useNavigation();
 
   const onRefresh = async () => {
@@ -272,19 +272,19 @@ const LogoutButton = () => {
           style={{ backgroundColor: 'rgba( 0, 0, 0, 0.3)' }}
           className='flex-1 items-center justify-center'
         >
-          <View className=' py-2 px-3 rounded-xl bg-white shadow-lg'>
+          <View className='p-2 rounded-xl bg-white shadow-lg'>
             <Text className='text-center my-4 text-[16px]'>
               Bạn muốn đăng xuất?
             </Text>
-            <View style={{ gap: 4 }} className='flex-row items-center'>
+            <View style={{ gap: 8 }} className='flex-row items-center'>
               <TouchableOpacity
-                className='rounded-xl w-32 h-10 justify-center border-primary-pink border'
+                className='rounded-full w-32 h-10 justify-center border-primary-pink border'
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text className='text-center text-[16px]'>Hủy</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                className='rounded-xl w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
+                className='rounded-full w-32 h-10 justify-center bg-primary-pink border-primary-pink border'
                 onPress={handleLogout}
               >
                 <Text className='text-center text-[16px] text-white'>

@@ -9,8 +9,8 @@ import Loading from '../components/Loading';
 
 const SearchResultList = ({ route }) => {
   const { input, userId } = route?.params;
-  const [products, setProducts] = useState();
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState();
 
   useEffect(() => {
     const searchProduct = async () => {

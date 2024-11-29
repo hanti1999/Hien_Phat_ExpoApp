@@ -23,8 +23,8 @@ import { addToCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 
 const ProductInfoScreen = ({ route, navigation }) => {
-  const { item, userId } = route?.params;
   const width = Dimensions.get('window').width;
+  const { item, userId } = route?.params;
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [inWishlist, setIsInWishlist] = useState();

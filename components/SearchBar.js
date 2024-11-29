@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import React, { useState } from 'react';
 
 const SearchBar = ({ userId }) => {
-  const navigation = useNavigation();
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const [input, setInput] = useState('');
+  const navigation = useNavigation();
 
   const searchHandler = () => {
     navigation.navigate('SearchResult', { input: input, userId: userId });
@@ -17,7 +17,7 @@ const SearchBar = ({ userId }) => {
     <View className='bg-primary-pink flex-row items-center'>
       <View
         style={{ gap: 10 }}
-        className='px-2.5 flex-row flex-1 items-center bg-white h-10 rounded-lg ml-4 my-2.5'
+        className='px-2.5 flex-row flex-1 items-center bg-white h-10 rounded-full ml-4 my-2.5'
       >
         <Pressable onPress={searchHandler}>
           <Ionicons name='search' size={24} />

@@ -30,7 +30,6 @@ const OrderScreen = ({ route }) => {
       const orders = res.data?.orders.reverse();
       if (res.status === 200) {
         setOrders(orders);
-        console.log('Fetch lịch sử đơn hàng thành công');
       } else {
         console.error('Fetch đơn hàng không thành công');
       }
