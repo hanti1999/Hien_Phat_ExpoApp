@@ -4,8 +4,6 @@ import {
   ScrollView,
   SafeAreaView,
   Dimensions,
-  Alert,
-  Linking,
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
@@ -21,6 +19,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { addToCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
+import openLink from '../utils/openLink';
 
 const ProductInfoScreen = ({ route, navigation }) => {
   const width = Dimensions.get('window').width;
@@ -113,16 +112,6 @@ const ProductInfoScreen = ({ route, navigation }) => {
       Toast.show({ type: 'error', text1: 'Xoá không thành công' });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const openZalo582 = async () => {
-    const canOpenURL = await Linking.canOpenURL('https://zalo.me/0975841582');
-
-    if (canOpenURL) {
-      await Linking.openURL('https://zalo.me/0975841582');
-    } else {
-      Alert.alert(`Không thể mở URL`);
     }
   };
 
@@ -226,7 +215,7 @@ const ProductInfoScreen = ({ route, navigation }) => {
       <View className='flex-row justify-evenly bg-white py-4'>
         <TouchableOpacity
           className='border-[#0068ff] border-2 rounded-lg flex-1 mx-2 h-[60px] items-center justify-center'
-          onPress={openZalo582}
+          onPress={() => openLink('https://zalo.me/0975841582')}
         >
           <Text className='text-[#0068ff] text-[18px]'>
             Tư vấn

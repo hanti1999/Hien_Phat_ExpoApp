@@ -1,15 +1,10 @@
-import {
-  View,
-  TouchableOpacity,
-  Linking,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import StackNavigator from './navigation/StackNavigator';
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { AntDesign } from '@expo/vector-icons';
 import { Provider } from 'react-redux';
+import StackNavigator from './navigation/StackNavigator';
 import { UserContext } from './userContext';
+import openLink from './utils/openLink';
 import { store } from './redux/store';
 
 export default function App() {
@@ -34,7 +29,7 @@ const OpenURLButton = ({ phoneNumber, children }) => {
   return (
     <TouchableOpacity
       className='w-full h-full rounded-full flex items-center justify-center'
-      onPress={() => Linking.openURL(`tel:${phoneNumber}`)}
+      onPress={() => openLink(`tel:${phoneNumber}`)}
     >
       {children}
     </TouchableOpacity>

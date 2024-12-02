@@ -3,7 +3,6 @@ import {
   View,
   SafeAreaView,
   Pressable,
-  Linking,
   Modal,
   ScrollView,
   RefreshControl,
@@ -19,7 +18,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { EXPO_PUBLIC_API } from '@env';
 import axios from 'axios';
@@ -27,6 +25,7 @@ import { clearCart } from '../redux/slices/CartReducer';
 import ScreenHeader from '../components/ScreenHeader';
 import Loading from '../components/Loading';
 import { UserType } from '../userContext';
+import openLink from '../utils/openLink';
 
 const ProfileScreen = () => {
   const { userId, setUserId } = useContext(UserType);
@@ -57,26 +56,8 @@ const ProfileScreen = () => {
     }
   };
 
-  const handleOpenMap = async () => {
-    const canOpenURL = await Linking.canOpenURL(
-      'https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7'
-    );
-
-    if (canOpenURL) {
-      await Linking.openURL('https://maps.app.goo.gl/kpnCoJAakPAB4ZJE7');
-    } else {
-      Toast.show({ type: 'error', text1: 'Không thể mở URL' });
-    }
-  };
-
   const openZalo498 = async () => {
-    const canOpenURL = await Linking.canOpenURL('https://zalo.me/0986359498');
-
-    if (canOpenURL) {
-      await Linking.openURL('https://zalo.me/0986359498');
-    } else {
-      Toast.show({ type: 'error', text1: 'Không thể mở URL' });
-    }
+    openLink('https://zalo.me/0986359498');
   };
 
   useEffect(() => {
@@ -189,7 +170,7 @@ const ProfileScreen = () => {
           </Pressable>
 
           <Pressable
-            onPress={handleOpenMap}
+            onPress={openZalo498}
             className='flex-row items-center justify-between py-3'
           >
             <View style={{ gap: 8 }} className='flex-row items-center'>
@@ -202,7 +183,7 @@ const ProfileScreen = () => {
           </Pressable>
 
           <Pressable
-            onPress={openZalo498}
+            onPress={() => openLink('https://zalo.me/0986359498')}
             className='flex-row items-center justify-between py-3'
           >
             <View style={{ gap: 8 }} className='flex-row items-center'>
@@ -223,16 +204,22 @@ const ProfileScreen = () => {
           <View className='flex-row'>
             <View className='w-1/2'></View>
             <View className='w-1/2'>
-              <Text className='text-gray-500'>Gas Hiền Phát - v{'1.0.0'}</Text>
+              <Text className='text-gray-500'>Gas Hiền Phát - v{'0.0.11'}</Text>
               <Text className='mt-1 text-gray-500'>
                 Thiết kế và phát triển bởi:
               </Text>
-              <Text className='text-gray-500'>
-                Tích Chu (desginer - manager)
-              </Text>
+              <Text className='text-gray-500'>Tích Chu (Manager)</Text>
               <TouchableOpacity onPress={openZalo498}>
                 <Text className=' text-blue-400 underline'>
-                  N.T.Hoàng Anh (developer)
+                  N.T.Hoàng Anh (Front-end)
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => openLink('https://zalo.me/0378447864')}
+              >
+                <Text className=' text-blue-400 underline'>
+                  Vũ Thắng (Back-end)
                 </Text>
               </TouchableOpacity>
             </View>
